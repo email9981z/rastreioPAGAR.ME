@@ -394,26 +394,20 @@
 
                 <div class="timeline-item">
                     <h3>Saiu para Entrega</h3>
-                    <div class="date" id="date-saiu-entrega">25 de Abril de 2026 - 09:15</div>
+                    <div class="date" id="date-saiu-entrega">26 de Abril de 2026 - 10:47</div>
                     <p>Encomenda saiu para entrega com o transportador.</p>
                 </div>
 
                 <div class="timeline-item">
                     <h3>Em Processamento</h3>
-                    <div class="date" id="date-processamento">25 de Abril de 2026 - 16:45</div>
+                    <div class="date" id="date-processamento">26 de Abril de 2026 - 06:30</div>
                     <p>Encomenda em processamento no centro de distribuição.</p>
                 </div>
 
                 <div class="timeline-item">
-                    <h3>Pagamento Recebido</h3>
-                    <div class="date" id="date-pagamento">25 de Abril de 2026 - 10:20</div>
-                    <p>Pagamento confirmado e processado com sucesso.</p>
-                </div>
-
-                <div class="timeline-item">
-                    <h3>Aguardando Confirmação</h3>
-                    <div class="date" id="date-aguardando">25 de Abril de 2026 - 10:15</div>
-                    <p>Pedido recebido e aguardando confirmação de pagamento.</p>
+                    <h3>Pedido Recebido</h3>
+                    <div class="date" id="date-pedido-recebido">25 de Abril de 2026 - 23:30</div>
+                    <p>Pedido recebido e registrado no sistema.</p>
                 </div>
             </div>
         </div>
@@ -450,7 +444,7 @@
             <div class="console-title">Console de Atualização</div>
             
             <div class="instruction-box">
-                <strong>Instruções:</strong> Preencha o Dia (01-31) e Mês (01-12) de entrega, depois cole o JSON e clique em "Executar". O ano é 2026 por padrão. As datas das etapas anteriores serão calculadas para 1 dia antes.
+                <strong>Instruções:</strong> Preencha o Dia (01-31), Mês (01-12) e Hora (HH:MM) de entrega, depois cole o JSON e clique em "Executar". O ano é 2026 por padrão.
             </div>
 
             <div class="date-time-inputs">
@@ -538,7 +532,53 @@
             return regex.test(hora);
         }
 
-        // Função para calcular datas retroativas
+        // Função para formatar hora no padrão 00:00
+        function formatarHora(hora) {
+            if (!validarHora(hora)) {
+                return null;
+            }
+            return hora;
+        }
+
+        // Função para subtrair horas de uma hora base
+        function subtrairHoras(hora, horas, minutos) {
+            const [h, m] = hora.split(':').map(Number);
+            let totalMinutos = h * 60 + m - (horas * 60 + minutos);
+            
+            // Se ficar negativo, voltar para o dia anterior
+            let diaAnterior = false;
+            if (totalMinutos < 0) {
+                totalMinutos += 24 * 60;
+                diaAnterior = true;
+            }
+            
+            const novasHoras = Math.floor(totalMinutos / 60);
+            const novosMinutos = totalMinutos % 60;
+            
+            return {
+                hora: `${String(novasHoras).padStart(2, '0')}:${String(novosMinutos).padStart(2, '0')}`,
+                diaAnterior: diaAnterior
+            };
+        }
+
+        // Função para calcular data anterior
+        function calcularDiaAnterior(dia, mes) {
+            let diaNum = parseInt(dia) - 1;
+            let mesNum = parseInt(mes);
+
+            if (diaNum < 1) {
+                mesNum -= 1;
+                if (mesNum < 1) {
+                    mesNum = 12;
+                }
+                const diasPorMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                diaNum = diasPorMes[mesNum - 1];
+            }
+
+            return { dia: diaNum, mes: mesNum };
+        }
+
+        // Função para calcular datas e horários retroativos
         function calcularDatasRetroativas(dia, mes, hora) {
             const diaNum = parseInt(dia);
             const mesNum = parseInt(mes);
@@ -548,7 +588,8 @@
                 return null;
             }
 
-            if (!validarHora(hora)) {
+            const horaFormatada = formatarHora(hora);
+            if (!horaFormatada) {
                 adicionarMensagemConsole('Hora inválida. Use o formato HH:MM (ex: 14:30).', 'erro');
                 return null;
             }
@@ -559,49 +600,52 @@
             datas.entregue = {
                 dia: diaNum,
                 mes: mesNum,
-                hora: hora
+                hora: horaFormatada
             };
 
-            // Calcular dia anterior
-            let diaAnterior = diaNum - 1;
-            let mesAnterior = mesNum;
-
-            if (diaAnterior < 1) {
-                mesAnterior = mesNum - 1;
-                if (mesAnterior < 1) {
-                    mesAnterior = 12;
-                }
-                // Determinar número de dias do mês anterior
-                const diasPorMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-                diaAnterior = diasPorMes[mesAnterior - 1];
+            // Saiu para entrega (3 horas e 43 minutos antes)
+            const saiuEntrega = subtrairHoras(horaFormatada, 3, 43);
+            let diaSaiuEntrega = diaNum;
+            let mesSaiuEntrega = mesNum;
+            if (saiuEntrega.diaAnterior) {
+                const diaAnt = calcularDiaAnterior(diaNum, mesNum);
+                diaSaiuEntrega = diaAnt.dia;
+                mesSaiuEntrega = diaAnt.mes;
             }
-
-            // Saiu para entrega (1 dia antes, manhã)
             datas.saiuEntrega = {
-                dia: diaAnterior,
-                mes: mesAnterior,
-                hora: '09:15'
+                dia: diaSaiuEntrega,
+                mes: mesSaiuEntrega,
+                hora: saiuEntrega.hora
             };
 
-            // Em processamento (1 dia antes, tarde)
+            // Em processamento (8 horas antes)
+            const emProcessamento = subtrairHoras(horaFormatada, 8, 0);
+            let diaProcessamento = diaNum;
+            let mesProcessamento = mesNum;
+            if (emProcessamento.diaAnterior) {
+                const diaAnt = calcularDiaAnterior(diaNum, mesNum);
+                diaProcessamento = diaAnt.dia;
+                mesProcessamento = diaAnt.mes;
+            }
             datas.processamento = {
-                dia: diaAnterior,
-                mes: mesAnterior,
-                hora: '16:45'
+                dia: diaProcessamento,
+                mes: mesProcessamento,
+                hora: emProcessamento.hora
             };
 
-            // Pagamento recebido (1 dia antes, manhã)
-            datas.pagamento = {
-                dia: diaAnterior,
-                mes: mesAnterior,
-                hora: '10:20'
-            };
-
-            // Aguardando confirmação (1 dia antes, manhã)
-            datas.aguardando = {
-                dia: diaAnterior,
-                mes: mesAnterior,
-                hora: '10:15'
+            // Pedido recebido (15 horas antes)
+            const pedidoRecebido = subtrairHoras(horaFormatada, 15, 0);
+            let diaPedidoRecebido = diaNum;
+            let mesPedidoRecebido = mesNum;
+            if (pedidoRecebido.diaAnterior) {
+                const diaAnt = calcularDiaAnterior(diaNum, mesNum);
+                diaPedidoRecebido = diaAnt.dia;
+                mesPedidoRecebido = diaAnt.mes;
+            }
+            datas.pedidoRecebido = {
+                dia: diaPedidoRecebido,
+                mes: mesPedidoRecebido,
+                hora: pedidoRecebido.hora
             };
 
             return datas;
@@ -610,22 +654,21 @@
         // Função para atualizar as datas na timeline
         function atualizarDatasTimeline(datas) {
             const dataEntregaFormatada = formatarDataPT(datas.entregue.dia, datas.entregue.mes);
-            const dataDiaAnteriorFormatada = formatarDataPT(datas.saiuEntrega.dia, datas.saiuEntrega.mes);
+            const dataSaiuEntregaFormatada = formatarDataPT(datas.saiuEntrega.dia, datas.saiuEntrega.mes);
+            const dataProcessamentoFormatada = formatarDataPT(datas.processamento.dia, datas.processamento.mes);
+            const dataPedidoRecebidoFormatada = formatarDataPT(datas.pedidoRecebido.dia, datas.pedidoRecebido.mes);
 
             document.getElementById('date-entregue').textContent = 
                 `${dataEntregaFormatada} - ${datas.entregue.hora}`;
             
             document.getElementById('date-saiu-entrega').textContent = 
-                `${dataDiaAnteriorFormatada} - ${datas.saiuEntrega.hora}`;
+                `${dataSaiuEntregaFormatada} - ${datas.saiuEntrega.hora}`;
             
             document.getElementById('date-processamento').textContent = 
-                `${dataDiaAnteriorFormatada} - ${datas.processamento.hora}`;
+                `${dataProcessamentoFormatada} - ${datas.processamento.hora}`;
             
-            document.getElementById('date-pagamento').textContent = 
-                `${dataDiaAnteriorFormatada} - ${datas.pagamento.hora}`;
-            
-            document.getElementById('date-aguardando').textContent = 
-                `${dataDiaAnteriorFormatada} - ${datas.aguardando.hora}`;
+            document.getElementById('date-pedido-recebido').textContent = 
+                `${dataPedidoRecebidoFormatada} - ${datas.pedidoRecebido.hora}`;
 
             // Atualizar status
             document.getElementById('delivery-date-status').textContent = 
