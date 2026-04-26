@@ -266,11 +266,12 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            margin-bottom: 12px;
         }
 
         .console-input-group input {
             flex: 1;
-            min-width: 250px;
+            min-width: 200px;
             padding: 12px;
             border: 1px solid var(--border-gray);
             border-radius: 4px;
@@ -294,6 +295,35 @@
 
         .console-input-group button:hover {
             background: #002a5c;
+        }
+
+        .date-time-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .date-time-inputs input {
+            padding: 10px;
+            border: 1px solid var(--border-gray);
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .date-time-inputs label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .date-time-group {
+            display: flex;
+            flex-direction: column;
         }
 
         /* Responsividade */
@@ -323,6 +353,10 @@
             .status-section {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .date-time-inputs {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -354,31 +388,31 @@
             <div class="timeline">
                 <div class="timeline-item">
                     <h3>Entregue</h3>
-                    <div class="date">26 de Abril, 2026 - 14:30</div>
+                    <div class="date" id="date-entregue">26 de Abril, 2026 - 14:30</div>
                     <p>Encomenda entregue ao destinatário.</p>
                 </div>
 
                 <div class="timeline-item">
                     <h3>Saiu para Entrega</h3>
-                    <div class="date">26 de Abril, 2026 - 09:15</div>
+                    <div class="date" id="date-saiu-entrega">25 de Abril, 2026 - 09:15</div>
                     <p>Encomenda saiu para entrega com o transportador.</p>
                 </div>
 
                 <div class="timeline-item">
                     <h3>Em Processamento</h3>
-                    <div class="date">25 de Abril, 2026 - 16:45</div>
+                    <div class="date" id="date-processamento">25 de Abril, 2026 - 16:45</div>
                     <p>Encomenda em processamento no centro de distribuição.</p>
                 </div>
 
                 <div class="timeline-item">
                     <h3>Pagamento Recebido</h3>
-                    <div class="date">25 de Abril, 2026 - 10:20</div>
+                    <div class="date" id="date-pagamento">25 de Abril, 2026 - 10:20</div>
                     <p>Pagamento confirmado e processado com sucesso.</p>
                 </div>
 
                 <div class="timeline-item">
                     <h3>Aguardando Confirmação</h3>
-                    <div class="date">25 de Abril, 2026 - 10:15</div>
+                    <div class="date" id="date-aguardando">25 de Abril, 2026 - 10:15</div>
                     <p>Pedido recebido e aguardando confirmação de pagamento.</p>
                 </div>
             </div>
@@ -416,9 +450,18 @@
             <div class="console-title">Console de Atualização</div>
             
             <div class="instruction-box">
-                <strong>Instruções:</strong> Cole o JSON no formato abaixo e clique em "Executar" para atualizar os dados. O código de rastreio será gerado automaticamente a partir do nome e CPF.
-                <br><br>
-                <code>{ "endereco_entrega": "Rua das Flores, 123, São Paulo, SP, 01234-567", "dados_cliente": "Nome: Julia, CPF: 31515235874", "valor_compra": "1,00" }</code>
+                <strong>Instruções:</strong> Preencha a data e hora de entrega, depois cole o JSON e clique em "Executar". As datas das etapas anteriores serão calculadas automaticamente para 1 dia antes.
+            </div>
+
+            <div class="date-time-inputs">
+                <div class="date-time-group">
+                    <label for="input-data">Data de Entrega (DD/MM/YYYY)</label>
+                    <input type="text" id="input-data" placeholder="26/04/2026">
+                </div>
+                <div class="date-time-group">
+                    <label for="input-hora">Hora de Entrega (HH:MM)</label>
+                    <input type="text" id="input-hora" placeholder="14:30">
+                </div>
             </div>
 
             <div class="console-box" id="console-output">
@@ -440,22 +483,17 @@
     <script>
         // Função para gerar código de rastreio
         function gerarCodigoRastreio(nome, cpf) {
-            // Remover caracteres não numéricos do CPF
             const cpfLimpo = cpf.replace(/\D/g, '');
-            
-            // Pegar 2 primeiras letras do nome (maiúsculas)
             const duasPrimeirasLetras = nome.substring(0, 2).toUpperCase();
-            
-            // Pegar 2 primeiros dígitos do CPF
             const doisPrimeirosDigitos = cpfLimpo.substring(0, 2);
-            
-            // Pegar 2 últimos dígitos do CPF
             const doisUltimosDigitos = cpfLimpo.substring(cpfLimpo.length - 2);
-            
-            // Montar o código: 2 primeiras letras + "3NV" + 2 primeiros dígitos + 2 últimos + 2 últimos invertidos
             const codigoRastreio = duasPrimeirasLetras + '3NV' + doisPrimeirosDigitos + doisUltimosDigitos + doisUltimosDigitos;
-            
             return codigoRastreio;
+        }
+
+        // Função para limpar aspas de strings
+        function limparAspas(texto) {
+            return texto.replace(/[""\"]/g, '').trim();
         }
 
         // Função para adicionar mensagem no console
@@ -475,6 +513,96 @@
         function formatarCPF(cpf) {
             const cpfLimpo = cpf.replace(/\D/g, '');
             return cpfLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        }
+
+        // Função para converter data DD/MM/YYYY em objeto Date
+        function converterData(dataStr) {
+            const partes = dataStr.split('/');
+            if (partes.length !== 3) return null;
+            const dia = parseInt(partes[0]);
+            const mes = parseInt(partes[1]) - 1;
+            const ano = parseInt(partes[2]);
+            return new Date(ano, mes, dia);
+        }
+
+        // Função para formatar data em português
+        function formatarDataPT(data) {
+            const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
+            return data.toLocaleDateString('pt-BR', opcoes).replace(/de /g, 'de ');
+        }
+
+        // Função para calcular datas retroativas
+        function calcularDatasRetroativas(dataEntrega, horaEntrega) {
+            const data = converterData(dataEntrega);
+            if (!data) {
+                adicionarMensagemConsole('Data inválida. Use o formato DD/MM/YYYY', 'erro');
+                return null;
+            }
+
+            const datas = {};
+
+            // Data de entrega (conforme informado)
+            datas.entregue = {
+                data: new Date(data),
+                hora: horaEntrega
+            };
+
+            // Saiu para entrega (1 dia antes, manhã)
+            const saiuEntrega = new Date(data);
+            saiuEntrega.setDate(saiuEntrega.getDate() - 1);
+            datas.saiuEntrega = {
+                data: saiuEntrega,
+                hora: '09:15'
+            };
+
+            // Em processamento (1 dia antes, tarde)
+            const processamento = new Date(data);
+            processamento.setDate(processamento.getDate() - 1);
+            datas.processamento = {
+                data: processamento,
+                hora: '16:45'
+            };
+
+            // Pagamento recebido (1 dia antes, manhã)
+            const pagamento = new Date(data);
+            pagamento.setDate(pagamento.getDate() - 1);
+            datas.pagamento = {
+                data: pagamento,
+                hora: '10:20'
+            };
+
+            // Aguardando confirmação (1 dia antes, manhã)
+            const aguardando = new Date(data);
+            aguardando.setDate(aguardando.getDate() - 1);
+            datas.aguardando = {
+                data: aguardando,
+                hora: '10:15'
+            };
+
+            return datas;
+        }
+
+        // Função para atualizar as datas na timeline
+        function atualizarDatasTimeline(datas) {
+            document.getElementById('date-entregue').textContent = 
+                `${formatarDataPT(datas.entregue.data)} - ${datas.entregue.hora}`;
+            
+            document.getElementById('date-saiu-entrega').textContent = 
+                `${formatarDataPT(datas.saiuEntrega.data)} - ${datas.saiuEntrega.hora}`;
+            
+            document.getElementById('date-processamento').textContent = 
+                `${formatarDataPT(datas.processamento.data)} - ${datas.processamento.hora}`;
+            
+            document.getElementById('date-pagamento').textContent = 
+                `${formatarDataPT(datas.pagamento.data)} - ${datas.pagamento.hora}`;
+            
+            document.getElementById('date-aguardando').textContent = 
+                `${formatarDataPT(datas.aguardando.data)} - ${datas.aguardando.hora}`;
+
+            // Atualizar status
+            const dataFormatada = datas.entregue.data.toLocaleDateString('pt-BR');
+            document.getElementById('delivery-date-status').textContent = 
+                `${dataFormatada} às ${datas.entregue.hora}`;
         }
 
         // Função para extrair dados do JSON
@@ -501,9 +629,10 @@
                     }
                 }
 
-                // Extrair endereço de entrega
+                // Extrair endereço de entrega (removendo aspas)
                 if (dados.endereco_entrega) {
-                    document.getElementById('delivery-address').textContent = dados.endereco_entrega;
+                    const enderecoLimpo = limparAspas(dados.endereco_entrega);
+                    document.getElementById('delivery-address').textContent = enderecoLimpo;
                 }
 
                 // Extrair valor da compra
@@ -529,18 +658,32 @@
 
         // Função para executar o comando
         function executarComando() {
-            const input = document.getElementById('console-input');
-            const comando = input.value.trim();
+            const dataInput = document.getElementById('input-data').value.trim();
+            const horaInput = document.getElementById('input-hora').value.trim();
+            const jsonInput = document.getElementById('console-input').value.trim();
 
-            if (!comando) {
+            if (!dataInput || !horaInput) {
+                adicionarMensagemConsole('Por favor, preencha a data e hora de entrega.', 'erro');
+                return;
+            }
+
+            if (!jsonInput) {
                 adicionarMensagemConsole('Por favor, insira um JSON válido.', 'erro');
                 return;
             }
 
             adicionarMensagemConsole('Processando entrada...', 'info');
             
-            if (extrairDados(comando)) {
-                input.value = '';
+            // Calcular datas retroativas
+            const datas = calcularDatasRetroativas(dataInput, horaInput);
+            if (datas) {
+                atualizarDatasTimeline(datas);
+                adicionarMensagemConsole(`Datas calculadas: Entrega em ${dataInput} às ${horaInput}`, 'sucesso');
+            }
+
+            // Extrair dados do JSON
+            if (extrairDados(jsonInput)) {
+                document.getElementById('console-input').value = '';
             }
         }
 
