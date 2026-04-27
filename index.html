@@ -598,18 +598,45 @@
 
         function exportarPDF() {
             const element = document.body;
+            const nome = document.getElementById('client-name').textContent.trim();
+            const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
+            
             const opt = {
-                margin: 0,
-                filename: 'rastreio-' + document.getElementById('tracking-code-display').textContent + '.pdf',
+                margin: [0.2, 0, 0.2, 0], // Margens pequenas para não cortar
+                filename: `Rastreio - ${nome} - ${cpf}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    scrollY: 0,
+                    windowWidth: 1400 // Força a largura total no canvas
+                },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-                ignoreElements: (el) => el.id === 'admin-console' || el.className === 'admin-console-wrapper' || el.className === 'footer-separator'
+                ignoreElements: (el) => {
+                    // Ignora o console e qualquer wrapper relacionado a ele
+                    return el.classList.contains('admin-console-wrapper') || 
+                           el.classList.contains('footer-separator') || 
+                           el.id === 'admin-console';
+                }
             };
             
             log('Iniciando exportação para PDF...', 'info');
+            
+            // Ocultar temporariamente o console para garantir que não apareça no PDF
+            const consoleWrapper = document.querySelector('.admin-console-wrapper');
+            const separator = document.querySelector('.footer-separator');
+            if(consoleWrapper) consoleWrapper.style.display = 'none';
+            if(separator) separator.style.display = 'none';
+
             html2pdf().set(opt).from(element).save().then(() => {
                 log('PDF exportado com sucesso!', 'sucesso');
+                // Restaurar visibilidade do console após a geração
+                if(consoleWrapper) consoleWrapper.style.display = 'block';
+                if(separator) separator.style.display = 'block';
+            }).catch(err => {
+                log('Erro ao exportar: ' + err.message, 'erro');
+                if(consoleWrapper) consoleWrapper.style.display = 'block';
+                if(separator) separator.style.display = 'block';
             });
         }
 
