@@ -76,10 +76,6 @@
             .main-grid { grid-template-columns: 1fr; }
             .console-inputs-grid, .btn-group { grid-template-columns: 1fr; }
         }
-
-        /* PDF Export Helper */
-        .pdf-export-mode { width: 1200px !important; }
-        .pdf-export-mode .main-grid { grid-template-columns: 1.6fr 1fr !important; display: grid !important; width: 1200px !important; }
     </style>
 </head>
 <body>
@@ -160,7 +156,7 @@
         }
 
         function exportarPDF() {
-            log('Iniciando captura total...', 'info');
+            log('Gerando PDF Centralizado...', 'info');
             
             const element = document.getElementById('portal-content');
             const consoleElem = document.getElementById('console');
@@ -169,13 +165,11 @@
             // Ocultar console
             consoleElem.style.display = 'none';
             sepElem.style.display = 'none';
-            
-            // Forçar modo desktop para a captura
-            element.classList.add('pdf-export-mode');
 
             const nome = document.getElementById('client-name').textContent.trim();
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
+            // Configuração de matriz fixa para evitar cortes
             const opt = {
                 margin: 0.2,
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
@@ -183,26 +177,30 @@
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 1050, // Largura otimizada para A4
-                    windowWidth: 1050,
+                    width: 1100, // Largura de captura fixa
+                    windowWidth: 1100,
                     x: 0,
                     y: 0,
                     scrollX: 0,
                     scrollY: 0
                 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait', compress: true }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
+
+            // Forçar largura de desktop no elemento antes da captura
+            const originalWidth = element.style.width;
+            element.style.width = '1100px';
 
             html2pdf().set(opt).from(element).save().then(() => {
                 log('PDF Gerado com Sucesso!', 'sucesso');
                 consoleElem.style.display = 'block';
                 sepElem.style.display = 'block';
-                element.classList.remove('pdf-export-mode');
+                element.style.width = originalWidth;
             }).catch(err => {
                 log('Erro: ' + err.message, 'erro');
                 consoleElem.style.display = 'block';
                 sepElem.style.display = 'block';
-                element.classList.remove('pdf-export-mode');
+                element.style.width = originalWidth;
             });
         }
 
