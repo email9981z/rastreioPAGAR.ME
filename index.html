@@ -156,51 +156,71 @@
         }
 
         function exportarPDF() {
-            log('Gerando PDF Centralizado...', 'info');
+            log('Gerando PDF (Matriz A4 Centralizada)...', 'info');
             
-            const element = document.getElementById('portal-content');
+            const originalElement = document.getElementById('portal-content');
             const consoleElem = document.getElementById('console');
             const sepElem = document.getElementById('sep');
             
-            // Ocultar console
-            consoleElem.style.display = 'none';
-            sepElem.style.display = 'none';
+            // Criar um container de exportação com largura exata de um A4 (aprox 794px para 96dpi)
+            const exportContainer = document.createElement('div');
+            exportContainer.style.width = '794px';
+            exportContainer.style.background = 'white';
+            exportContainer.style.position = 'absolute';
+            exportContainer.style.left = '-9999px';
+            exportContainer.style.top = '0';
+            
+            // Clonar o conteúdo
+            const clone = originalElement.cloneNode(true);
+            
+            // Forçar estilos de centralização e largura no clone
+            clone.style.width = '794px';
+            clone.style.margin = '0';
+            clone.style.padding = '0';
+            
+            // Ajustar a grid interna para caber nos 794px
+            const grid = clone.querySelector('.main-grid');
+            if (grid) {
+                grid.style.display = 'grid';
+                grid.style.gridTemplateColumns = '1.5fr 1fr';
+                grid.style.gap = '20px';
+                grid.style.padding = '20px 30px';
+                grid.style.width = '794px';
+            }
+
+            const hero = clone.querySelector('.hero-status');
+            if (hero) hero.style.padding = '20px 30px';
+
+            const navbar = clone.querySelector('.navbar');
+            if (navbar) navbar.style.padding = '15px 30px';
+
+            exportContainer.appendChild(clone);
+            document.body.appendChild(exportContainer);
 
             const nome = document.getElementById('client-name').textContent.trim();
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
-            // Configuração de matriz fixa para evitar cortes
             const opt = {
-                margin: 0.2,
+                margin: 0,
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 1100, // Largura de captura fixa
-                    windowWidth: 1100,
+                    width: 794,
+                    windowWidth: 794,
                     x: 0,
-                    y: 0,
-                    scrollX: 0,
-                    scrollY: 0
+                    y: 0
                 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
             };
 
-            // Forçar largura de desktop no elemento antes da captura
-            const originalWidth = element.style.width;
-            element.style.width = '1100px';
-
-            html2pdf().set(opt).from(element).save().then(() => {
+            html2pdf().set(opt).from(exportContainer).save().then(() => {
                 log('PDF Gerado com Sucesso!', 'sucesso');
-                consoleElem.style.display = 'block';
-                sepElem.style.display = 'block';
-                element.style.width = originalWidth;
+                document.body.removeChild(exportContainer);
             }).catch(err => {
                 log('Erro: ' + err.message, 'erro');
-                consoleElem.style.display = 'block';
-                sepElem.style.display = 'block';
-                element.style.width = originalWidth;
+                if (exportContainer.parentNode) document.body.removeChild(exportContainer);
             });
         }
 
