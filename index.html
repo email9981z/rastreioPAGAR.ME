@@ -71,21 +71,19 @@
         .btn-process { background: #3b82f6; color: white; border: none; padding: 14px; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
         .btn-pdf { background: #10b981; }
 
-        /* Estilos Mobile */
+        /* Mobile Styles */
         @media (max-width: 968px) {
             .main-grid { grid-template-columns: 1fr; }
             .console-inputs-grid, .btn-group { grid-template-columns: 1fr; }
         }
 
-        /* Estilos de Impressão (PDF) */
-        #pdf-worker { width: 800px; background: white; position: absolute; left: -9999px; top: 0; }
-        .pdf-only { display: none; }
+        /* PDF Export Helper */
+        .hide-for-pdf { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- Área Visível -->
-    <div id="main-portal">
+    <div id="portal-content">
         <nav class="navbar">
             <div class="logo-container">
                 <div class="logo-box">LB</div>
@@ -127,10 +125,9 @@
         </main>
     </div>
 
-    <div class="footer-separator"></div>
+    <div class="footer-separator" id="sep"></div>
 
-    <!-- Console -->
-    <section class="admin-console-wrapper">
+    <section class="admin-console-wrapper" id="console">
         <div class="admin-console-container">
             <div class="console-output" id="console-output">> Terminal Pronto...</div>
             <div class="console-inputs-grid">
@@ -164,55 +161,37 @@
         function exportarPDF() {
             log('Gerando PDF...', 'info');
             
-            // Criar container de exportação com largura fixa travada
-            const worker = document.createElement('div');
-            worker.style.width = '800px';
-            worker.style.background = 'white';
-            worker.style.position = 'absolute';
-            worker.style.left = '-9999px';
-            worker.style.top = '0';
+            const element = document.getElementById('portal-content');
+            const consoleElem = document.getElementById('console');
+            const sepElem = document.getElementById('sep');
             
-            // Clonar o portal inteiro
-            const clone = document.getElementById('main-portal').cloneNode(true);
-            
-            // Forçar estilos de desktop no clone para evitar cortes
-            const grid = clone.querySelector('.main-grid');
-            grid.style.display = 'grid';
-            grid.style.gridTemplateColumns = '1.6fr 1fr';
-            grid.style.width = '800px';
-            grid.style.padding = '30px';
-            
-            const hero = clone.querySelector('.hero-status');
-            hero.style.padding = '30px';
-            
-            const navbar = clone.querySelector('.navbar');
-            navbar.style.padding = '15px 30px';
-
-            worker.appendChild(clone);
-            document.body.appendChild(worker);
+            // Ocultar console
+            consoleElem.classList.add('hide-for-pdf');
+            sepElem.classList.add('hide-for-pdf');
 
             const nome = document.getElementById('client-name').textContent.trim();
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
             const opt = {
-                margin: 0,
+                margin: 0.2,
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
-                image: { type: 'jpeg', quality: 1 },
+                image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2, 
-                    useCORS: true, 
-                    width: 800,
-                    windowWidth: 800
+                    useCORS: true,
+                    letterRendering: true
                 },
-                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(worker).save().then(() => {
+            html2pdf().set(opt).from(element).save().then(() => {
                 log('PDF Concluído!', 'sucesso');
-                document.body.removeChild(worker);
+                consoleElem.classList.remove('hide-for-pdf');
+                sepElem.classList.remove('hide-for-pdf');
             }).catch(err => {
                 log('Erro: ' + err.message, 'erro');
-                if(worker.parentNode) document.body.removeChild(worker);
+                consoleElem.classList.remove('hide-for-pdf');
+                sepElem.classList.remove('hide-for-pdf');
             });
         }
 
