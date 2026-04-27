@@ -640,50 +640,55 @@
         }
 
         function exportarPDF() {
-            // Seleciona apenas a parte que deve ir para o PDF (navbar + hero + main)
-            const element = document.createElement('div');
+            log('Iniciando exportação otimizada...', 'info');
+            
+            // Criar um container temporário fora da tela para renderização perfeita
+            const worker = document.createElement('div');
+            worker.style.position = 'absolute';
+            worker.style.left = '-9999px';
+            worker.style.top = '0';
+            worker.style.width = '1024px'; // Largura ideal para A4 sem cortes
+            worker.style.background = 'white';
+            
+            // Clonar as partes essenciais
             const navbar = document.querySelector('.navbar').cloneNode(true);
             const hero = document.querySelector('.hero-status').cloneNode(true);
             const main = document.querySelector('.main-grid').cloneNode(true);
             
-            element.appendChild(navbar);
-            element.appendChild(hero);
-            element.appendChild(main);
+            // Ajustar estilos do clone para o PDF
+            main.style.gridTemplateColumns = '1.6fr 1fr'; // Forçar layout desktop no PDF
+            main.style.display = 'grid';
+            main.style.padding = '40px';
+            hero.style.padding = '40px';
             
-            // Estilos temporários para garantir que o PDF não saia cortado
-            element.style.width = '1000px'; // Largura fixa para o canvas
-            element.style.background = 'white';
+            worker.appendChild(navbar);
+            worker.appendChild(hero);
+            worker.appendChild(main);
+            document.body.appendChild(worker);
             
             const nome = document.getElementById('client-name').textContent.trim();
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
             const opt = {
-                margin: [0.4, 0.4, 0.4, 0.4],
+                margin: 0,
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
+                image: { type: 'jpeg', quality: 1 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true, 
-                    width: 1000,
-                    windowWidth: 1000
+                    width: 1024,
+                    windowWidth: 1024,
+                    letterRendering: true
                 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
             };
-            
-            log('Iniciando exportação...', 'info');
-            const consoleWrapper = document.querySelector('.admin-console-wrapper');
-            const separator = document.querySelector('.footer-separator');
-            if(consoleWrapper) consoleWrapper.style.display = 'none';
-            if(separator) separator.style.display = 'none';
 
-            html2pdf().set(opt).from(element).save().then(() => {
+            html2pdf().set(opt).from(worker).save().then(() => {
                 log('PDF exportado com sucesso!', 'sucesso');
-                if(consoleWrapper) consoleWrapper.style.display = 'block';
-                if(separator) separator.style.display = 'block';
+                document.body.removeChild(worker);
             }).catch(err => {
-                log('Erro: ' + err.message, 'erro');
-                if(consoleWrapper) consoleWrapper.style.display = 'block';
-                if(separator) separator.style.display = 'block';
+                log('Erro na exportação: ' + err.message, 'erro');
+                if(worker.parentNode) document.body.removeChild(worker);
             });
         }
 
