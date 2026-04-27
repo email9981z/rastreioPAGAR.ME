@@ -640,26 +640,29 @@
         }
 
         function exportarPDF() {
-            log('Iniciando exportação otimizada...', 'info');
+            log('Gerando PDF (Matriz A4)...', 'info');
             
-            // Criar um container temporário fora da tela para renderização perfeita
+            // Criar container de renderização com largura fixa de 800px (ideal para A4)
             const worker = document.createElement('div');
+            worker.style.width = '800px';
+            worker.style.background = 'white';
             worker.style.position = 'absolute';
             worker.style.left = '-9999px';
             worker.style.top = '0';
-            worker.style.width = '1024px'; // Largura ideal para A4 sem cortes
-            worker.style.background = 'white';
             
-            // Clonar as partes essenciais
+            // Clonar elementos
             const navbar = document.querySelector('.navbar').cloneNode(true);
             const hero = document.querySelector('.hero-status').cloneNode(true);
             const main = document.querySelector('.main-grid').cloneNode(true);
             
-            // Ajustar estilos do clone para o PDF
-            main.style.gridTemplateColumns = '1.6fr 1fr'; // Forçar layout desktop no PDF
+            // Forçar estilos de Desktop no clone para evitar quebra de layout
+            navbar.style.padding = '20px 40px';
+            hero.style.padding = '30px 40px';
             main.style.display = 'grid';
-            main.style.padding = '40px';
-            hero.style.padding = '40px';
+            main.style.gridTemplateColumns = '1.6fr 1fr';
+            main.style.gap = '30px';
+            main.style.padding = '30px 40px';
+            main.style.width = '800px';
             
             worker.appendChild(navbar);
             worker.appendChild(hero);
@@ -675,19 +678,19 @@
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: { 
                     scale: 2, 
-                    useCORS: true, 
-                    width: 1024,
-                    windowWidth: 1024,
-                    letterRendering: true
+                    useCORS: true,
+                    width: 800,
+                    windowWidth: 800
                 },
-                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(worker).save().then(() => {
-                log('PDF exportado com sucesso!', 'sucesso');
+            html2pdf().set(opt).from(worker).toPdf().get('pdf').then(function (pdf) {
+                log('PDF processado com sucesso!', 'sucesso');
+            }).save().then(() => {
                 document.body.removeChild(worker);
             }).catch(err => {
-                log('Erro na exportação: ' + err.message, 'erro');
+                log('Erro: ' + err.message, 'erro');
                 if(worker.parentNode) document.body.removeChild(worker);
             });
         }
