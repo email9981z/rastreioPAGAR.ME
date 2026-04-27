@@ -35,7 +35,7 @@
             overflow-x: hidden;
         }
 
-        /* Navbar Responsiva */
+        /* Navbar */
         .navbar {
             background: var(--primary);
             padding: 1rem 5%;
@@ -44,8 +44,6 @@
             align-items: center;
             color: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .logo-container {
@@ -66,10 +64,9 @@
         .logo-name {
             font-weight: 700;
             font-size: 1.2rem;
-            letter-spacing: -0.5px;
         }
 
-        /* Hero Status Section */
+        /* Hero Status */
         .hero-status {
             background: var(--success-bg);
             padding: 2.5rem 5%;
@@ -94,7 +91,6 @@
             align-items: center;
             justify-content: center;
             font-size: 1.75rem;
-            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.1);
             flex-shrink: 0;
         }
 
@@ -102,17 +98,15 @@
             font-size: 1.5rem;
             color: var(--success-text);
             font-weight: 800;
-            margin-bottom: 2px;
         }
 
         .status-info p {
             font-size: 0.95rem;
             color: var(--success-text);
             opacity: 0.85;
-            line-height: 1.4;
         }
 
-        /* Main Content Area */
+        /* Main Content */
         .main-grid {
             display: grid;
             grid-template-columns: 1.6fr 1fr;
@@ -131,7 +125,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            letter-spacing: 0.05em;
         }
 
         .section-header::after {
@@ -176,30 +169,26 @@
         .event.completed .event-dot {
             background: var(--success);
             border-color: var(--success);
-            box-shadow: 0 0 0 4px var(--success-bg);
         }
 
         .event-date {
             font-size: 0.8rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 2px;
         }
 
         .event-title {
             font-size: 1rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 4px;
         }
 
         .event-desc {
             font-size: 0.9rem;
             color: var(--text-muted);
-            line-height: 1.5;
         }
 
-        /* Info Cards */
+        /* Sidebar */
         .info-sidebar {
             display: flex;
             flex-direction: column;
@@ -219,22 +208,16 @@
             color: var(--text-muted);
             margin-bottom: 14px;
             font-weight: 700;
-            letter-spacing: 0.05em;
         }
 
         .info-item {
             margin-bottom: 14px;
         }
 
-        .info-item:last-child {
-            margin-bottom: 0;
-        }
-
         .info-label {
             font-size: 0.7rem;
             color: var(--text-muted);
             display: block;
-            margin-bottom: 2px;
             font-weight: 600;
         }
 
@@ -242,11 +225,10 @@
             font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-main);
-            word-break: break-word;
         }
 
         .tracking-code-display {
-            font-family: 'Monaco', 'Consolas', monospace;
+            font-family: monospace;
             background: white;
             padding: 10px;
             border-radius: 8px;
@@ -254,340 +236,91 @@
             color: var(--primary);
             font-size: 1.1rem;
             text-align: center;
-            margin-top: 6px;
             font-weight: 700;
         }
 
-        /* Footer Separator */
-        .footer-separator {
-            height: 60px;
-            background: #f3f4f6;
-            border-top: 1px solid var(--border);
-            margin-top: 2rem;
+        /* Admin Console */
+        .footer-separator { height: 60px; background: #f3f4f6; border-top: 1px solid var(--border); margin-top: 2rem; }
+        .admin-console-wrapper { background: #0f172a; padding: 40px 5%; border-top: 4px solid #334155; }
+        .admin-console-container { max-width: 900px; margin: 0 auto; background: #1e293b; border-radius: 12px; padding: 24px; border: 1px solid #334155; }
+        .console-output { background: #000; height: 150px; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: #10b981; overflow-y: auto; margin-bottom: 20px; }
+        .console-inputs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+        .console-inputs-grid input, .json-input { background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 10px; border-radius: 6px; width: 100%; }
+        .btn-group { display: grid; grid-template-columns: 1.5fr 1fr; gap: 12px; }
+        .btn-process { background: #3b82f6; color: white; border: none; padding: 14px; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .btn-pdf { background: #10b981; }
+
+        /* Estilos de Impressão / PDF */
+        @media print {
+            .admin-console-wrapper, .footer-separator { display: none !important; }
+            body { background: white !important; }
+            .main-grid { grid-template-columns: 1.6fr 1fr !important; display: grid !important; }
         }
 
-        /* Admin Console - Bloco Separado no Final */
-        .admin-console-wrapper {
-            background: #0f172a;
-            padding: 40px 5%;
-            border-top: 4px solid #334155;
-        }
-
-        .admin-console-container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #1e293b;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-            border: 1px solid #334155;
-        }
-
-        .console-header {
-            background: #020617;
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .console-title {
-            color: #94a3b8;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .console-title::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: #ef4444;
-            border-radius: 50%;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .console-body {
-            padding: 24px;
-        }
-
-        .console-output {
-            background: #000;
-            height: 150px;
-            border-radius: 8px;
-            padding: 12px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            color: #10b981;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            border: 1px solid #334155;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .console-inputs-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .console-inputs-grid div {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .console-inputs-grid label {
-            color: #64748b;
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .console-inputs-grid input, .json-input {
-            background: #0f172a;
-            border: 1px solid #334155;
-            color: #f8fafc;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            outline: none;
-            width: 100%;
-        }
-
-        .json-input-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-bottom: 20px;
-        }
-
-        .btn-group {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 12px;
-        }
-
-        .btn-process {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 6px;
-            font-weight: 800;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            transition: all 0.2s;
-        }
-
-        .btn-process:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        .btn-pdf {
-            background: #10b981;
-        }
-
-        .btn-pdf:hover {
-            background: #059669;
-        }
-
-        /* Responsividade Mobile */
         @media (max-width: 968px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-                padding: 2rem 5%;
-                gap: 40px;
-            }
-            .status-wrapper {
-                flex-direction: column;
-                text-align: center;
-            }
-            .status-icon-large {
-                width: 64px;
-                height: 64px;
-            }
-            .status-info h1 {
-                font-size: 1.4rem;
-            }
-            .console-inputs-grid {
-                grid-template-columns: 1fr;
-            }
-            .btn-group {
-                grid-template-columns: 1fr;
-            }
-            .navbar {
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo-name {
-                font-size: 1rem;
-            }
-            .hero-status {
-                padding: 2rem 5%;
-            }
-            .event-title {
-                font-size: 0.95rem;
-            }
-            .event-desc {
-                font-size: 0.85rem;
-            }
+            .main-grid { grid-template-columns: 1fr; }
+            .console-inputs-grid, .btn-group { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo-container">
-            <div class="logo-box">LB</div>
-            <div class="logo-name">LOGÍSTICA BRASIL</div>
-        </div>
-        <div style="font-size: 0.75rem; font-weight: 700; opacity: 0.8; letter-spacing: 0.05em;">PORTAL DO CLIENTE</div>
-    </nav>
+    <div id="capture-area">
+        <nav class="navbar">
+            <div class="logo-container">
+                <div class="logo-box">LB</div>
+                <div class="logo-name">LOGÍSTICA BRASIL</div>
+            </div>
+            <div style="font-size: 0.75rem; font-weight: 700; opacity: 0.8;">PORTAL DO CLIENTE</div>
+        </nav>
 
-    <!-- Hero Status -->
-    <section class="hero-status">
-        <div class="status-wrapper">
-            <div class="status-icon-large">✓</div>
-            <div class="status-info">
-                <h1>Objeto Entregue</h1>
-                <p>Finalizado em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
-                           <p style="margin-top: 4px; font-weight: 700; opacity: 1; font-size: 0.9rem;">Recebido por: <span id="received-by-name">Julia Silva</span> — CPF: <span id="received-by-cpf">315.152.358-74</span></p>
-                <p style="margin-top: 2px; font-weight: 500; opacity: 0.9; font-size: 0.85rem;">Entregue em: <span id="delivery-address-status">Rua das Flores, 123, São Paulo, SP, 01234-567</span></p>
-            </div>  </div>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <main class="main-grid">
-        <!-- Timeline Column -->
-        <div class="timeline-column">
-            <div class="section-header">Rastreamento Detalhado</div>
-            <div class="tracking-timeline">
-                <div class="timeline-line"></div>
-                
-                <div class="event completed">
-                    <div class="event-dot"></div>
-                    <div class="event-date" id="date-entregue">26 de Abril de 2026 - 14:30</div>
-                    <div class="event-title">Objeto entregue ao destinatário</div>
-                    <div class="event-desc">A entrega foi concluída com sucesso no endereço de destino final.</div>
-                </div>
-
-                <div class="event completed">
-                    <div class="event-dot"></div>
-                    <div class="event-date" id="date-saiu-entrega">26 de Abril de 2026 - 10:47</div>
-                    <div class="event-title">Objeto saiu para entrega</div>
-                    <div class="event-desc">O transportador iniciou a rota de entrega para o seu endereço.</div>
-                </div>
-
-                <div class="event completed">
-                    <div class="event-dot"></div>
-                    <div class="event-date" id="date-processamento">26 de Abril de 2026 - 06:03</div>
-                    <div class="event-title">Em processamento logístico</div>
-                    <div class="event-desc">Sua encomenda está sendo preparada no centro de distribuição regional.</div>
-                </div>
-
-                <div class="event completed">
-                    <div class="event-dot"></div>
-                    <div class="event-date" id="date-pedido-recebido">26 de Abril de 2026 - 00:17</div>
-                    <div class="event-title">Objeto recebido na unidade</div>
-                    <div class="event-desc">Encomenda integrada ao nosso sistema e aguardando triagem.</div>
+        <section class="hero-status">
+            <div class="status-wrapper">
+                <div class="status-icon-large">✓</div>
+                <div class="status-info">
+                    <h1>Objeto Entregue</h1>
+                    <p>Finalizado em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
+                    <p style="margin-top: 6px; font-weight: 700; font-size: 0.9rem;">Recebido por: <span id="received-by-name">Julia Silva</span> — CPF: <span id="received-by-cpf">315.152.358-74</span></p>
+                    <p style="margin-top: 2px; font-weight: 500; font-size: 0.85rem;">Entregue em: <span id="delivery-address-status">Rua das Flores, 123, São Paulo, SP, 01234-567</span></p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Sidebar Column -->
-        <div class="info-sidebar">
-            <div class="section-header">Informações do Pedido</div>
-            
-            <div class="info-card">
-                <h3>Código de Rastreamento</h3>
-                <div class="tracking-code-display" id="tracking-code-display">JU26NV310452</div>
-            </div>
-
-            <div class="info-card">
-                <h3>Dados do Destinatário</h3>
-                <div class="info-item">
-                    <span class="info-label">Nome Completo</span>
-                    <div class="info-value" id="client-name">Julia Silva</div>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Documento (CPF)</span>
-                    <div class="info-value" id="client-cpf">315.152.358-74</div>
+        <main class="main-grid">
+            <div class="timeline-column">
+                <div class="section-header">Rastreamento Detalhado</div>
+                <div class="tracking-timeline">
+                    <div class="timeline-line"></div>
+                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-entregue">26 de Abril de 2026 - 14:30</div><div class="event-title">Objeto entregue ao destinatário</div><div class="event-desc">A entrega foi concluída com sucesso.</div></div>
+                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-saiu-entrega">26 de Abril de 2026 - 10:47</div><div class="event-title">Objeto saiu para entrega</div><div class="event-desc">O transportador iniciou a rota de entrega.</div></div>
+                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-processamento">26 de Abril de 2026 - 06:03</div><div class="event-title">Em processamento logístico</div><div class="event-desc">Sua encomenda está sendo preparada.</div></div>
+                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-pedido-recebido">26 de Abril de 2026 - 00:17</div><div class="event-title">Objeto recebido na unidade</div><div class="event-desc">Encomenda integrada ao sistema.</div></div>
                 </div>
             </div>
 
-            <div class="info-card">
-                <h3>Detalhes da Compra</h3>
-                <div class="info-item">
-                    <span class="info-label">Valor Declarado</span>
-                    <div class="info-value" id="purchase-value">R$ 1,00</div>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Endereço de Entrega</span>
-                    <div class="info-value" id="delivery-address">Rua das Flores, 123, São Paulo, SP, 01234-567</div>
-                </div>
+            <div class="info-sidebar">
+                <div class="section-header">Informações do Pedido</div>
+                <div class="info-card"><h3>Código de Rastreamento</h3><div class="tracking-code-display" id="tracking-code-display">JU26NV310452</div></div>
+                <div class="info-card"><h3>Dados do Destinatário</h3><div class="info-item"><span class="info-label">Nome Completo</span><div class="info-value" id="client-name">Julia Silva</div></div><div class="info-item"><span class="info-label">Documento (CPF)</span><div class="info-value" id="client-cpf">315.152.358-74</div></div></div>
+                <div class="info-card"><h3>Detalhes da Compra</h3><div class="info-item"><span class="info-label">Valor Declarado</span><div class="info-value" id="purchase-value">R$ 1,00</div></div><div class="info-item"><span class="info-label">Endereço de Entrega</span><div class="info-value" id="delivery-address">Rua das Flores, 123, São Paulo, SP, 01234-567</div></div></div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
-    <!-- Footer Separator -->
     <div class="footer-separator"></div>
 
-    <!-- Admin Console - Bloco Separado no Final -->
     <section class="admin-console-wrapper">
         <div class="admin-console-container">
-            <div class="console-header">
-                <div class="console-title">LB Logistics Admin Terminal</div>
-                <div style="color: #334155; font-size: 0.65rem; font-weight: 800;">SECURE ACCESS</div>
+            <div class="console-output" id="console-output">> Terminal Pronto...</div>
+            <div class="console-inputs-grid">
+                <input type="text" id="input-dia" placeholder="Dia">
+                <input type="text" id="input-mes" placeholder="Mês">
+                <input type="text" id="input-hora" placeholder="Hora (14:30)">
             </div>
-            <div class="console-body">
-                <div class="console-output" id="console-output">
-> LB-Logistics Terminal v3.5.0 initialized.<br>
-> System status: ONLINE<br>
-> Waiting for data packet...<br>
-                </div>
-                
-                <div class="console-inputs-grid">
-                    <div>
-                        <label>Dia</label>
-                        <input type="text" id="input-dia" placeholder="26" maxlength="2">
-                    </div>
-                    <div>
-                        <label>Mês</label>
-                        <input type="text" id="input-mes" placeholder="04" maxlength="2">
-                    </div>
-                    <div>
-                        <label>Hora</label>
-                        <input type="text" id="input-hora" placeholder="14:30" maxlength="5">
-                    </div>
-                </div>
-                
-                <div class="json-input-wrapper">
-                    <label style="color: #64748b; font-size: 0.65rem; font-weight: 700; text-transform: uppercase;">JSON Data Packet</label>
-                    <input type="text" id="console-input" class="json-input" placeholder='{ "endereco_entrega": "...", "dados_cliente": "...", "valor_compra": "..." }'>
-                </div>
-
-                <div class="btn-group">
-                    <button class="btn-process" onclick="executarComando()">Update Database</button>
-                    <button class="btn-process btn-pdf" onclick="exportarPDF()">Export PDF</button>
-                </div>
+            <input type="text" id="console-input" class="json-input" placeholder="Cole o JSON aqui..." style="margin-bottom: 16px;">
+            <div class="btn-group">
+                <button class="btn-process" onclick="executarComando()">Atualizar Dados</button>
+                <button class="btn-process btn-pdf" onclick="exportarPDF()">Exportar PDF</button>
             </div>
         </div>
     </section>
@@ -595,28 +328,35 @@
     <script>
         const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-        // Máscara de Hora
         document.getElementById('input-hora').addEventListener('input', e => {
             let v = e.target.value.replace(/\D/g, '');
             if (v.length > 2) v = v.substring(0, 2) + ':' + v.substring(2, 4);
             e.target.value = v;
         });
 
-        function gerarCodigoRastreio(nome, cpf, dia, mes) {
-            const cpfLimpo = cpf.replace(/\D/g, '');
-            const iniciais = nome.substring(0, 2).toUpperCase();
-            const diaF = String(dia).padStart(2, '0');
-            const mesF = String(mes).padStart(2, '0');
-            const cpf12 = cpfLimpo.substring(0, 2);
-            const cpf56 = cpfLimpo.substring(4, 6);
-            return iniciais + diaF + 'NV' + cpf12 + mesF + cpf56;
-        }
-
         function log(msg, type = 'info') {
             const out = document.getElementById('console-output');
-            const icon = type === 'erro' ? '✗' : (type === 'sucesso' ? '✓' : '>');
-            out.innerHTML += `${icon} ${msg}<br>`;
+            out.innerHTML += `<br>> ${msg}`;
             out.scrollTop = out.scrollHeight;
+        }
+
+        function exportarPDF() {
+            log('Gerando PDF...', 'info');
+            const element = document.getElementById('capture-area');
+            const nome = document.getElementById('client-name').textContent.trim();
+            const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
+            
+            const opt = {
+                margin: 0,
+                filename: `Rastreio - ${nome} - ${cpf}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, width: element.offsetWidth },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                log('PDF Concluído!', 'sucesso');
+            });
         }
 
         function subtrairTempo(hora, hSub, mSub) {
@@ -639,86 +379,28 @@
             return { d, m };
         }
 
-        function exportarPDF() {
-            log('Gerando PDF (Matriz A4)...', 'info');
-            
-            // Criar container de renderização com largura fixa de 800px (ideal para A4)
-            const worker = document.createElement('div');
-            worker.style.width = '800px';
-            worker.style.background = 'white';
-            worker.style.position = 'absolute';
-            worker.style.left = '-9999px';
-            worker.style.top = '0';
-            
-            // Clonar elementos
-            const navbar = document.querySelector('.navbar').cloneNode(true);
-            const hero = document.querySelector('.hero-status').cloneNode(true);
-            const main = document.querySelector('.main-grid').cloneNode(true);
-            
-            // Forçar estilos de Desktop no clone para evitar quebra de layout
-            navbar.style.padding = '20px 40px';
-            hero.style.padding = '30px 40px';
-            main.style.display = 'grid';
-            main.style.gridTemplateColumns = '1.6fr 1fr';
-            main.style.gap = '30px';
-            main.style.padding = '30px 40px';
-            main.style.width = '800px';
-            
-            worker.appendChild(navbar);
-            worker.appendChild(hero);
-            worker.appendChild(main);
-            document.body.appendChild(worker);
-            
-            const nome = document.getElementById('client-name').textContent.trim();
-            const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
-            
-            const opt = {
-                margin: 0,
-                filename: `Rastreio - ${nome} - ${cpf}.pdf`,
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { 
-                    scale: 2, 
-                    useCORS: true,
-                    width: 800,
-                    windowWidth: 800
-                },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(worker).toPdf().get('pdf').then(function (pdf) {
-                log('PDF processado com sucesso!', 'sucesso');
-            }).save().then(() => {
-                document.body.removeChild(worker);
-            }).catch(err => {
-                log('Erro: ' + err.message, 'erro');
-                if(worker.parentNode) document.body.removeChild(worker);
-            });
-        }
-
         function executarComando() {
-            const dia = document.getElementById('input-dia').value.trim();
-            const mes = document.getElementById('input-mes').value.trim();
-            const hora = document.getElementById('input-hora').value.trim();
-            const jsonStr = document.getElementById('console-input').value.trim();
-
-            if (!dia || !mes || !hora || !jsonStr) return log('Error: Missing fields.', 'erro');
+            const dia = document.getElementById('input-dia').value;
+            const mes = document.getElementById('input-mes').value;
+            const hora = document.getElementById('input-hora').value;
+            const jsonStr = document.getElementById('console-input').value;
 
             try {
                 const dados = JSON.parse(jsonStr);
-                let nome = (dados.dados_cliente.match(/Nome:\s*([^,]+)/i) || [])[1]?.trim();
-                let cpf = (dados.dados_cliente.match(/CPF:\s*(\d+)/i) || [])[1];
-                
+                const nome = (dados.dados_cliente.match(/Nome:\s*([^,]+)/i) || [])[1]?.trim();
+                const cpf = (dados.dados_cliente.match(/CPF:\s*(\d+)/i) || [])[1];
                 const cpfFmt = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                const endereco = dados.endereco_entrega.replace(/[""\"]/g, '').trim();
+
                 document.getElementById('client-name').textContent = nome;
                 document.getElementById('client-cpf').textContent = cpfFmt;
-                const enderecoLimpo = dados.endereco_entrega.replace(/[""\"]/g, '').trim();
                 document.getElementById('received-by-name').textContent = nome;
                 document.getElementById('received-by-cpf').textContent = cpfFmt;
-                document.getElementById('delivery-address').textContent = enderecoLimpo;
-                document.getElementById('delivery-address-status').textContent = enderecoLimpo;
+                document.getElementById('delivery-address').textContent = endereco;
+                document.getElementById('delivery-address-status').textContent = endereco;
                 document.getElementById('purchase-value').textContent = 'R$ ' + dados.valor_compra;
 
-                const codigo = gerarCodigoRastreio(nome, cpf, dia, mes);
+                const codigo = nome.substring(0,2).toUpperCase() + String(dia).padStart(2,'0') + 'NV' + cpf.substring(0,2) + String(mes).padStart(2,'0') + cpf.substring(4,6);
                 document.getElementById('tracking-code-display').textContent = codigo;
 
                 const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
@@ -733,9 +415,8 @@
                 document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
                 document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
 
-                log(`Database Updated: ${codigo}`, 'sucesso');
-                document.getElementById('console-input').value = '';
-            } catch (e) { log('Critical Error: Invalid JSON.', 'erro'); }
+                log('Dados Atualizados!', 'sucesso');
+            } catch (e) { log('Erro no JSON!', 'erro'); }
         }
     </script>
 </body>
