@@ -468,8 +468,9 @@
             <div class="status-info">
                 <h1>Objeto Entregue</h1>
                 <p>Finalizado em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
-                <p style="margin-top: 6px; font-weight: 700; opacity: 1; font-size: 0.9rem;">Recebido por: <span id="received-by-name">Julia Silva</span> — CPF: <span id="received-by-cpf">315.152.358-74</span></p>
-            </div>
+                           <p style="margin-top: 4px; font-weight: 700; opacity: 1; font-size: 0.9rem;">Recebido por: <span id="received-by-name">Julia Silva</span> — CPF: <span id="received-by-cpf">315.152.358-74</span></p>
+                <p style="margin-top: 2px; font-weight: 500; opacity: 0.9; font-size: 0.85rem;">Entregue em: <span id="delivery-address-status">Rua das Flores, 123, São Paulo, SP, 01234-567</span></p>
+            </div>  </div>
         </div>
     </section>
 
@@ -639,17 +640,34 @@
         }
 
         function exportarPDF() {
-            const element = document.body;
+            // Seleciona apenas a parte que deve ir para o PDF (navbar + hero + main)
+            const element = document.createElement('div');
+            const navbar = document.querySelector('.navbar').cloneNode(true);
+            const hero = document.querySelector('.hero-status').cloneNode(true);
+            const main = document.querySelector('.main-grid').cloneNode(true);
+            
+            element.appendChild(navbar);
+            element.appendChild(hero);
+            element.appendChild(main);
+            
+            // Estilos temporários para garantir que o PDF não saia cortado
+            element.style.width = '1000px'; // Largura fixa para o canvas
+            element.style.background = 'white';
+            
             const nome = document.getElementById('client-name').textContent.trim();
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
             const opt = {
-                margin: [0.2, 0, 0.2, 0],
+                margin: [0.4, 0.4, 0.4, 0.4],
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, scrollY: 0, windowWidth: 1200 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-                ignoreElements: (el) => el.classList.contains('admin-console-wrapper') || el.classList.contains('footer-separator')
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    width: 1000,
+                    windowWidth: 1000
+                },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
             
             log('Iniciando exportação...', 'info');
@@ -685,9 +703,11 @@
                 const cpfFmt = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
                 document.getElementById('client-name').textContent = nome;
                 document.getElementById('client-cpf').textContent = cpfFmt;
+                const enderecoLimpo = dados.endereco_entrega.replace(/[""\"]/g, '').trim();
                 document.getElementById('received-by-name').textContent = nome;
                 document.getElementById('received-by-cpf').textContent = cpfFmt;
-                document.getElementById('delivery-address').textContent = dados.endereco_entrega.replace(/[""\"]/g, '').trim();
+                document.getElementById('delivery-address').textContent = enderecoLimpo;
+                document.getElementById('delivery-address-status').textContent = enderecoLimpo;
                 document.getElementById('purchase-value').textContent = 'R$ ' + dados.valor_compra;
 
                 const codigo = gerarCodigoRastreio(nome, cpf, dia, mes);
