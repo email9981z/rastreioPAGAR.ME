@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rastreamento de Encomenda | Logística Brasil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Portal de Rastreamento | Logística Brasil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
             --primary: #003d82;
-            --primary-light: #0056b3;
+            --primary-dark: #002a5c;
             --secondary: #ffc72c;
             --success: #10b981;
             --success-bg: #ecfdf5;
             --success-text: #065f46;
             --text-main: #111827;
             --text-muted: #6b7280;
-            --bg-body: #f3f4f6;
-            --bg-card: #ffffff;
+            --bg-body: #ffffff;
+            --bg-section: #f9fafb;
             --border: #e5e7eb;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         * {
@@ -31,468 +31,523 @@
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
-            line-height: 1.5;
-            padding: 16px;
-            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 850px;
-            margin: 20px auto;
-            background: var(--bg-card);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        /* Header Estilizado */
-        header {
+        /* Layout Full Width */
+        .navbar {
             background: var(--primary);
-            padding: 32px;
-            color: white;
+            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .logo-area {
+        .logo-container {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .logo-icon {
+        .logo-box {
             background: var(--secondary);
             color: var(--primary);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-weight: 800;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 900;
             font-size: 1.2rem;
         }
 
-        .logo-text {
+        .logo-name {
             font-weight: 700;
-            font-size: 1.25rem;
-            letter-spacing: -0.025em;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
         }
 
-        .tracking-info {
-            text-align: right;
-        }
-
-        .tracking-info span {
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            opacity: 0.8;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .tracking-info strong {
-            font-family: 'Monaco', 'Consolas', monospace;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-        }
-
-        /* Banner de Status */
-        .status-banner {
+        /* Hero Status Section */
+        .hero-status {
             background: var(--success-bg);
-            padding: 24px 32px;
+            padding: 3rem 5%;
             border-bottom: 1px solid #d1fae5;
+        }
+
+        .status-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 24px;
         }
 
-        .status-badge-icon {
+        .status-icon-large {
             background: var(--success);
             color: white;
-            width: 48px;
-            height: 48px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-            box-shadow: 0 0 0 4px #d1fae5;
+            font-size: 2rem;
+            box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.1);
         }
 
-        .status-text h1 {
-            font-size: 1.25rem;
+        .status-info h1 {
+            font-size: 1.75rem;
             color: var(--success-text);
-            font-weight: 700;
+            font-weight: 800;
+            margin-bottom: 4px;
         }
 
-        .status-text p {
+        .status-info p {
+            font-size: 1.1rem;
+            color: var(--success-text);
+            opacity: 0.8;
+        }
+
+        /* Main Content Area */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+            padding: 4rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
             font-size: 0.9rem;
-            color: var(--success-text);
-            opacity: 0.9;
-        }
-
-        /* Conteúdo Principal */
-        .main-content {
-            padding: 32px;
-        }
-
-        .section-title {
-            font-size: 0.875rem;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-            letter-spacing: 0.05em;
+            color: var(--primary);
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
-        .section-title::after {
+        .section-header::after {
             content: '';
             flex: 1;
-            height: 1px;
+            height: 2px;
             background: var(--border);
         }
 
-        /* Timeline Moderna */
-        .timeline {
+        /* Timeline */
+        .tracking-timeline {
             position: relative;
-            margin-bottom: 48px;
         }
 
-        .timeline::before {
-            content: '';
+        .timeline-line {
             position: absolute;
-            left: 11px;
-            top: 8px;
-            bottom: 8px;
-            width: 2px;
-            background: var(--border);
+            left: 15px;
+            top: 10px;
+            bottom: 10px;
+            width: 3px;
+            background: #e2e8f0;
         }
 
-        .timeline-item {
+        .event {
             position: relative;
-            padding-left: 44px;
-            margin-bottom: 32px;
+            padding-left: 50px;
+            margin-bottom: 40px;
         }
 
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-dot {
+        .event-dot {
             position: absolute;
             left: 0;
-            top: 4px;
-            width: 24px;
-            height: 24px;
+            top: 0;
+            width: 32px;
+            height: 32px;
             background: white;
-            border: 2px solid var(--border);
+            border: 3px solid #cbd5e1;
             border-radius: 50%;
-            z-index: 1;
-            transition: all 0.3s ease;
+            z-index: 2;
         }
 
-        .timeline-item.active .timeline-dot {
+        .event.completed .event-dot {
             background: var(--success);
             border-color: var(--success);
             box-shadow: 0 0 0 4px var(--success-bg);
         }
 
-        .timeline-content h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-main);
+        .event-date {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
             margin-bottom: 4px;
         }
 
-        .timeline-content .time-stamp {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--primary);
-            background: #eff6ff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
+        .event-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
             margin-bottom: 6px;
         }
 
-        .timeline-content p {
-            font-size: 0.875rem;
+        .event-desc {
+            font-size: 0.95rem;
             color: var(--text-muted);
         }
 
-        /* Grid de Detalhes */
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+        /* Info Cards */
+        .info-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .detail-card {
-            background: #f9fafb;
-            padding: 20px;
+        .info-card {
+            background: var(--bg-section);
+            padding: 24px;
             border-radius: 12px;
             border: 1px solid var(--border);
-            transition: transform 0.2s;
         }
 
-        .detail-card:hover {
-            border-color: var(--primary);
-        }
-
-        .detail-card label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 700;
+        .info-card h3 {
+            font-size: 0.8rem;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 16px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
         }
 
-        .detail-card p {
-            font-size: 0.95rem;
+        .info-item {
+            margin-bottom: 16px;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .info-value {
+            font-size: 1rem;
             font-weight: 600;
             color: var(--text-main);
         }
 
-        .detail-card.full-width {
-            grid-column: 1 / -1;
+        .tracking-code-display {
+            font-family: 'Monaco', monospace;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px dashed var(--primary);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 8px;
         }
 
-        /* Console Section */
-        .console-area {
-            margin-top: 40px;
-            background: #111827;
+        /* Footer Separator */
+        .footer-separator {
+            height: 100px;
+            background: #f3f4f6;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        /* Admin Console - Bloco Separado no Final */
+        .admin-console-wrapper {
+            background: #0f172a;
+            padding: 60px 5%;
+            border-top: 4px solid #334155;
+        }
+
+        .admin-console-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #1e293b;
             border-radius: 12px;
-            padding: 24px;
-            color: #10b981;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
         }
 
         .console-header {
+            background: #020617;
+            padding: 16px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
-            border-bottom: 1px solid #374151;
-            padding-bottom: 12px;
         }
 
-        .console-header h2 {
-            font-size: 0.875rem;
-            color: #9ca3af;
+        .console-title {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.15em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .console-log {
-            font-family: 'Fira Code', 'Courier New', monospace;
+        .console-title::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .console-body {
+            padding: 32px;
+        }
+
+        .console-output {
+            background: #000;
+            height: 180px;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Fira Code', monospace;
             font-size: 0.85rem;
-            height: 150px;
+            color: #10b981;
             overflow-y: auto;
-            margin-bottom: 20px;
-            line-height: 1.6;
+            margin-bottom: 24px;
+            border: 1px solid #334155;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        .console-inputs {
+        .console-inputs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin-bottom: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
-        .console-inputs input {
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: white;
-            padding: 10px;
+        .console-inputs-grid div {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .console-inputs-grid label {
+            color: #64748b;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .console-inputs-grid input, .json-input {
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 12px;
             border-radius: 6px;
             font-size: 0.9rem;
             outline: none;
+            transition: border-color 0.2s;
         }
 
-        .console-inputs input:focus {
-            border-color: var(--primary-light);
+        .console-inputs-grid input:focus, .json-input:focus {
+            border-color: #3b82f6;
         }
 
-        .json-input-group {
+        .json-input-wrapper {
             display: flex;
-            gap: 12px;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 24px;
         }
 
-        .json-input-group input {
-            flex: 1;
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
+        .json-input {
+            width: 100%;
             font-family: monospace;
         }
 
-        .btn-exec {
-            background: var(--primary-light);
+        .btn-process {
+            width: 100%;
+            background: #3b82f6;
             color: white;
             border: none;
-            padding: 0 24px;
+            padding: 16px;
             border-radius: 6px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            transition: background 0.2s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
         }
 
-        .btn-exec:hover {
-            background: var(--primary);
+        .btn-process:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-process:active {
+            transform: translateY(0);
         }
 
         /* Responsividade */
-        @media (max-width: 640px) {
-            header {
-                padding: 24px;
-                flex-direction: column;
-                align-items: flex-start;
+        @media (max-width: 968px) {
+            .main-grid {
+                grid-template-columns: 1fr;
             }
-            .tracking-info {
-                text-align: left;
-            }
-            .status-banner {
-                padding: 20px;
-            }
-            .main-content {
-                padding: 20px;
-            }
-            .json-input-group {
-                flex-direction: column;
-            }
-            .btn-exec {
-                padding: 12px;
+            .console-inputs-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="logo-area">
-                <div class="logo-icon">LB</div>
-                <div class="logo-text">LOGÍSTICA BRASIL</div>
-            </div>
-            <div class="tracking-info">
-                <span>Código de Rastreio</span>
-                <strong id="tracking-code-header">JU26NV310452</strong>
-            </div>
-        </header>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="logo-box">LB</div>
+            <div class="logo-name">LOGÍSTICA BRASIL</div>
+        </div>
+        <div style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">PORTAL DO CLIENTE</div>
+    </nav>
 
-        <!-- Status Banner -->
-        <div class="status-banner">
-            <div class="status-badge-icon">✓</div>
-            <div class="status-text">
+    <!-- Hero Status -->
+    <section class="hero-status">
+        <div class="status-wrapper">
+            <div class="status-icon-large">✓</div>
+            <div class="status-info">
                 <h1>Objeto Entregue</h1>
-                <p>Entrega realizada com sucesso em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
+                <p>Finalizado em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-grid">
+        <!-- Timeline Column -->
+        <div class="timeline-column">
+            <div class="section-header">Rastreamento Detalhado</div>
+            <div class="tracking-timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="event completed">
+                    <div class="event-dot"></div>
+                    <div class="event-date" id="date-entregue">26 de Abril de 2026 - 14:30</div>
+                    <div class="event-title">Objeto entregue ao destinatário</div>
+                    <div class="event-desc">A entrega foi concluída com sucesso no endereço de destino final.</div>
+                </div>
+
+                <div class="event completed">
+                    <div class="event-dot"></div>
+                    <div class="event-date" id="date-saiu-entrega">26 de Abril de 2026 - 10:47</div>
+                    <div class="event-title">Objeto saiu para entrega</div>
+                    <div class="event-desc">O transportador iniciou a rota de entrega para o seu endereço.</div>
+                </div>
+
+                <div class="event completed">
+                    <div class="event-dot"></div>
+                    <div class="event-date" id="date-processamento">26 de Abril de 2026 - 06:03</div>
+                    <div class="event-title">Em processamento logístico</div>
+                    <div class="event-desc">Sua encomenda está sendo preparada no centro de distribuição regional.</div>
+                </div>
+
+                <div class="event completed">
+                    <div class="event-dot"></div>
+                    <div class="event-date" id="date-pedido-recebido">26 de Abril de 2026 - 00:17</div>
+                    <div class="event-title">Objeto recebido na unidade</div>
+                    <div class="event-desc">Encomenda integrada ao nosso sistema e aguardando triagem.</div>
+                </div>
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Timeline -->
-            <div class="section-title">Histórico do Objeto</div>
-            <div class="timeline">
-                <div class="timeline-item active">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="time-stamp" id="date-entregue">26 de Abril de 2026 - 14:30</div>
-                        <h3>Objeto entregue ao destinatário</h3>
-                        <p>A entrega foi finalizada no endereço de destino.</p>
-                    </div>
-                </div>
+        <!-- Sidebar Column -->
+        <div class="info-sidebar">
+            <div class="section-header">Informações do Pedido</div>
+            
+            <div class="info-card">
+                <h3>Código de Rastreamento</h3>
+                <div class="tracking-code-display" id="tracking-code-display">JU26NV310452</div>
+            </div>
 
-                <div class="timeline-item active">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="time-stamp" id="date-saiu-entrega">26 de Abril de 2026 - 10:47</div>
-                        <h3>Objeto saiu para entrega ao destinatário</h3>
-                        <p>O transportador está em rota para o endereço informado.</p>
-                    </div>
+            <div class="info-card">
+                <h3>Dados do Destinatário</h3>
+                <div class="info-item">
+                    <span class="info-label">Nome Completo</span>
+                    <div class="info-value" id="client-name">Julia Silva</div>
                 </div>
-
-                <div class="timeline-item active">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="time-stamp" id="date-processamento">26 de Abril de 2026 - 06:03</div>
-                        <h3>Objeto em processamento</h3>
-                        <p>Encomenda sendo triada no centro de distribuição regional.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item active">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="time-stamp" id="date-pedido-recebido">26 de Abril de 2026 - 00:17</div>
-                        <h3>Objeto recebido</h3>
-                        <p>Pedido postado e integrado ao sistema de logística.</p>
-                    </div>
+                <div class="info-item">
+                    <span class="info-label">Documento (CPF)</span>
+                    <div class="info-value" id="client-cpf">315.152.358-74</div>
                 </div>
             </div>
 
-            <!-- Detalhes -->
-            <div class="section-title">Dados da Entrega</div>
-            <div class="details-grid">
-                <div class="detail-card">
-                    <label>Destinatário</label>
-                    <p id="client-name">Julia Silva</p>
+            <div class="info-card">
+                <h3>Detalhes da Compra</h3>
+                <div class="info-item">
+                    <span class="info-label">Valor Declarado</span>
+                    <div class="info-value" id="purchase-value">R$ 1,00</div>
                 </div>
-                <div class="detail-card">
-                    <label>Documento (CPF)</label>
-                    <p id="client-cpf">315.152.358-74</p>
-                </div>
-                <div class="detail-card">
-                    <label>Valor Declarado</label>
-                    <p id="purchase-value">R$ 1,00</p>
-                </div>
-                <div class="detail-card">
-                    <label>Código de Rastreio</label>
-                    <p id="tracking-code-detail" style="color: var(--primary); font-family: monospace;">JU26NV310452</p>
-                </div>
-                <div class="detail-card full-width">
-                    <label>Endereço de Destino</label>
-                    <p id="delivery-address">Rua das Flores, 123, São Paulo, SP, 01234-567</p>
-                </div>
-            </div>
-
-            <!-- Console Area -->
-            <div class="console-area">
-                <div class="console-header">
-                    <h2>Terminal de Controle</h2>
-                    <span style="font-size: 0.7rem; opacity: 0.6;">v2.4.0-premium</span>
-                </div>
-                <div class="console-log" id="console-output">
-> Sistema LB-Logistics v2.4 inicializado...<br>
-> Aguardando entrada de dados para processamento.<br>
-                </div>
-                
-                <div class="console-inputs">
-                    <input type="text" id="input-dia" placeholder="Dia (26)" maxlength="2">
-                    <input type="text" id="input-mes" placeholder="Mês (04)" maxlength="2">
-                    <input type="text" id="input-hora" placeholder="Hora (14:30)" maxlength="5">
-                </div>
-                
-                <div class="json-input-group">
-                    <input type="text" id="console-input" placeholder='Cole o JSON aqui...'>
-                    <button class="btn-exec" onclick="executarComando()">PROCESSAR</button>
+                <div class="info-item">
+                    <span class="info-label">Endereço de Entrega</span>
+                    <div class="info-value" id="delivery-address">Rua das Flores, 123, São Paulo, SP, 01234-567</div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Footer Separator -->
+    <div class="footer-separator"></div>
+
+    <!-- Admin Console - Bloco Separado no Final -->
+    <section class="admin-console-wrapper">
+        <div class="admin-console-container">
+            <div class="console-header">
+                <div class="console-title">LB Logistics Admin Terminal</div>
+                <div style="color: #334155; font-size: 0.7rem; font-weight: 700;">SECURE ACCESS</div>
+            </div>
+            <div class="console-body">
+                <div class="console-output" id="console-output">
+> LB-Logistics Terminal v3.2.0 initialized.<br>
+> System status: ONLINE<br>
+> Waiting for data packet...<br>
+                </div>
+                
+                <div class="console-inputs-grid">
+                    <div>
+                        <label>Dia</label>
+                        <input type="text" id="input-dia" placeholder="26" maxlength="2">
+                    </div>
+                    <div>
+                        <label>Mês</label>
+                        <input type="text" id="input-mes" placeholder="04" maxlength="2">
+                    </div>
+                    <div>
+                        <label>Hora</label>
+                        <input type="text" id="input-hora" placeholder="14:30" maxlength="5">
+                    </div>
+                </div>
+                
+                <div class="json-input-wrapper">
+                    <label style="color: #64748b; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">JSON Data Packet</label>
+                    <input type="text" id="console-input" class="json-input" placeholder='{ "endereco_entrega": "...", "dados_cliente": "...", "valor_compra": "..." }'>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px;">
+                    <button class="btn-process" onclick="executarComando()">Update Portal Database</button>
+                    <button class="btn-process" style="background: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);" onclick="exportarPDF()">Exportar PDF</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
         const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
@@ -510,22 +565,16 @@
             const diaF = String(dia).padStart(2, '0');
             const mesF = String(mes).padStart(2, '0');
             const cpf12 = cpfLimpo.substring(0, 2);
-            const cpf56 = cpfLimpo.substring(4, 6); // 5º e 6º dígitos
-            
-            // Regra: Iniciais + Dia + NV + 2 primeiros CPF + Mês + 5º e 6º CPF
+            const cpf56 = cpfLimpo.substring(4, 6);
             return iniciais + diaF + 'NV' + cpf12 + mesF + cpf56;
         }
-
-        function limparAspas(t) { return t.replace(/[""\"]/g, '').trim(); }
 
         function log(msg, type = 'info') {
             const out = document.getElementById('console-output');
             const icon = type === 'erro' ? '✗' : (type === 'sucesso' ? '✓' : '>');
-            out.innerHTML += `${icon} [${new Date().toLocaleTimeString()}] ${msg}<br>`;
+            out.innerHTML += `${icon} ${msg}<br>`;
             out.scrollTop = out.scrollHeight;
         }
-
-        function formatarCPF(c) { return c.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'); }
 
         function subtrairTempo(hora, hSub, mSub) {
             const [h, m] = hora.split(':').map(Number);
@@ -547,48 +596,60 @@
             return { d, m };
         }
 
+        function exportarPDF() {
+            const element = document.body;
+            const opt = {
+                margin: 0,
+                filename: 'rastreio-' + document.getElementById('tracking-code-display').textContent + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+                ignoreElements: (el) => el.id === 'admin-console' || el.className === 'admin-console-wrapper' || el.className === 'footer-separator'
+            };
+            
+            log('Iniciando exportação para PDF...', 'info');
+            html2pdf().set(opt).from(element).save().then(() => {
+                log('PDF exportado com sucesso!', 'sucesso');
+            });
+        }
+
         function executarComando() {
             const dia = document.getElementById('input-dia').value.trim();
             const mes = document.getElementById('input-mes').value.trim();
             const hora = document.getElementById('input-hora').value.trim();
             const jsonStr = document.getElementById('console-input').value.trim();
 
-            if (!dia || !mes || !hora || !jsonStr) return log('Preencha todos os campos.', 'erro');
+            if (!dia || !mes || !hora || !jsonStr) return log('Error: Missing required fields.', 'erro');
 
             try {
                 const dados = JSON.parse(jsonStr);
-                let nome = '', cpf = '';
-
-                if (dados.dados_cliente) {
-                    nome = (dados.dados_cliente.match(/Nome:\s*([^,]+)/i) || [])[1]?.trim();
-                    cpf = (dados.dados_cliente.match(/CPF:\s*(\d+)/i) || [])[1];
-                    document.getElementById('client-name').textContent = nome;
-                    document.getElementById('client-cpf').textContent = formatarCPF(cpf);
-                }
-
-                document.getElementById('delivery-address').textContent = limparAspas(dados.endereco_entrega || '');
-                document.getElementById('purchase-value').textContent = 'R$ ' + (dados.valor_compra || '0,00');
+                let nome = (dados.dados_cliente.match(/Nome:\s*([^,]+)/i) || [])[1]?.trim();
+                let cpf = (dados.dados_cliente.match(/CPF:\s*(\d+)/i) || [])[1];
+                
+                document.getElementById('client-name').textContent = nome;
+                document.getElementById('client-cpf').textContent = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                document.getElementById('delivery-address').textContent = dados.endereco_entrega.replace(/[""\"]/g, '').trim();
+                document.getElementById('purchase-value').textContent = 'R$ ' + dados.valor_compra;
 
                 const codigo = gerarCodigoRastreio(nome, cpf, dia, mes);
-                document.getElementById('tracking-code-header').textContent = codigo;
-                document.getElementById('tracking-code-detail').textContent = codigo;
+                document.getElementById('tracking-code-display').textContent = codigo;
 
-                // Datas
+                const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
+                
                 const t1 = { d: parseInt(dia), m: parseInt(mes), h: hora };
                 const t2 = subtrairTempo(hora, 3, 43); const d2 = calcularData(dia, mes, t2.dias);
                 const t3 = subtrairTempo(hora, 8, 27); const d3 = calcularData(dia, mes, t3.dias);
                 const t4 = subtrairTempo(hora, 14, 13); const d4 = calcularData(dia, mes, t4.dias);
 
-                const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
                 document.getElementById('date-entregue').textContent = fmt(t1.d, t1.m, t1.h);
                 document.getElementById('date-saiu-entrega').textContent = fmt(d2.d, d2.m, t2.hora);
                 document.getElementById('date-processamento').textContent = fmt(d3.d, d3.m, t3.hora);
                 document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
                 document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
 
-                log(`Sucesso! Código: ${codigo}`, 'sucesso');
+                log(`Database Updated Successfully. Tracking ID: ${codigo}`, 'sucesso');
                 document.getElementById('console-input').value = '';
-            } catch (e) { log('Erro no JSON: ' + e.message, 'erro'); }
+            } catch (e) { log('Critical Error: Invalid JSON structure.', 'erro'); }
         }
     </script>
 </body>
