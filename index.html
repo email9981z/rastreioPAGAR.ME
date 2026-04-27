@@ -177,15 +177,15 @@
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
             const opt = {
-                margin: [0.3, 0.3, 0.3, 0.3], // Margens uniformes em polegadas
+                margin: 0.2,
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 1200,
-                    windowWidth: 1200,
-                    x: 0, // Garante que comece do pixel 0 na horizontal
+                    width: 1050, // Largura otimizada para A4
+                    windowWidth: 1050,
+                    x: 0,
                     y: 0,
                     scrollX: 0,
                     scrollY: 0
