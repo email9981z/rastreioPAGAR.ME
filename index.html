@@ -76,6 +76,11 @@
             .main-grid { grid-template-columns: 1fr; }
             .console-inputs-grid, .btn-group { grid-template-columns: 1fr; }
         }
+
+        /* PDF Export Helper */
+        .hide-for-pdf { display: none !important; }
+        .pdf-layout-fix { width: 1200px !important; margin: 0 !important; padding: 40px !important; }
+        .pdf-layout-fix .main-grid { grid-template-columns: 1.6fr 1fr !important; display: grid !important; width: 1120px !important; }
     </style>
 </head>
 <body>
@@ -156,42 +161,18 @@
         }
 
         function exportarPDF() {
-            log('Gerando PDF Simétrico...', 'info');
+            log('Iniciando captura total (Full Page)...', 'info');
             
-            const originalElement = document.getElementById('portal-content');
+            const element = document.getElementById('portal-content');
+            const consoleElem = document.getElementById('console');
+            const sepElem = document.getElementById('sep');
             
-            // Criar matriz de exportação com largura de segurança para evitar cortes
-            const exportContainer = document.createElement('div');
-            exportContainer.style.width = '800px';
-            exportContainer.style.background = 'white';
-            exportContainer.style.position = 'absolute';
-            exportContainer.style.left = '-9999px';
-            exportContainer.style.top = '0';
-            exportContainer.style.padding = '0';
-            exportContainer.style.margin = '0';
+            // Ocultar console
+            consoleElem.classList.add('hide-for-pdf');
+            sepElem.classList.add('hide-for-pdf');
             
-            const clone = originalElement.cloneNode(true);
-            clone.style.width = '800px';
-            clone.style.margin = '0';
-            
-            // Ajustar elementos internos para simetria
-            const grid = clone.querySelector('.main-grid');
-            if (grid) {
-                grid.style.display = 'grid';
-                grid.style.gridTemplateColumns = '1.6fr 1fr';
-                grid.style.gap = '30px';
-                grid.style.padding = '40px';
-                grid.style.width = '800px';
-            }
-
-            const hero = clone.querySelector('.hero-status');
-            if (hero) hero.style.padding = '40px';
-
-            const navbar = clone.querySelector('.navbar');
-            if (navbar) navbar.style.padding = '20px 40px';
-
-            exportContainer.appendChild(clone);
-            document.body.appendChild(exportContainer);
+            // Forçar layout de desktop largo para a captura
+            element.classList.add('pdf-layout-fix');
 
             const nome = document.getElementById('client-name').textContent.trim();
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
@@ -203,22 +184,29 @@
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 800,
-                    windowWidth: 800,
-                    x: 0,
-                    y: 0,
+                    width: 1200,
+                    windowWidth: 1200,
+                    scrollY: 0,
                     scrollX: 0,
-                    scrollY: 0
+                    onclone: (clonedDoc) => {
+                        // Garante que o clone tenha a altura total
+                        const clonedElement = clonedDoc.getElementById('portal-content');
+                        clonedElement.style.height = 'auto';
+                    }
                 },
-                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(exportContainer).save().then(() => {
-                log('PDF Gerado com Sucesso!', 'sucesso');
-                document.body.removeChild(exportContainer);
+            html2pdf().set(opt).from(element).save().then(() => {
+                log('PDF Concluído!', 'sucesso');
+                consoleElem.classList.remove('hide-for-pdf');
+                sepElem.classList.remove('hide-for-pdf');
+                element.classList.remove('pdf-layout-fix');
             }).catch(err => {
                 log('Erro: ' + err.message, 'erro');
-                if (exportContainer.parentNode) document.body.removeChild(exportContainer);
+                consoleElem.classList.remove('hide-for-pdf');
+                sepElem.classList.remove('hide-for-pdf');
+                element.classList.remove('pdf-layout-fix');
             });
         }
 
