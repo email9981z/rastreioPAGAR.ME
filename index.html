@@ -9,7 +9,6 @@
     <style>
         :root {
             --primary: #003d82;
-            --primary-dark: #002a5c;
             --secondary: #ffc72c;
             --success: #10b981;
             --success-bg: #ecfdf5;
@@ -21,223 +20,45 @@
             --border: #e5e7eb;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
 
         /* Navbar */
-        .navbar {
-            background: var(--primary);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-box {
-            background: var(--secondary);
-            color: var(--primary);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-weight: 900;
-            font-size: 1.1rem;
-        }
-
-        .logo-name {
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
+        .navbar { background: var(--primary); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; color: white; }
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-box { background: var(--secondary); color: var(--primary); padding: 6px 10px; border-radius: 6px; font-weight: 900; }
+        .logo-name { font-weight: 700; font-size: 1.2rem; }
 
         /* Hero Status */
-        .hero-status {
-            background: var(--success-bg);
-            padding: 2.5rem 5%;
-            border-bottom: 1px solid #d1fae5;
-        }
-
-        .status-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .status-icon-large {
-            background: var(--success);
-            color: white;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            flex-shrink: 0;
-        }
-
-        .status-info h1 {
-            font-size: 1.5rem;
-            color: var(--success-text);
-            font-weight: 800;
-        }
-
-        .status-info p {
-            font-size: 0.95rem;
-            color: var(--success-text);
-            opacity: 0.85;
-        }
+        .hero-status { background: var(--success-bg); padding: 2.5rem 5%; border-bottom: 1px solid #d1fae5; }
+        .status-wrapper { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 20px; }
+        .status-icon-large { background: var(--success); color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; flex-shrink: 0; }
+        .status-info h1 { font-size: 1.5rem; color: var(--success-text); font-weight: 800; }
+        .status-info p { font-size: 0.95rem; color: var(--success-text); opacity: 0.85; }
 
         /* Main Content */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1.6fr 1fr;
-            gap: 30px;
-            padding: 3rem 5%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            font-size: 0.85rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-header::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
+        .main-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; padding: 3rem 5%; max-width: 1400px; margin: 0 auto; }
+        .section-header { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--primary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .section-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
         /* Timeline */
-        .tracking-timeline {
-            position: relative;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 13px;
-            top: 10px;
-            bottom: 10px;
-            width: 2px;
-            background: #e2e8f0;
-        }
-
-        .event {
-            position: relative;
-            padding-left: 45px;
-            margin-bottom: 35px;
-        }
-
-        .event-dot {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 28px;
-            height: 28px;
-            background: white;
-            border: 2px solid #cbd5e1;
-            border-radius: 50%;
-            z-index: 2;
-        }
-
-        .event.completed .event-dot {
-            background: var(--success);
-            border-color: var(--success);
-        }
-
-        .event-date {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .event-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .event-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
+        .tracking-timeline { position: relative; }
+        .timeline-line { position: absolute; left: 13px; top: 10px; bottom: 10px; width: 2px; background: #e2e8f0; }
+        .event { position: relative; padding-left: 45px; margin-bottom: 35px; }
+        .event-dot { position: absolute; left: 0; top: 0; width: 28px; height: 28px; background: white; border: 2px solid #cbd5e1; border-radius: 50%; z-index: 2; }
+        .event.completed .event-dot { background: var(--success); border-color: var(--success); }
+        .event-date { font-size: 0.8rem; font-weight: 700; color: var(--primary); }
+        .event-title { font-size: 1rem; font-weight: 700; color: var(--text-main); }
+        .event-desc { font-size: 0.9rem; color: var(--text-muted); }
 
         /* Sidebar */
-        .info-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .info-card {
-            background: var(--bg-section);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .info-card h3 {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 14px;
-            font-weight: 700;
-        }
-
-        .info-item {
-            margin-bottom: 14px;
-        }
-
-        .info-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            display: block;
-            font-weight: 600;
-        }
-
-        .info-value {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .tracking-code-display {
-            font-family: monospace;
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px dashed var(--primary);
-            color: var(--primary);
-            font-size: 1.1rem;
-            text-align: center;
-            font-weight: 700;
-        }
+        .info-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .info-card { background: var(--bg-section); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
+        .info-card h3 { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; font-weight: 700; }
+        .info-item { margin-bottom: 14px; }
+        .info-label { font-size: 0.7rem; color: var(--text-muted); display: block; font-weight: 600; }
+        .info-value { font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
+        .tracking-code-display { font-family: monospace; background: white; padding: 10px; border-radius: 8px; border: 1px dashed var(--primary); color: var(--primary); font-size: 1.1rem; text-align: center; font-weight: 700; }
 
         /* Admin Console */
         .footer-separator { height: 60px; background: #f3f4f6; border-top: 1px solid var(--border); margin-top: 2rem; }
@@ -250,22 +71,21 @@
         .btn-process { background: #3b82f6; color: white; border: none; padding: 14px; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
         .btn-pdf { background: #10b981; }
 
-        /* Estilos de Impressão / PDF */
-        @media print {
-            .admin-console-wrapper, .footer-separator { display: none !important; }
-            body { background: white !important; }
-            .main-grid { grid-template-columns: 1.6fr 1fr !important; display: grid !important; }
-        }
-
+        /* Estilos Mobile */
         @media (max-width: 968px) {
             .main-grid { grid-template-columns: 1fr; }
             .console-inputs-grid, .btn-group { grid-template-columns: 1fr; }
         }
+
+        /* Estilos de Impressão (PDF) */
+        #pdf-worker { width: 800px; background: white; position: absolute; left: -9999px; top: 0; }
+        .pdf-only { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="capture-area">
+    <!-- Área Visível -->
+    <div id="main-portal">
         <nav class="navbar">
             <div class="logo-container">
                 <div class="logo-box">LB</div>
@@ -309,6 +129,7 @@
 
     <div class="footer-separator"></div>
 
+    <!-- Console -->
     <section class="admin-console-wrapper">
         <div class="admin-console-container">
             <div class="console-output" id="console-output">> Terminal Pronto...</div>
@@ -342,20 +163,56 @@
 
         function exportarPDF() {
             log('Gerando PDF...', 'info');
-            const element = document.getElementById('capture-area');
+            
+            // Criar container de exportação com largura fixa travada
+            const worker = document.createElement('div');
+            worker.style.width = '800px';
+            worker.style.background = 'white';
+            worker.style.position = 'absolute';
+            worker.style.left = '-9999px';
+            worker.style.top = '0';
+            
+            // Clonar o portal inteiro
+            const clone = document.getElementById('main-portal').cloneNode(true);
+            
+            // Forçar estilos de desktop no clone para evitar cortes
+            const grid = clone.querySelector('.main-grid');
+            grid.style.display = 'grid';
+            grid.style.gridTemplateColumns = '1.6fr 1fr';
+            grid.style.width = '800px';
+            grid.style.padding = '30px';
+            
+            const hero = clone.querySelector('.hero-status');
+            hero.style.padding = '30px';
+            
+            const navbar = clone.querySelector('.navbar');
+            navbar.style.padding = '15px 30px';
+
+            worker.appendChild(clone);
+            document.body.appendChild(worker);
+
             const nome = document.getElementById('client-name').textContent.trim();
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
             const opt = {
                 margin: 0,
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, width: element.offsetWidth },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    width: 800,
+                    windowWidth: 800
+                },
+                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(element).save().then(() => {
+            html2pdf().set(opt).from(worker).save().then(() => {
                 log('PDF Concluído!', 'sucesso');
+                document.body.removeChild(worker);
+            }).catch(err => {
+                log('Erro: ' + err.message, 'erro');
+                if(worker.parentNode) document.body.removeChild(worker);
             });
         }
 
