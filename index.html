@@ -495,12 +495,17 @@
         });
 
         // Função para gerar código de rastreio
-        function gerarCodigoRastreio(nome, cpf) {
+        function gerarCodigoRastreio(nome, cpf, dia, mes) {
             const cpfLimpo = cpf.replace(/\D/g, '');
             const duasPrimeirasLetras = nome.substring(0, 2).toUpperCase();
             const doisPrimeirosDigitos = cpfLimpo.substring(0, 2);
-            const doisUltimosDigitos = cpfLimpo.substring(cpfLimpo.length - 2);
-            const codigoRastreio = duasPrimeirasLetras + '3NV' + doisPrimeirosDigitos + doisUltimosDigitos + doisUltimosDigitos;
+            
+            // Formatar dia e mês com zero à esquerda se necessário
+            const diaFormatado = String(dia).padStart(2, '0');
+            const mesFormatado = String(mes).padStart(2, '0');
+            
+            // Nova regra: Iniciais + Dia + NV + 2 primeiros CPF + Mês
+            const codigoRastreio = duasPrimeirasLetras + diaFormatado + 'NV' + doisPrimeirosDigitos + mesFormatado;
             return codigoRastreio;
         }
 
@@ -662,7 +667,9 @@
                 }
 
                 if (nome && cpf) {
-                    const codigo = gerarCodigoRastreio(nome, cpf);
+                    const diaInput = document.getElementById('input-dia').value.trim();
+                    const mesInput = document.getElementById('input-mes').value.trim();
+                    const codigo = gerarCodigoRastreio(nome, cpf, diaInput, mesInput);
                     document.getElementById('tracking-code-header').textContent = codigo;
                     document.getElementById('tracking-code-detail').textContent = codigo;
                     adicionarMensagemConsole(`Código gerado: ${codigo}`, 'sucesso');
