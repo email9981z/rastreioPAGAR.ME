@@ -177,18 +177,20 @@
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
             const opt = {
-                margin: 0.3,
+                margin: [0.3, 0.3, 0.3, 0.3], // Margens uniformes em polegadas
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
+                image: { type: 'jpeg', quality: 1 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 1200, // Força a largura de desktop
+                    width: 1200,
                     windowWidth: 1200,
-                    scrollY: 0,
-                    scrollX: 0
+                    x: 0, // Garante que comece do pixel 0 na horizontal
+                    y: 0,
+                    scrollX: 0,
+                    scrollY: 0
                 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait', compress: true }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
