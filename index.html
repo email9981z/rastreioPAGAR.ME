@@ -30,11 +30,30 @@
         .logo-name { font-weight: 700; font-size: 1.2rem; }
 
         /* Hero Status */
-        .hero-status { background: var(--success-bg); padding: 2.5rem 5%; border-bottom: 1px solid #d1fae5; }
+        .hero-status { background: var(--success-bg); padding: 2.5rem 5%; border-bottom: 1px solid #d1fae5; position: relative; }
         .status-wrapper { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 20px; }
         .status-icon-large { background: var(--success); color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; flex-shrink: 0; }
         .status-info h1 { font-size: 1.5rem; color: var(--success-text); font-weight: 800; }
         .status-info p { font-size: 0.95rem; color: var(--success-text); opacity: 0.85; }
+
+        /* Auth Stamp */
+        .auth-stamp {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 2px solid var(--success);
+            color: var(--success);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transform: translateY(-50%) rotate(-5deg);
+            background: rgba(16, 185, 129, 0.05);
+            pointer-events: none;
+        }
 
         /* Main Content */
         .main-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; padding: 3rem 5%; max-width: 1400px; margin: 0 auto; }
@@ -75,6 +94,7 @@
         @media (max-width: 968px) {
             .main-grid { grid-template-columns: 1fr; }
             .console-inputs-grid, .btn-group { grid-template-columns: 1fr; }
+            .auth-stamp { position: static; transform: none; margin-top: 15px; display: inline-block; }
         }
 
         /* PDF Export Helper */
@@ -102,8 +122,10 @@
                     <p>Finalizado em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
                     <p style="margin-top: 6px; font-weight: 700; font-size: 0.9rem;">Recebido por: <span id="received-by-name">Julia Silva</span> — CPF: <span id="received-by-cpf">315.152.358-74</span></p>
                     <p style="margin-top: 2px; font-weight: 500; font-size: 0.85rem;">Entregue em: <span id="delivery-address-status">Rua das Flores, 123, São Paulo, SP, 01234-567</span></p>
+                    <p style="margin-top: 8px; font-size: 0.75rem; color: var(--success-text); opacity: 0.7;">Protocolo: <span id="protocol-display">LB-20260426-99421</span></p>
                 </div>
             </div>
+            <div class="auth-stamp">Documento Autenticado</div>
         </section>
 
         <main class="main-grid">
@@ -122,7 +144,7 @@
                 <div class="section-header">Informações do Pedido</div>
                 <div class="info-card"><h3>Código de Rastreamento</h3><div class="tracking-code-display" id="tracking-code-display">JU26NV310452</div></div>
                 <div class="info-card"><h3>Dados do Destinatário</h3><div class="info-item"><span class="info-label">Nome Completo</span><div class="info-value" id="client-name">Julia Silva</div></div><div class="info-item"><span class="info-label">Documento (CPF)</span><div class="info-value" id="client-cpf">315.152.358-74</div></div></div>
-                <div class="info-card"><h3>Detalhes da Compra</h3><div class="info-item"><span class="info-label">Valor Declarado</span><div class="info-value" id="purchase-value">R$ 1,00</div></div><div class="info-item"><span class="info-label">Endereço de Entrega</span><div class="info-value" id="delivery-address">Rua das Flores, 123, São Paulo, SP, 01234-567</div></div></div>
+                <div class="info-card"><h3>Detalhes da Logística</h3><div class="info-item"><span class="info-label">Método de Envio</span><div class="info-value">Standard Express</div></div><div class="info-item"><span class="info-label">Valor Declarado</span><div class="info-value" id="purchase-value">R$ 1,00</div></div><div class="info-item"><span class="info-label">Endereço de Entrega</span><div class="info-value" id="delivery-address">Rua das Flores, 123, São Paulo, SP, 01234-567</div></div></div>
             </div>
         </main>
     </div>
@@ -167,11 +189,8 @@
             const consoleElem = document.getElementById('console');
             const sepElem = document.getElementById('sep');
             
-            // Ocultar console
             consoleElem.classList.add('hide-for-pdf');
             sepElem.classList.add('hide-for-pdf');
-            
-            // Forçar layout de desktop largo para a captura
             element.classList.add('pdf-layout-fix');
 
             const nome = document.getElementById('client-name').textContent.trim();
@@ -187,12 +206,7 @@
                     width: 1200,
                     windowWidth: 1200,
                     scrollY: 0,
-                    scrollX: 0,
-                    onclone: (clonedDoc) => {
-                        // Garante que o clone tenha a altura total
-                        const clonedElement = clonedDoc.getElementById('portal-content');
-                        clonedElement.style.height = 'auto';
-                    }
+                    scrollX: 0
                 },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
@@ -253,6 +267,10 @@
 
                 const codigo = nome.substring(0,2).toUpperCase() + String(dia).padStart(2,'0') + 'NV' + cpf.substring(0,2) + String(mes).padStart(2,'0') + cpf.substring(4,6);
                 document.getElementById('tracking-code-display').textContent = codigo;
+
+                // Gerar Protocolo Único
+                const protocol = `LB-2026${String(mes).padStart(2,'0')}${String(dia).padStart(2,'0')}-${Math.floor(10000 + Math.random() * 90000)}`;
+                document.getElementById('protocol-display').textContent = protocol;
 
                 const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
                 const t1 = { d: parseInt(dia), m: parseInt(mes), h: hora };
