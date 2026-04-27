@@ -4,359 +4,376 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rastreamento de Encomenda | Logística Brasil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #003d82;
-            --secondary-color: #ffc72c;
-            --success-color: #27ae60;
-            --text-dark: #333333;
-            --text-light: #666666;
-            --bg-white: #ffffff;
-            --bg-gray: #f5f5f5;
-            --border-gray: #dddddd;
-            --delivered-bg: #d4edda;
-            --delivered-border: #c3e6cb;
-            --delivered-text: #155724;
+            --primary: #003d82;
+            --primary-light: #0056b3;
+            --secondary: #ffc72c;
+            --success: #10b981;
+            --success-bg: #ecfdf5;
+            --success-text: #065f46;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --bg-body: #f3f4f6;
+            --bg-card: #ffffff;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: var(--bg-gray);
-            color: var(--text-dark);
-            line-height: 1.6;
-            padding: 20px;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 16px;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 900px;
-            margin: 30px auto;
-            background: var(--bg-white);
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 850px;
+            margin: 20px auto;
+            background: var(--bg-card);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
             overflow: hidden;
+            border: 1px solid var(--border);
         }
 
-        /* Header */
+        /* Header Estilizado */
         header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #005a9e 100%);
+            background: var(--primary);
+            padding: 32px;
             color: white;
-            padding: 24px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.4rem;
-            letter-spacing: 1px;
-        }
-
-        .tracking-number-header {
-            text-align: right;
-            font-size: 0.9rem;
-        }
-
-        .tracking-number-header label {
-            display: block;
-            opacity: 0.9;
-            font-size: 0.8rem;
-            margin-bottom: 4px;
-        }
-
-        .tracking-number-header .number {
-            font-size: 1.1rem;
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-        }
-
-        /* Status Section */
-        .status-section {
-            background: var(--delivered-bg);
-            border-left: 5px solid var(--success-color);
-            padding: 20px 32px;
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 16px;
         }
 
-        .status-icon {
-            font-size: 2.5rem;
-            color: var(--success-color);
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .status-content h2 {
-            color: var(--delivered-text);
-            font-size: 1.3rem;
-            margin-bottom: 4px;
+        .logo-icon {
+            background: var(--secondary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.2rem;
         }
 
-        .status-content p {
-            color: var(--delivered-text);
-            font-size: 0.95rem;
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.025em;
         }
 
-        /* Main Content */
-        .content {
+        .tracking-info {
+            text-align: right;
+        }
+
+        .tracking-info span {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .tracking-info strong {
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* Banner de Status */
+        .status-banner {
+            background: var(--success-bg);
+            padding: 24px 32px;
+            border-bottom: 1px solid #d1fae5;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .status-badge-icon {
+            background: var(--success);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 4px #d1fae5;
+        }
+
+        .status-text h1 {
+            font-size: 1.25rem;
+            color: var(--success-text);
+            font-weight: 700;
+        }
+
+        .status-text p {
+            font-size: 0.9rem;
+            color: var(--success-text);
+            opacity: 0.9;
+        }
+
+        /* Conteúdo Principal */
+        .main-content {
             padding: 32px;
         }
 
-        /* Timeline */
+        .section-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Timeline Moderna */
         .timeline {
             position: relative;
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
-            left: 19px;
-            top: 0;
-            bottom: 0;
+            left: 11px;
+            top: 8px;
+            bottom: 8px;
             width: 2px;
-            background: var(--border-gray);
+            background: var(--border);
         }
 
         .timeline-item {
             position: relative;
-            margin-bottom: 28px;
-            padding-left: 60px;
+            padding-left: 44px;
+            margin-bottom: 32px;
         }
 
-        .timeline-item::before {
-            content: '';
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
             position: absolute;
             left: 0;
-            top: 0;
-            width: 40px;
-            height: 40px;
-            background: var(--success-color);
-            border: 3px solid var(--bg-white);
+            top: 4px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 2px solid var(--border);
             border-radius: 50%;
-            box-shadow: 0 0 0 2px var(--success-color);
+            z-index: 1;
+            transition: all 0.3s ease;
         }
 
-        .timeline-item h3 {
+        .timeline-item.active .timeline-dot {
+            background: var(--success);
+            border-color: var(--success);
+            box-shadow: 0 0 0 4px var(--success-bg);
+        }
+
+        .timeline-content h3 {
             font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-dark);
+            font-weight: 600;
+            color: var(--text-main);
             margin-bottom: 4px;
         }
 
-        .timeline-item .date {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-bottom: 4px;
+        .timeline-content .time-stamp {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--primary);
+            background: #eff6ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 6px;
         }
 
-        .timeline-item p {
-            font-size: 0.9rem;
-            color: var(--text-light);
+        .timeline-content p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
         }
 
-        /* Details Section */
-        .details-section {
-            background: var(--bg-gray);
-            padding: 24px 32px;
-            border-top: 1px solid var(--border-gray);
-        }
-
-        .details-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-        }
-
+        /* Grid de Detalhes */
         .details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
         }
 
-        .detail-item {
-            background: var(--bg-white);
-            padding: 16px;
-            border-radius: 4px;
-            border: 1px solid var(--border-gray);
+        .detail-card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
         }
 
-        .detail-item label {
+        .detail-card:hover {
+            border-color: var(--primary);
+        }
+
+        .detail-card label {
             display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-light);
-            margin-bottom: 8px;
+            font-size: 0.7rem;
             font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
         }
 
-        .detail-item p {
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--text-dark);
-            word-break: break-word;
+        .detail-card p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
         }
 
-        .detail-item.highlight {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
-            border: 1px solid #b3d9ff;
-        }
-
-        .detail-item.highlight p {
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            color: var(--primary-color);
+        .detail-card.full-width {
+            grid-column: 1 / -1;
         }
 
         /* Console Section */
-        .console-section {
-            padding: 32px;
-            background: var(--bg-gray);
-            border-top: 2px solid var(--border-gray);
+        .console-area {
+            margin-top: 40px;
+            background: #111827;
+            border-radius: 12px;
+            padding: 24px;
+            color: #10b981;
         }
 
-        .console-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-dark);
-            margin-bottom: 16px;
-        }
-
-        .instruction-box {
-            background: #e7f3ff;
-            border-left: 4px solid var(--primary-color);
-            padding: 12px 16px;
-            border-radius: 4px;
-            margin-bottom: 16px;
-            font-size: 0.9rem;
-            color: #004085;
-            line-height: 1.5;
-        }
-
-        .console-box {
-            background: #1e1e1e;
-            color: #00ff00;
-            padding: 16px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            overflow-x: auto;
-            max-height: 180px;
-            overflow-y: auto;
-            border: 1px solid #333;
-            margin-bottom: 12px;
-        }
-
-        .console-input-group {
+        .console-header {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 12px;
         }
 
-        .console-input-group input {
-            flex: 1;
-            min-width: 200px;
-            padding: 12px;
-            border: 1px solid var(--border-gray);
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-
-        .console-input-group button {
-            padding: 12px 24px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.3s;
+        .console-header h2 {
+            font-size: 0.875rem;
+            color: #9ca3af;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .console-log {
+            font-family: 'Fira Code', 'Courier New', monospace;
             font-size: 0.85rem;
-            letter-spacing: 0.5px;
+            height: 150px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
-        .console-input-group button:hover {
-            background: #002a5c;
-        }
-
-        .date-time-inputs {
+        .console-inputs {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
-        .date-time-inputs input {
+        .console-inputs input {
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: white;
             padding: 10px;
-            border: 1px solid var(--border-gray);
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 0.9rem;
+            outline: none;
         }
 
-        .date-time-inputs label {
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-light);
-            margin-bottom: 4px;
-            font-weight: 700;
+        .console-inputs input:focus {
+            border-color: var(--primary-light);
         }
 
-        .date-time-group {
+        .json-input-group {
             display: flex;
-            flex-direction: column;
+            gap: 12px;
+        }
+
+        .json-input-group input {
+            flex: 1;
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+
+        .btn-exec {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 0 24px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-exec:hover {
+            background: var(--primary);
         }
 
         /* Responsividade */
-        @media (max-width: 768px) {
+        @media (max-width: 640px) {
             header {
+                padding: 24px;
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 12px;
             }
-
-            .tracking-number-header {
+            .tracking-info {
                 text-align: left;
             }
-
-            .console-input-group {
+            .status-banner {
+                padding: 20px;
+            }
+            .main-content {
+                padding: 20px;
+            }
+            .json-input-group {
                 flex-direction: column;
             }
-
-            .console-input-group input {
-                min-width: 100%;
-            }
-
-            .details-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .status-section {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .date-time-inputs {
-                grid-template-columns: 1fr;
+            .btn-exec {
+                padding: 12px;
             }
         }
     </style>
@@ -366,350 +383,213 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <div class="logo">📦 LOGÍSTICA BRASIL</div>
-            <div class="tracking-number-header">
-                <label>Código de Rastreio</label>
-                <div class="number" id="tracking-code-header">AN3NV536006</div>
+            <div class="logo-area">
+                <div class="logo-icon">LB</div>
+                <div class="logo-text">LOGÍSTICA BRASIL</div>
+            </div>
+            <div class="tracking-info">
+                <span>Código de Rastreio</span>
+                <strong id="tracking-code-header">JU26NV310452</strong>
             </div>
         </header>
 
-        <!-- Status Section -->
-        <div class="status-section">
-            <div class="status-icon">✓</div>
-            <div class="status-content">
-                <h2>Encomenda Entregue</h2>
-                <p>Sua encomenda foi entregue com sucesso em <strong id="delivery-date-status">26 de Abril de 2026 às 14:30</strong></p>
+        <!-- Status Banner -->
+        <div class="status-banner">
+            <div class="status-badge-icon">✓</div>
+            <div class="status-text">
+                <h1>Objeto Entregue</h1>
+                <p>Entrega realizada com sucesso em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
             </div>
         </div>
 
         <!-- Main Content -->
-        <div class="content">
+        <div class="main-content">
             <!-- Timeline -->
+            <div class="section-title">Histórico do Objeto</div>
             <div class="timeline">
-                <div class="timeline-item">
-                    <h3>Entregue</h3>
-                    <div class="date" id="date-entregue">26 de Abril de 2026 - 14:30</div>
-                    <p>Encomenda entregue ao destinatário.</p>
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="time-stamp" id="date-entregue">26 de Abril de 2026 - 14:30</div>
+                        <h3>Objeto entregue ao destinatário</h3>
+                        <p>A entrega foi finalizada no endereço de destino.</p>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <h3>Saiu para Entrega</h3>
-                    <div class="date" id="date-saiu-entrega">26 de Abril de 2026 - 10:47</div>
-                    <p>Encomenda saiu para entrega com o transportador.</p>
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="time-stamp" id="date-saiu-entrega">26 de Abril de 2026 - 10:47</div>
+                        <h3>Objeto saiu para entrega ao destinatário</h3>
+                        <p>O transportador está em rota para o endereço informado.</p>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <h3>Em Processamento</h3>
-                    <div class="date" id="date-processamento">26 de Abril de 2026 - 06:03</div>
-                    <p>Encomenda em processamento no centro de distribuição.</p>
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="time-stamp" id="date-processamento">26 de Abril de 2026 - 06:03</div>
+                        <h3>Objeto em processamento</h3>
+                        <p>Encomenda sendo triada no centro de distribuição regional.</p>
+                    </div>
                 </div>
 
-                <div class="timeline-item">
-                    <h3>Pedido Recebido</h3>
-                    <div class="date" id="date-pedido-recebido">26 de Abril de 2026 - 00:17</div>
-                    <p>Pedido recebido e registrado no sistema.</p>
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="time-stamp" id="date-pedido-recebido">26 de Abril de 2026 - 00:17</div>
+                        <h3>Objeto recebido</h3>
+                        <p>Pedido postado e integrado ao sistema de logística.</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Details Section -->
-        <div class="details-section">
-            <div class="details-title">Detalhes da Encomenda</div>
+            <!-- Detalhes -->
+            <div class="section-title">Dados da Entrega</div>
             <div class="details-grid">
-                <div class="detail-item highlight">
-                    <label>Código de Rastreio</label>
-                    <p id="tracking-code-detail">AN3NV536006</p>
-                </div>
-                <div class="detail-item">
+                <div class="detail-card">
                     <label>Destinatário</label>
-                    <p id="client-name">Ana Silva</p>
+                    <p id="client-name">Julia Silva</p>
                 </div>
-                <div class="detail-item">
-                    <label>CPF</label>
-                    <p id="client-cpf">533.478.668-60</p>
+                <div class="detail-card">
+                    <label>Documento (CPF)</label>
+                    <p id="client-cpf">315.152.358-74</p>
                 </div>
-                <div class="detail-item">
-                    <label>Valor da Encomenda</label>
-                    <p id="purchase-value">R$ 459,90</p>
+                <div class="detail-card">
+                    <label>Valor Declarado</label>
+                    <p id="purchase-value">R$ 1,00</p>
                 </div>
-                <div class="detail-item" style="grid-column: span 2;">
-                    <label>Endereço de Entrega</label>
-                    <p id="delivery-address">Avenida Paulista, 1578, Bela Vista - São Paulo, SP - CEP: 01310-200</p>
+                <div class="detail-card">
+                    <label>Código de Rastreio</label>
+                    <p id="tracking-code-detail" style="color: var(--primary); font-family: monospace;">JU26NV310452</p>
                 </div>
-            </div>
-        </div>
-
-        <!-- Console Section -->
-        <div class="console-section">
-            <div class="console-title">Console de Atualização</div>
-            
-            <div class="instruction-box">
-                <strong>Instruções:</strong> Preencha o Dia, Mês e Hora. A hora será formatada automaticamente com ":" enquanto você digita.
-            </div>
-
-            <div class="date-time-inputs">
-                <div class="date-time-group">
-                    <label for="input-dia">Dia (01-31)</label>
-                    <input type="text" id="input-dia" placeholder="26" maxlength="2">
-                </div>
-                <div class="date-time-group">
-                    <label for="input-mes">Mês (01-12)</label>
-                    <input type="text" id="input-mes" placeholder="04" maxlength="2">
-                </div>
-                <div class="date-time-group">
-                    <label for="input-hora">Hora (HH:MM)</label>
-                    <input type="text" id="input-hora" placeholder="14:30" maxlength="5">
+                <div class="detail-card full-width">
+                    <label>Endereço de Destino</label>
+                    <p id="delivery-address">Rua das Flores, 123, São Paulo, SP, 01234-567</p>
                 </div>
             </div>
 
-            <div class="console-box" id="console-output">
-> Sistema de rastreio inicializado.<br>
-> Aguardando entrada de dados...<br>
-            </div>
-
-            <div class="console-input-group">
-                <input 
-                    type="text" 
-                    id="console-input" 
-                    placeholder='{ "endereco_entrega": "...", "dados_cliente": "...", "valor_compra": "..." }'
-                />
-                <button onclick="executarComando()">Executar</button>
+            <!-- Console Area -->
+            <div class="console-area">
+                <div class="console-header">
+                    <h2>Terminal de Controle</h2>
+                    <span style="font-size: 0.7rem; opacity: 0.6;">v2.4.0-premium</span>
+                </div>
+                <div class="console-log" id="console-output">
+> Sistema LB-Logistics v2.4 inicializado...<br>
+> Aguardando entrada de dados para processamento.<br>
+                </div>
+                
+                <div class="console-inputs">
+                    <input type="text" id="input-dia" placeholder="Dia (26)" maxlength="2">
+                    <input type="text" id="input-mes" placeholder="Mês (04)" maxlength="2">
+                    <input type="text" id="input-hora" placeholder="Hora (14:30)" maxlength="5">
+                </div>
+                
+                <div class="json-input-group">
+                    <input type="text" id="console-input" placeholder='Cole o JSON aqui...'>
+                    <button class="btn-exec" onclick="executarComando()">PROCESSAR</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Meses em português
-        const meses = [
-            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-        ];
+        const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-        // Máscara automática para o campo de hora
-        document.getElementById('input-hora').addEventListener('input', function(e) {
+        // Máscara de Hora
+        document.getElementById('input-hora').addEventListener('input', e => {
             let v = e.target.value.replace(/\D/g, '');
-            if (v.length > 2) {
-                v = v.substring(0, 2) + ':' + v.substring(2, 4);
-            }
+            if (v.length > 2) v = v.substring(0, 2) + ':' + v.substring(2, 4);
             e.target.value = v;
         });
 
-        // Função para gerar código de rastreio
         function gerarCodigoRastreio(nome, cpf, dia, mes) {
             const cpfLimpo = cpf.replace(/\D/g, '');
-            const duasPrimeirasLetras = nome.substring(0, 2).toUpperCase();
-            const doisPrimeirosDigitos = cpfLimpo.substring(0, 2);
+            const iniciais = nome.substring(0, 2).toUpperCase();
+            const diaF = String(dia).padStart(2, '0');
+            const mesF = String(mes).padStart(2, '0');
+            const cpf12 = cpfLimpo.substring(0, 2);
+            const cpf56 = cpfLimpo.substring(4, 6); // 5º e 6º dígitos
             
-            // Formatar dia e mês com zero à esquerda se necessário
-            const diaFormatado = String(dia).padStart(2, '0');
-            const mesFormatado = String(mes).padStart(2, '0');
-            
-            // Nova regra: Iniciais + Dia + NV + 2 primeiros CPF + Mês
-            const codigoRastreio = duasPrimeirasLetras + diaFormatado + 'NV' + doisPrimeirosDigitos + mesFormatado;
-            return codigoRastreio;
+            // Regra: Iniciais + Dia + NV + 2 primeiros CPF + Mês + 5º e 6º CPF
+            return iniciais + diaF + 'NV' + cpf12 + mesF + cpf56;
         }
 
-        // Função para limpar aspas de strings
-        function limparAspas(texto) {
-            return texto.replace(/[""\"]/g, '').trim();
+        function limparAspas(t) { return t.replace(/[""\"]/g, '').trim(); }
+
+        function log(msg, type = 'info') {
+            const out = document.getElementById('console-output');
+            const icon = type === 'erro' ? '✗' : (type === 'sucesso' ? '✓' : '>');
+            out.innerHTML += `${icon} [${new Date().toLocaleTimeString()}] ${msg}<br>`;
+            out.scrollTop = out.scrollHeight;
         }
 
-        // Função para adicionar mensagem no console
-        function adicionarMensagemConsole(mensagem, tipo = 'info') {
-            const consoleOutput = document.getElementById('console-output');
-            const timestamp = new Date().toLocaleTimeString('pt-BR');
-            
-            let prefixo = '> ';
-            if (tipo === 'erro') prefixo = '✗ ';
-            if (tipo === 'sucesso') prefixo = '✓ ';
-            
-            consoleOutput.innerHTML += `${prefixo} [${timestamp}] ${mensagem}<br>`;
-            consoleOutput.scrollTop = consoleOutput.scrollHeight;
-        }
+        function formatarCPF(c) { return c.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'); }
 
-        // Função para formatar CPF
-        function formatarCPF(cpf) {
-            const cpfLimpo = cpf.replace(/\D/g, '');
-            return cpfLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-        }
-
-        // Função para formatar data em português
-        function formatarDataPT(dia, mes) {
-            const diaNum = parseInt(dia);
-            const mesNum = parseInt(mes) - 1;
-            return `${diaNum} de ${meses[mesNum]} de 2026`;
-        }
-
-        // Função para validar hora
-        function validarHora(hora) {
-            const regex = /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/;
-            return regex.test(hora);
-        }
-
-        // Função para subtrair horas e minutos de uma hora base
-        function subtrairTempo(hora, horasSub, minutosSub) {
+        function subtrairTempo(hora, hSub, mSub) {
             const [h, m] = hora.split(':').map(Number);
-            let totalMinutos = h * 60 + m - (horasSub * 60 + minutosSub);
-            
-            let diasRetrocedidos = 0;
-            while (totalMinutos < 0) {
-                totalMinutos += 24 * 60;
-                diasRetrocedidos++;
-            }
-            
-            const novasHoras = Math.floor(totalMinutos / 60);
-            const novosMinutos = totalMinutos % 60;
-            
-            return {
-                hora: `${String(novasHoras).padStart(2, '0')}:${String(novosMinutos).padStart(2, '0')}`,
-                diasRetrocedidos: diasRetrocedidos
-            };
+            let total = h * 60 + m - (hSub * 60 + mSub);
+            let dias = 0;
+            while (total < 0) { total += 1440; dias++; }
+            return { hora: `${String(Math.floor(total/60)).padStart(2,'0')}:${String(total%60).padStart(2,'0')}`, dias };
         }
 
-        // Função para calcular data anterior com base em dias retrocedidos
-        function calcularDataRetroativa(dia, mes, diasParaVoltar) {
-            let d = parseInt(dia);
-            let m = parseInt(mes);
-
-            for (let i = 0; i < diasParaVoltar; i++) {
+        function calcularData(dia, mes, diasVoltar) {
+            let d = parseInt(dia), m = parseInt(mes);
+            for (let i = 0; i < diasVoltar; i++) {
                 d--;
                 if (d < 1) {
-                    m--;
-                    if (m < 1) m = 12;
-                    const diasPorMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-                    d = diasPorMes[m - 1];
+                    m--; if (m < 1) m = 12;
+                    d = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m-1];
                 }
             }
-            return { dia: d, mes: m };
-        }
-
-        // Função para calcular datas e horários retroativos
-        function calcularDatasRetroativas(dia, mes, hora) {
-            const diaNum = parseInt(dia);
-            const mesNum = parseInt(mes);
-
-            if (diaNum < 1 || diaNum > 31 || mesNum < 1 || mesNum > 12) {
-                adicionarMensagemConsole('Dia ou mês inválido.', 'erro');
-                return null;
-            }
-
-            if (!validarHora(hora)) {
-                adicionarMensagemConsole('Hora incompleta ou inválida. Use HH:MM.', 'erro');
-                return null;
-            }
-
-            const datas = {};
-
-            // 1. Entregue
-            datas.entregue = { dia: diaNum, mes: mesNum, hora: hora };
-
-            // 2. Saiu para entrega (3h 43min antes)
-            const tSaiu = subtrairTempo(hora, 3, 43);
-            const dSaiu = calcularDataRetroativa(diaNum, mesNum, tSaiu.diasRetrocedidos);
-            datas.saiuEntrega = { dia: dSaiu.dia, mes: dSaiu.mes, hora: tSaiu.hora };
-
-            // 3. Em processamento (8h 27min antes)
-            const tProc = subtrairTempo(hora, 8, 27);
-            const dProc = calcularDataRetroativa(diaNum, mesNum, tProc.diasRetrocedidos);
-            datas.processamento = { dia: dProc.dia, mes: dProc.mes, hora: tProc.hora };
-
-            // 4. Pedido recebido (14h 13min antes)
-            const tRec = subtrairTempo(hora, 14, 13);
-            const dRec = calcularDataRetroativa(diaNum, mesNum, tRec.diasRetrocedidos);
-            datas.pedidoRecebido = { dia: dRec.dia, mes: dRec.mes, hora: tRec.hora };
-
-            return datas;
-        }
-
-        // Função para atualizar as datas na timeline
-        function atualizarDatasTimeline(datas) {
-            document.getElementById('date-entregue').textContent = 
-                `${formatarDataPT(datas.entregue.dia, datas.entregue.mes)} - ${datas.entregue.hora}`;
-            
-            document.getElementById('date-saiu-entrega').textContent = 
-                `${formatarDataPT(datas.saiuEntrega.dia, datas.saiuEntrega.mes)} - ${datas.saiuEntrega.hora}`;
-            
-            document.getElementById('date-processamento').textContent = 
-                `${formatarDataPT(datas.processamento.dia, datas.processamento.mes)} - ${datas.processamento.hora}`;
-            
-            document.getElementById('date-pedido-recebido').textContent = 
-                `${formatarDataPT(datas.pedidoRecebido.dia, datas.pedidoRecebido.mes)} - ${datas.pedidoRecebido.hora}`;
-
-            document.getElementById('delivery-date-status').textContent = 
-                `${formatarDataPT(datas.entregue.dia, datas.entregue.mes)} às ${datas.entregue.hora}`;
-        }
-
-        // Função para extrair dados do JSON
-        function extrairDados(json) {
-            try {
-                const dados = JSON.parse(json);
-                let nome = '', cpf = '';
-                
-                if (dados.dados_cliente) {
-                    const nomeMatch = dados.dados_cliente.match(/Nome:\s*([^,]+)/i);
-                    const cpfMatch = dados.dados_cliente.match(/CPF:\s*(\d+)/i);
-                    if (nomeMatch) {
-                        nome = nomeMatch[1].trim();
-                        document.getElementById('client-name').textContent = nome;
-                    }
-                    if (cpfMatch) {
-                        cpf = cpfMatch[1];
-                        document.getElementById('client-cpf').textContent = formatarCPF(cpf);
-                    }
-                }
-
-                if (dados.endereco_entrega) {
-                    document.getElementById('delivery-address').textContent = limparAspas(dados.endereco_entrega);
-                }
-
-                if (dados.valor_compra) {
-                    document.getElementById('purchase-value').textContent = 'R$ ' + dados.valor_compra;
-                }
-
-                if (nome && cpf) {
-                    const diaInput = document.getElementById('input-dia').value.trim();
-                    const mesInput = document.getElementById('input-mes').value.trim();
-                    const codigo = gerarCodigoRastreio(nome, cpf, diaInput, mesInput);
-                    document.getElementById('tracking-code-header').textContent = codigo;
-                    document.getElementById('tracking-code-detail').textContent = codigo;
-                    adicionarMensagemConsole(`Código gerado: ${codigo}`, 'sucesso');
-                }
-
-                adicionarMensagemConsole('Dados atualizados com sucesso!', 'sucesso');
-                return true;
-            } catch (erro) {
-                adicionarMensagemConsole('Erro ao processar JSON: ' + erro.message, 'erro');
-                return false;
-            }
+            return { d, m };
         }
 
         function executarComando() {
             const dia = document.getElementById('input-dia').value.trim();
             const mes = document.getElementById('input-mes').value.trim();
             const hora = document.getElementById('input-hora').value.trim();
-            const json = document.getElementById('console-input').value.trim();
+            const jsonStr = document.getElementById('console-input').value.trim();
 
-            if (!dia || !mes || !hora || !json) {
-                adicionarMensagemConsole('Preencha todos os campos e o JSON.', 'erro');
-                return;
-            }
+            if (!dia || !mes || !hora || !jsonStr) return log('Preencha todos os campos.', 'erro');
 
-            const datas = calcularDatasRetroativas(dia, mes, hora);
-            if (datas) {
-                atualizarDatasTimeline(datas);
-                if (extrairDados(json)) {
-                    document.getElementById('console-input').value = '';
+            try {
+                const dados = JSON.parse(jsonStr);
+                let nome = '', cpf = '';
+
+                if (dados.dados_cliente) {
+                    nome = (dados.dados_cliente.match(/Nome:\s*([^,]+)/i) || [])[1]?.trim();
+                    cpf = (dados.dados_cliente.match(/CPF:\s*(\d+)/i) || [])[1];
+                    document.getElementById('client-name').textContent = nome;
+                    document.getElementById('client-cpf').textContent = formatarCPF(cpf);
                 }
-            }
+
+                document.getElementById('delivery-address').textContent = limparAspas(dados.endereco_entrega || '');
+                document.getElementById('purchase-value').textContent = 'R$ ' + (dados.valor_compra || '0,00');
+
+                const codigo = gerarCodigoRastreio(nome, cpf, dia, mes);
+                document.getElementById('tracking-code-header').textContent = codigo;
+                document.getElementById('tracking-code-detail').textContent = codigo;
+
+                // Datas
+                const t1 = { d: parseInt(dia), m: parseInt(mes), h: hora };
+                const t2 = subtrairTempo(hora, 3, 43); const d2 = calcularData(dia, mes, t2.dias);
+                const t3 = subtrairTempo(hora, 8, 27); const d3 = calcularData(dia, mes, t3.dias);
+                const t4 = subtrairTempo(hora, 14, 13); const d4 = calcularData(dia, mes, t4.dias);
+
+                const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
+                document.getElementById('date-entregue').textContent = fmt(t1.d, t1.m, t1.h);
+                document.getElementById('date-saiu-entrega').textContent = fmt(d2.d, d2.m, t2.hora);
+                document.getElementById('date-processamento').textContent = fmt(d3.d, d3.m, t3.hora);
+                document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
+                document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
+
+                log(`Sucesso! Código: ${codigo}`, 'sucesso');
+                document.getElementById('console-input').value = '';
+            } catch (e) { log('Erro no JSON: ' + e.message, 'erro'); }
         }
-
-        document.getElementById('console-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') executarComando();
-        });
-
-        window.addEventListener('load', () => {
-            adicionarMensagemConsole('Sistema pronto.', 'sucesso');
-        });
     </script>
 </body>
 </html>
