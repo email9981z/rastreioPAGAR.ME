@@ -35,7 +35,7 @@
             overflow-x: hidden;
         }
 
-        /* Layout Full Width */
+        /* Navbar Responsiva */
         .navbar {
             background: var(--primary);
             padding: 1rem 5%;
@@ -44,6 +44,8 @@
             align-items: center;
             color: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .logo-container {
@@ -55,22 +57,22 @@
         .logo-box {
             background: var(--secondary);
             color: var(--primary);
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
             font-weight: 900;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .logo-name {
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             letter-spacing: -0.5px;
         }
 
         /* Hero Status Section */
         .hero-status {
             background: var(--success-bg);
-            padding: 3rem 5%;
+            padding: 2.5rem 5%;
             border-bottom: 1px solid #d1fae5;
         }
 
@@ -79,60 +81,63 @@
             margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 20px;
         }
 
         .status-icon-large {
             background: var(--success);
             color: white;
-            width: 64px;
-            height: 64px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.1);
+            font-size: 1.75rem;
+            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.1);
+            flex-shrink: 0;
         }
 
         .status-info h1 {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             color: var(--success-text);
             font-weight: 800;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .status-info p {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: var(--success-text);
-            opacity: 0.8;
+            opacity: 0.85;
+            line-height: 1.4;
         }
 
         /* Main Content Area */
         .main-grid {
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 40px;
-            padding: 4rem 5%;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 30px;
+            padding: 3rem 5%;
             max-width: 1400px;
             margin: 0 auto;
         }
 
         .section-header {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 800;
             text-transform: uppercase;
             color: var(--primary);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            letter-spacing: 0.05em;
         }
 
         .section-header::after {
             content: '';
             flex: 1;
-            height: 2px;
+            height: 1px;
             background: var(--border);
         }
 
@@ -143,27 +148,27 @@
 
         .timeline-line {
             position: absolute;
-            left: 15px;
+            left: 13px;
             top: 10px;
             bottom: 10px;
-            width: 3px;
+            width: 2px;
             background: #e2e8f0;
         }
 
         .event {
             position: relative;
-            padding-left: 50px;
-            margin-bottom: 40px;
+            padding-left: 45px;
+            margin-bottom: 35px;
         }
 
         .event-dot {
             position: absolute;
             left: 0;
             top: 0;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             background: white;
-            border: 3px solid #cbd5e1;
+            border: 2px solid #cbd5e1;
             border-radius: 50%;
             z-index: 2;
         }
@@ -175,49 +180,50 @@
         }
 
         .event-date {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .event-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .event-desc {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
+            line-height: 1.5;
         }
 
         /* Info Cards */
         .info-sidebar {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         .info-card {
             background: var(--bg-section);
-            padding: 24px;
+            padding: 20px;
             border-radius: 12px;
             border: 1px solid var(--border);
         }
 
         .info-card h3 {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             font-weight: 700;
             letter-spacing: 0.05em;
         }
 
         .info-item {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .info-item:last-child {
@@ -225,58 +231,61 @@
         }
 
         .info-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
             display: block;
             margin-bottom: 2px;
+            font-weight: 600;
         }
 
         .info-value {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-main);
+            word-break: break-word;
         }
 
         .tracking-code-display {
-            font-family: 'Monaco', monospace;
+            font-family: 'Monaco', 'Consolas', monospace;
             background: white;
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
             border: 1px dashed var(--primary);
             color: var(--primary);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-align: center;
-            margin-top: 8px;
+            margin-top: 6px;
+            font-weight: 700;
         }
 
         /* Footer Separator */
         .footer-separator {
-            height: 100px;
+            height: 60px;
             background: #f3f4f6;
             border-top: 1px solid var(--border);
-            margin-top: 4rem;
+            margin-top: 2rem;
         }
 
         /* Admin Console - Bloco Separado no Final */
         .admin-console-wrapper {
             background: #0f172a;
-            padding: 60px 5%;
+            padding: 40px 5%;
             border-top: 4px solid #334155;
         }
 
         .admin-console-container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
             background: #1e293b;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
             border: 1px solid #334155;
         }
 
         .console-header {
             background: #020617;
-            padding: 16px 24px;
+            padding: 14px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -284,19 +293,19 @@
 
         .console-title {
             color: #94a3b8;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.12em;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .console-title::before {
             content: '';
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: #ef4444;
             border-radius: 50%;
             animation: blink 1s infinite;
@@ -308,19 +317,19 @@
         }
 
         .console-body {
-            padding: 32px;
+            padding: 24px;
         }
 
         .console-output {
             background: #000;
-            height: 180px;
+            height: 150px;
             border-radius: 8px;
-            padding: 15px;
+            padding: 12px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #10b981;
             overflow-y: auto;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             border: 1px solid #334155;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
@@ -328,19 +337,19 @@
         .console-inputs-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
         .console-inputs-grid div {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
         }
 
         .console-inputs-grid label {
             color: #64748b;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
             text-transform: uppercase;
         }
@@ -349,62 +358,94 @@
             background: #0f172a;
             border: 1px solid #334155;
             color: #f8fafc;
-            padding: 12px;
+            padding: 10px;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .console-inputs-grid input:focus, .json-input:focus {
-            border-color: #3b82f6;
+            width: 100%;
         }
 
         .json-input-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin-bottom: 24px;
+            gap: 4px;
+            margin-bottom: 20px;
         }
 
-        .json-input {
-            width: 100%;
-            font-family: monospace;
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 12px;
         }
 
         .btn-process {
-            width: 100%;
             background: #3b82f6;
             color: white;
             border: none;
-            padding: 16px;
+            padding: 14px;
             border-radius: 6px;
             font-weight: 800;
             cursor: pointer;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 0.05em;
             transition: all 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
         }
 
         .btn-process:hover {
             background: #2563eb;
             transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
         }
 
-        .btn-process:active {
-            transform: translateY(0);
+        .btn-pdf {
+            background: #10b981;
         }
 
-        /* Responsividade */
+        .btn-pdf:hover {
+            background: #059669;
+        }
+
+        /* Responsividade Mobile */
         @media (max-width: 968px) {
             .main-grid {
                 grid-template-columns: 1fr;
+                padding: 2rem 5%;
+                gap: 40px;
+            }
+            .status-wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+            .status-icon-large {
+                width: 64px;
+                height: 64px;
+            }
+            .status-info h1 {
+                font-size: 1.4rem;
             }
             .console-inputs-grid {
                 grid-template-columns: 1fr;
+            }
+            .btn-group {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-name {
+                font-size: 1rem;
+            }
+            .hero-status {
+                padding: 2rem 5%;
+            }
+            .event-title {
+                font-size: 0.95rem;
+            }
+            .event-desc {
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -417,7 +458,7 @@
             <div class="logo-box">LB</div>
             <div class="logo-name">LOGÍSTICA BRASIL</div>
         </div>
-        <div style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">PORTAL DO CLIENTE</div>
+        <div style="font-size: 0.75rem; font-weight: 700; opacity: 0.8; letter-spacing: 0.05em;">PORTAL DO CLIENTE</div>
     </nav>
 
     <!-- Hero Status -->
@@ -427,6 +468,7 @@
             <div class="status-info">
                 <h1>Objeto Entregue</h1>
                 <p>Finalizado em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
+                <p style="margin-top: 6px; font-weight: 700; opacity: 1; font-size: 0.9rem;">Recebido por: <span id="received-by-name">Julia Silva</span> — CPF: <span id="received-by-cpf">315.152.358-74</span></p>
             </div>
         </div>
     </section>
@@ -512,11 +554,11 @@
         <div class="admin-console-container">
             <div class="console-header">
                 <div class="console-title">LB Logistics Admin Terminal</div>
-                <div style="color: #334155; font-size: 0.7rem; font-weight: 700;">SECURE ACCESS</div>
+                <div style="color: #334155; font-size: 0.65rem; font-weight: 800;">SECURE ACCESS</div>
             </div>
             <div class="console-body">
                 <div class="console-output" id="console-output">
-> LB-Logistics Terminal v3.2.0 initialized.<br>
+> LB-Logistics Terminal v3.5.0 initialized.<br>
 > System status: ONLINE<br>
 > Waiting for data packet...<br>
                 </div>
@@ -537,13 +579,13 @@
                 </div>
                 
                 <div class="json-input-wrapper">
-                    <label style="color: #64748b; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">JSON Data Packet</label>
+                    <label style="color: #64748b; font-size: 0.65rem; font-weight: 700; text-transform: uppercase;">JSON Data Packet</label>
                     <input type="text" id="console-input" class="json-input" placeholder='{ "endereco_entrega": "...", "dados_cliente": "...", "valor_compra": "..." }'>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px;">
-                    <button class="btn-process" onclick="executarComando()">Update Portal Database</button>
-                    <button class="btn-process" style="background: #10b981; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);" onclick="exportarPDF()">Exportar PDF</button>
+                <div class="btn-group">
+                    <button class="btn-process" onclick="executarComando()">Update Database</button>
+                    <button class="btn-process btn-pdf" onclick="exportarPDF()">Export PDF</button>
                 </div>
             </div>
         </div>
@@ -602,27 +644,15 @@
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
             const opt = {
-                margin: [0.2, 0, 0.2, 0], // Margens pequenas para não cortar
+                margin: [0.2, 0, 0.2, 0],
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2, 
-                    useCORS: true, 
-                    scrollY: 0,
-                    windowWidth: 1400 // Força a largura total no canvas
-                },
+                html2canvas: { scale: 2, useCORS: true, scrollY: 0, windowWidth: 1200 },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-                ignoreElements: (el) => {
-                    // Ignora o console e qualquer wrapper relacionado a ele
-                    return el.classList.contains('admin-console-wrapper') || 
-                           el.classList.contains('footer-separator') || 
-                           el.id === 'admin-console';
-                }
+                ignoreElements: (el) => el.classList.contains('admin-console-wrapper') || el.classList.contains('footer-separator')
             };
             
-            log('Iniciando exportação para PDF...', 'info');
-            
-            // Ocultar temporariamente o console para garantir que não apareça no PDF
+            log('Iniciando exportação...', 'info');
             const consoleWrapper = document.querySelector('.admin-console-wrapper');
             const separator = document.querySelector('.footer-separator');
             if(consoleWrapper) consoleWrapper.style.display = 'none';
@@ -630,11 +660,10 @@
 
             html2pdf().set(opt).from(element).save().then(() => {
                 log('PDF exportado com sucesso!', 'sucesso');
-                // Restaurar visibilidade do console após a geração
                 if(consoleWrapper) consoleWrapper.style.display = 'block';
                 if(separator) separator.style.display = 'block';
             }).catch(err => {
-                log('Erro ao exportar: ' + err.message, 'erro');
+                log('Erro: ' + err.message, 'erro');
                 if(consoleWrapper) consoleWrapper.style.display = 'block';
                 if(separator) separator.style.display = 'block';
             });
@@ -646,15 +675,18 @@
             const hora = document.getElementById('input-hora').value.trim();
             const jsonStr = document.getElementById('console-input').value.trim();
 
-            if (!dia || !mes || !hora || !jsonStr) return log('Error: Missing required fields.', 'erro');
+            if (!dia || !mes || !hora || !jsonStr) return log('Error: Missing fields.', 'erro');
 
             try {
                 const dados = JSON.parse(jsonStr);
                 let nome = (dados.dados_cliente.match(/Nome:\s*([^,]+)/i) || [])[1]?.trim();
                 let cpf = (dados.dados_cliente.match(/CPF:\s*(\d+)/i) || [])[1];
                 
+                const cpfFmt = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
                 document.getElementById('client-name').textContent = nome;
-                document.getElementById('client-cpf').textContent = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                document.getElementById('client-cpf').textContent = cpfFmt;
+                document.getElementById('received-by-name').textContent = nome;
+                document.getElementById('received-by-cpf').textContent = cpfFmt;
                 document.getElementById('delivery-address').textContent = dados.endereco_entrega.replace(/[""\"]/g, '').trim();
                 document.getElementById('purchase-value').textContent = 'R$ ' + dados.valor_compra;
 
@@ -662,7 +694,6 @@
                 document.getElementById('tracking-code-display').textContent = codigo;
 
                 const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
-                
                 const t1 = { d: parseInt(dia), m: parseInt(mes), h: hora };
                 const t2 = subtrairTempo(hora, 3, 43); const d2 = calcularData(dia, mes, t2.dias);
                 const t3 = subtrairTempo(hora, 8, 27); const d3 = calcularData(dia, mes, t3.dias);
@@ -674,9 +705,9 @@
                 document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
                 document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
 
-                log(`Database Updated Successfully. Tracking ID: ${codigo}`, 'sucesso');
+                log(`Database Updated: ${codigo}`, 'sucesso');
                 document.getElementById('console-input').value = '';
-            } catch (e) { log('Critical Error: Invalid JSON structure.', 'erro'); }
+            } catch (e) { log('Critical Error: Invalid JSON.', 'erro'); }
         }
     </script>
 </body>
