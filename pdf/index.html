@@ -108,20 +108,20 @@
     <div id="portal-content">
         <nav class="navbar">
             <div class="logo-container">
-                <div class="logo-box">LB</div>
-                <div class="logo-name">LOGÍSTICA BRASIL</div>
+                <div class="logo-box">RC</div>
+                <div class="logo-name">RASTREIOS-ENCO</div>
             </div>
-            <div style="font-size: 0.75rem; font-weight: 700; opacity: 0.8;">PORTAL DO CLIENTE</div>
+            <div style="font-size: 0.75rem; font-weight: 700; opacity: 0.8;">PORTAL DE RASTREIO</div>
         </nav>
 
         <section class="hero-status">
             <div class="status-wrapper">
                 <div class="status-icon-large">✓</div>
                 <div class="status-info">
-                    <h1>Objeto Entregue</h1>
-                    <p>Finalizado em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
+                    <h1>Encomenda Entregue</h1>
+                    <p>Entregue em <span id="delivery-date-status">26 de Abril de 2026 às 14:30</span></p>
                     <p style="margin-top: 6px; font-weight: 700; font-size: 0.9rem;">Recebido por: <span id="received-by-name">Julia Silva</span> — CPF: <span id="received-by-cpf">315.152.358-74</span></p>
-                    <p style="margin-top: 2px; font-weight: 500; font-size: 0.85rem;">Entregue em: <span id="delivery-address-status">Rua das Flores, 123, São Paulo, SP, 01234-567</span></p>
+                    <p style="margin-top: 2px; font-weight: 500; font-size: 0.85rem;"><span id="delivery-address-status">Rua das Flores, 123, São Paulo, SP, 01234-567</span></p>
                     <p style="margin-top: 8px; font-size: 0.75rem; color: var(--success-text); opacity: 0.7;">Protocolo: <span id="protocol-display">LB-20260426-99421</span></p>
                 </div>
             </div>
@@ -133,17 +133,17 @@
                 <div class="section-header">Rastreamento Detalhado</div>
                 <div class="tracking-timeline">
                     <div class="timeline-line"></div>
-                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-entregue">26 de Abril de 2026 - 14:30</div><div class="event-title">Objeto entregue ao destinatário</div><div class="event-desc">A entrega foi concluída com sucesso.</div></div>
-                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-saiu-entrega">26 de Abril de 2026 - 10:47</div><div class="event-title">Objeto saiu para entrega</div><div class="event-desc">O transportador iniciou a rota de entrega.</div></div>
-                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-processamento">26 de Abril de 2026 - 06:03</div><div class="event-title">Em processamento logístico</div><div class="event-desc">Sua encomenda está sendo preparada.</div></div>
-                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-pedido-recebido">26 de Abril de 2026 - 00:17</div><div class="event-title">Objeto recebido na unidade</div><div class="event-desc">Encomenda integrada ao sistema.</div></div>
+                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-entregue">26 de Abril de 2026 - 14:30</div><div class="event-title">Encomenda entregue ao destinatário</div><div class="event-desc">A entrega foi concluída com sucesso.</div></div>
+                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-saiu-entrega">26 de Abril de 2026 - 10:47</div><div class="event-title">Encomenda saiu para entrega</div><div class="event-desc">O transportador iniciou a rota de entrega.</div></div>
+                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-processamento">26 de Abril de 2026 - 06:03</div><div class="event-title">Em Processamento logístico</div><div class="event-desc">Sua encomenda está sendo preparada para o Envio.</div></div>
+                    <div class="event completed"><div class="event-dot"></div><div class="event-date" id="date-pedido-recebido">26 de Abril de 2026 - 00:17</div><div class="event-title">Pedido recebido e Aprovado</div><div class="event-desc">Pedido aprovado pelo sistema.</div></div>
                 </div>
             </div>
 
             <div class="info-sidebar">
                 <div class="section-header">Informações do Pedido</div>
-                <div class="info-card"><h3>Código de Rastreamento</h3><div class="tracking-code-display" id="tracking-code-display">JU26NV310452</div></div>
-                <div class="info-card"><h3>Dados do Destinatário</h3><div class="info-item"><span class="info-label">Nome Completo</span><div class="info-value" id="client-name">Julia Silva</div></div><div class="info-item"><span class="info-label">Documento (CPF)</span><div class="info-value" id="client-cpf">315.152.358-74</div></div></div>
+                <div class="info-card"><h3>Código de Rastreio</h3><div class="tracking-code-display" id="tracking-code-display">JU26NV310452</div></div>
+                <div class="info-card"><h3>Dados do Destinatário</h3><div class="info-item"><span class="info-label">Nome do Cliente</span><div class="info-value" id="client-name">Julia Silva</div></div><div class="info-item"><span class="info-label">Documento (CPF)</span><div class="info-value" id="client-cpf">315.152.358-74</div></div></div>
                 <div class="info-card"><h3>Detalhes da Logística</h3><div class="info-item"><span class="info-label">Método de Envio</span><div class="info-value">Standard Express</div></div><div class="info-item"><span class="info-label">Valor Declarado</span><div class="info-value" id="purchase-value">R$ 1,00</div></div><div class="info-item"><span class="info-label">Endereço de Entrega</span><div class="info-value" id="delivery-address">Rua das Flores, 123, São Paulo, SP, 01234-567</div></div></div>
             </div>
         </main>
