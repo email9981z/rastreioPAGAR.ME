@@ -78,7 +78,8 @@
         }
 
         /* PDF Export Helper */
-        .hide-for-pdf { display: none !important; }
+        .pdf-export-mode { width: 1200px !important; }
+        .pdf-export-mode .main-grid { grid-template-columns: 1.6fr 1fr !important; display: grid !important; width: 1200px !important; }
     </style>
 </head>
 <body>
@@ -159,39 +160,47 @@
         }
 
         function exportarPDF() {
-            log('Gerando PDF...', 'info');
+            log('Iniciando captura total...', 'info');
             
             const element = document.getElementById('portal-content');
             const consoleElem = document.getElementById('console');
             const sepElem = document.getElementById('sep');
             
             // Ocultar console
-            consoleElem.classList.add('hide-for-pdf');
-            sepElem.classList.add('hide-for-pdf');
+            consoleElem.style.display = 'none';
+            sepElem.style.display = 'none';
+            
+            // Forçar modo desktop para a captura
+            element.classList.add('pdf-export-mode');
 
             const nome = document.getElementById('client-name').textContent.trim();
             const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
             
             const opt = {
-                margin: 0.2,
+                margin: 0.3,
                 filename: `Rastreio - ${nome} - ${cpf}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    letterRendering: true
+                    width: 1200, // Força a largura de desktop
+                    windowWidth: 1200,
+                    scrollY: 0,
+                    scrollX: 0
                 },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                log('PDF Concluído!', 'sucesso');
-                consoleElem.classList.remove('hide-for-pdf');
-                sepElem.classList.remove('hide-for-pdf');
+                log('PDF Gerado com Sucesso!', 'sucesso');
+                consoleElem.style.display = 'block';
+                sepElem.style.display = 'block';
+                element.classList.remove('pdf-export-mode');
             }).catch(err => {
                 log('Erro: ' + err.message, 'erro');
-                consoleElem.classList.remove('hide-for-pdf');
-                sepElem.classList.remove('hide-for-pdf');
+                consoleElem.style.display = 'block';
+                sepElem.style.display = 'block';
+                element.classList.remove('pdf-export-mode');
             });
         }
 
