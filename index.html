@@ -400,13 +400,13 @@
 
                 <div class="timeline-item">
                     <h3>Em Processamento</h3>
-                    <div class="date" id="date-processamento">26 de Abril de 2026 - 06:30</div>
+                    <div class="date" id="date-processamento">26 de Abril de 2026 - 06:03</div>
                     <p>Encomenda em processamento no centro de distribuição.</p>
                 </div>
 
                 <div class="timeline-item">
                     <h3>Pedido Recebido</h3>
-                    <div class="date" id="date-pedido-recebido">25 de Abril de 2026 - 23:30</div>
+                    <div class="date" id="date-pedido-recebido">26 de Abril de 2026 - 00:17</div>
                     <p>Pedido recebido e registrado no sistema.</p>
                 </div>
             </div>
@@ -444,7 +444,7 @@
             <div class="console-title">Console de Atualização</div>
             
             <div class="instruction-box">
-                <strong>Instruções:</strong> Preencha o Dia (01-31), Mês (01-12) e Hora (HH:MM) de entrega, depois cole o JSON e clique em "Executar". O ano é 2026 por padrão.
+                <strong>Instruções:</strong> Preencha o Dia, Mês e Hora. A hora será formatada automaticamente com ":" enquanto você digita.
             </div>
 
             <div class="date-time-inputs">
@@ -484,6 +484,15 @@
             'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
             'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
         ];
+
+        // Máscara automática para o campo de hora
+        document.getElementById('input-hora').addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 2) {
+                v = v.substring(0, 2) + ':' + v.substring(2, 4);
+            }
+            e.target.value = v;
+        });
 
         // Função para gerar código de rastreio
         function gerarCodigoRastreio(nome, cpf) {
@@ -532,24 +541,15 @@
             return regex.test(hora);
         }
 
-        // Função para formatar hora no padrão 00:00
-        function formatarHora(hora) {
-            if (!validarHora(hora)) {
-                return null;
-            }
-            return hora;
-        }
-
-        // Função para subtrair horas de uma hora base
-        function subtrairHoras(hora, horas, minutos) {
+        // Função para subtrair horas e minutos de uma hora base
+        function subtrairTempo(hora, horasSub, minutosSub) {
             const [h, m] = hora.split(':').map(Number);
-            let totalMinutos = h * 60 + m - (horas * 60 + minutos);
+            let totalMinutos = h * 60 + m - (horasSub * 60 + minutosSub);
             
-            // Se ficar negativo, voltar para o dia anterior
-            let diaAnterior = false;
-            if (totalMinutos < 0) {
+            let diasRetrocedidos = 0;
+            while (totalMinutos < 0) {
                 totalMinutos += 24 * 60;
-                diaAnterior = true;
+                diasRetrocedidos++;
             }
             
             const novasHoras = Math.floor(totalMinutos / 60);
@@ -557,25 +557,25 @@
             
             return {
                 hora: `${String(novasHoras).padStart(2, '0')}:${String(novosMinutos).padStart(2, '0')}`,
-                diaAnterior: diaAnterior
+                diasRetrocedidos: diasRetrocedidos
             };
         }
 
-        // Função para calcular data anterior
-        function calcularDiaAnterior(dia, mes) {
-            let diaNum = parseInt(dia) - 1;
-            let mesNum = parseInt(mes);
+        // Função para calcular data anterior com base em dias retrocedidos
+        function calcularDataRetroativa(dia, mes, diasParaVoltar) {
+            let d = parseInt(dia);
+            let m = parseInt(mes);
 
-            if (diaNum < 1) {
-                mesNum -= 1;
-                if (mesNum < 1) {
-                    mesNum = 12;
+            for (let i = 0; i < diasParaVoltar; i++) {
+                d--;
+                if (d < 1) {
+                    m--;
+                    if (m < 1) m = 12;
+                    const diasPorMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                    d = diasPorMes[m - 1];
                 }
-                const diasPorMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-                diaNum = diasPorMes[mesNum - 1];
             }
-
-            return { dia: diaNum, mes: mesNum };
+            return { dia: d, mes: m };
         }
 
         // Função para calcular datas e horários retroativos
@@ -588,134 +588,84 @@
                 return null;
             }
 
-            const horaFormatada = formatarHora(hora);
-            if (!horaFormatada) {
-                adicionarMensagemConsole('Hora inválida. Use o formato HH:MM (ex: 14:30).', 'erro');
+            if (!validarHora(hora)) {
+                adicionarMensagemConsole('Hora incompleta ou inválida. Use HH:MM.', 'erro');
                 return null;
             }
 
             const datas = {};
 
-            // Data de entrega (conforme informado)
-            datas.entregue = {
-                dia: diaNum,
-                mes: mesNum,
-                hora: horaFormatada
-            };
+            // 1. Entregue
+            datas.entregue = { dia: diaNum, mes: mesNum, hora: hora };
 
-            // Saiu para entrega (3 horas e 43 minutos antes)
-            const saiuEntrega = subtrairHoras(horaFormatada, 3, 43);
-            let diaSaiuEntrega = diaNum;
-            let mesSaiuEntrega = mesNum;
-            if (saiuEntrega.diaAnterior) {
-                const diaAnt = calcularDiaAnterior(diaNum, mesNum);
-                diaSaiuEntrega = diaAnt.dia;
-                mesSaiuEntrega = diaAnt.mes;
-            }
-            datas.saiuEntrega = {
-                dia: diaSaiuEntrega,
-                mes: mesSaiuEntrega,
-                hora: saiuEntrega.hora
-            };
+            // 2. Saiu para entrega (3h 43min antes)
+            const tSaiu = subtrairTempo(hora, 3, 43);
+            const dSaiu = calcularDataRetroativa(diaNum, mesNum, tSaiu.diasRetrocedidos);
+            datas.saiuEntrega = { dia: dSaiu.dia, mes: dSaiu.mes, hora: tSaiu.hora };
 
-            // Em processamento (8 horas antes)
-            const emProcessamento = subtrairHoras(horaFormatada, 8, 0);
-            let diaProcessamento = diaNum;
-            let mesProcessamento = mesNum;
-            if (emProcessamento.diaAnterior) {
-                const diaAnt = calcularDiaAnterior(diaNum, mesNum);
-                diaProcessamento = diaAnt.dia;
-                mesProcessamento = diaAnt.mes;
-            }
-            datas.processamento = {
-                dia: diaProcessamento,
-                mes: mesProcessamento,
-                hora: emProcessamento.hora
-            };
+            // 3. Em processamento (8h 27min antes)
+            const tProc = subtrairTempo(hora, 8, 27);
+            const dProc = calcularDataRetroativa(diaNum, mesNum, tProc.diasRetrocedidos);
+            datas.processamento = { dia: dProc.dia, mes: dProc.mes, hora: tProc.hora };
 
-            // Pedido recebido (15 horas antes)
-            const pedidoRecebido = subtrairHoras(horaFormatada, 15, 0);
-            let diaPedidoRecebido = diaNum;
-            let mesPedidoRecebido = mesNum;
-            if (pedidoRecebido.diaAnterior) {
-                const diaAnt = calcularDiaAnterior(diaNum, mesNum);
-                diaPedidoRecebido = diaAnt.dia;
-                mesPedidoRecebido = diaAnt.mes;
-            }
-            datas.pedidoRecebido = {
-                dia: diaPedidoRecebido,
-                mes: mesPedidoRecebido,
-                hora: pedidoRecebido.hora
-            };
+            // 4. Pedido recebido (14h 13min antes)
+            const tRec = subtrairTempo(hora, 14, 13);
+            const dRec = calcularDataRetroativa(diaNum, mesNum, tRec.diasRetrocedidos);
+            datas.pedidoRecebido = { dia: dRec.dia, mes: dRec.mes, hora: tRec.hora };
 
             return datas;
         }
 
         // Função para atualizar as datas na timeline
         function atualizarDatasTimeline(datas) {
-            const dataEntregaFormatada = formatarDataPT(datas.entregue.dia, datas.entregue.mes);
-            const dataSaiuEntregaFormatada = formatarDataPT(datas.saiuEntrega.dia, datas.saiuEntrega.mes);
-            const dataProcessamentoFormatada = formatarDataPT(datas.processamento.dia, datas.processamento.mes);
-            const dataPedidoRecebidoFormatada = formatarDataPT(datas.pedidoRecebido.dia, datas.pedidoRecebido.mes);
-
             document.getElementById('date-entregue').textContent = 
-                `${dataEntregaFormatada} - ${datas.entregue.hora}`;
+                `${formatarDataPT(datas.entregue.dia, datas.entregue.mes)} - ${datas.entregue.hora}`;
             
             document.getElementById('date-saiu-entrega').textContent = 
-                `${dataSaiuEntregaFormatada} - ${datas.saiuEntrega.hora}`;
+                `${formatarDataPT(datas.saiuEntrega.dia, datas.saiuEntrega.mes)} - ${datas.saiuEntrega.hora}`;
             
             document.getElementById('date-processamento').textContent = 
-                `${dataProcessamentoFormatada} - ${datas.processamento.hora}`;
+                `${formatarDataPT(datas.processamento.dia, datas.processamento.mes)} - ${datas.processamento.hora}`;
             
             document.getElementById('date-pedido-recebido').textContent = 
-                `${dataPedidoRecebidoFormatada} - ${datas.pedidoRecebido.hora}`;
+                `${formatarDataPT(datas.pedidoRecebido.dia, datas.pedidoRecebido.mes)} - ${datas.pedidoRecebido.hora}`;
 
-            // Atualizar status
             document.getElementById('delivery-date-status').textContent = 
-                `${dataEntregaFormatada} às ${datas.entregue.hora}`;
+                `${formatarDataPT(datas.entregue.dia, datas.entregue.mes)} às ${datas.entregue.hora}`;
         }
 
         // Função para extrair dados do JSON
         function extrairDados(json) {
             try {
                 const dados = JSON.parse(json);
+                let nome = '', cpf = '';
                 
-                let nome = '';
-                let cpf = '';
-                
-                // Extrair dados do cliente
                 if (dados.dados_cliente) {
                     const nomeMatch = dados.dados_cliente.match(/Nome:\s*([^,]+)/i);
                     const cpfMatch = dados.dados_cliente.match(/CPF:\s*(\d+)/i);
-                    
                     if (nomeMatch) {
                         nome = nomeMatch[1].trim();
                         document.getElementById('client-name').textContent = nome;
                     }
-                    
                     if (cpfMatch) {
                         cpf = cpfMatch[1];
                         document.getElementById('client-cpf').textContent = formatarCPF(cpf);
                     }
                 }
 
-                // Extrair endereço de entrega (removendo aspas)
                 if (dados.endereco_entrega) {
-                    const enderecoLimpo = limparAspas(dados.endereco_entrega);
-                    document.getElementById('delivery-address').textContent = enderecoLimpo;
+                    document.getElementById('delivery-address').textContent = limparAspas(dados.endereco_entrega);
                 }
 
-                // Extrair valor da compra
                 if (dados.valor_compra) {
                     document.getElementById('purchase-value').textContent = 'R$ ' + dados.valor_compra;
                 }
 
-                // Gerar código de rastreio dinamicamente
                 if (nome && cpf) {
-                    const codigoRastreio = gerarCodigoRastreio(nome, cpf);
-                    document.getElementById('tracking-code-header').textContent = codigoRastreio;
-                    document.getElementById('tracking-code-detail').textContent = codigoRastreio;
-                    adicionarMensagemConsole(`Código de rastreio gerado: ${codigoRastreio}`, 'sucesso');
+                    const codigo = gerarCodigoRastreio(nome, cpf);
+                    document.getElementById('tracking-code-header').textContent = codigo;
+                    document.getElementById('tracking-code-detail').textContent = codigo;
+                    adicionarMensagemConsole(`Código gerado: ${codigo}`, 'sucesso');
                 }
 
                 adicionarMensagemConsole('Dados atualizados com sucesso!', 'sucesso');
@@ -726,50 +676,32 @@
             }
         }
 
-        // Função para executar o comando
         function executarComando() {
-            const diaInput = document.getElementById('input-dia').value.trim();
-            const mesInput = document.getElementById('input-mes').value.trim();
-            const horaInput = document.getElementById('input-hora').value.trim();
-            const jsonInput = document.getElementById('console-input').value.trim();
+            const dia = document.getElementById('input-dia').value.trim();
+            const mes = document.getElementById('input-mes').value.trim();
+            const hora = document.getElementById('input-hora').value.trim();
+            const json = document.getElementById('console-input').value.trim();
 
-            if (!diaInput || !mesInput || !horaInput) {
-                adicionarMensagemConsole('Por favor, preencha o dia, mês e hora de entrega.', 'erro');
+            if (!dia || !mes || !hora || !json) {
+                adicionarMensagemConsole('Preencha todos os campos e o JSON.', 'erro');
                 return;
             }
 
-            if (!jsonInput) {
-                adicionarMensagemConsole('Por favor, insira um JSON válido.', 'erro');
-                return;
-            }
-
-            adicionarMensagemConsole('Processando entrada...', 'info');
-            
-            // Calcular datas retroativas
-            const datas = calcularDatasRetroativas(diaInput, mesInput, horaInput);
+            const datas = calcularDatasRetroativas(dia, mes, hora);
             if (datas) {
                 atualizarDatasTimeline(datas);
-                adicionarMensagemConsole(`Datas calculadas: Entrega em ${diaInput}/${mesInput}/2026 às ${horaInput}`, 'sucesso');
-            } else {
-                return;
-            }
-
-            // Extrair dados do JSON
-            if (extrairDados(jsonInput)) {
-                document.getElementById('console-input').value = '';
+                if (extrairDados(json)) {
+                    document.getElementById('console-input').value = '';
+                }
             }
         }
 
-        // Permitir executar com Enter
         document.getElementById('console-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                executarComando();
-            }
+            if (e.key === 'Enter') executarComando();
         });
 
-        // Inicialização
         window.addEventListener('load', () => {
-            adicionarMensagemConsole('Sistema pronto para receber dados.', 'sucesso');
+            adicionarMensagemConsole('Sistema pronto.', 'sucesso');
         });
     </script>
 </body>
