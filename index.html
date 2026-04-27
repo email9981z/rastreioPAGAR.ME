@@ -156,43 +156,39 @@
         }
 
         function exportarPDF() {
-            log('Gerando PDF (Matriz A4 Centralizada)...', 'info');
+            log('Gerando PDF Simétrico...', 'info');
             
             const originalElement = document.getElementById('portal-content');
-            const consoleElem = document.getElementById('console');
-            const sepElem = document.getElementById('sep');
             
-            // Criar um container de exportação com largura exata de um A4 (aprox 794px para 96dpi)
+            // Criar matriz de exportação com largura de segurança para evitar cortes
             const exportContainer = document.createElement('div');
-            exportContainer.style.width = '794px';
+            exportContainer.style.width = '800px';
             exportContainer.style.background = 'white';
             exportContainer.style.position = 'absolute';
             exportContainer.style.left = '-9999px';
             exportContainer.style.top = '0';
+            exportContainer.style.padding = '0';
+            exportContainer.style.margin = '0';
             
-            // Clonar o conteúdo
             const clone = originalElement.cloneNode(true);
-            
-            // Forçar estilos de centralização e largura no clone
-            clone.style.width = '794px';
+            clone.style.width = '800px';
             clone.style.margin = '0';
-            clone.style.padding = '0';
             
-            // Ajustar a grid interna para caber nos 794px
+            // Ajustar elementos internos para simetria
             const grid = clone.querySelector('.main-grid');
             if (grid) {
                 grid.style.display = 'grid';
-                grid.style.gridTemplateColumns = '1.5fr 1fr';
-                grid.style.gap = '20px';
-                grid.style.padding = '20px 30px';
-                grid.style.width = '794px';
+                grid.style.gridTemplateColumns = '1.6fr 1fr';
+                grid.style.gap = '30px';
+                grid.style.padding = '40px';
+                grid.style.width = '800px';
             }
 
             const hero = clone.querySelector('.hero-status');
-            if (hero) hero.style.padding = '20px 30px';
+            if (hero) hero.style.padding = '40px';
 
             const navbar = clone.querySelector('.navbar');
-            if (navbar) navbar.style.padding = '15px 30px';
+            if (navbar) navbar.style.padding = '20px 40px';
 
             exportContainer.appendChild(clone);
             document.body.appendChild(exportContainer);
@@ -207,10 +203,12 @@
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 794,
-                    windowWidth: 794,
+                    width: 800,
+                    windowWidth: 800,
                     x: 0,
-                    y: 0
+                    y: 0,
+                    scrollX: 0,
+                    scrollY: 0
                 },
                 jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
             };
