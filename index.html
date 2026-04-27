@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Rastreamento | Logística Brasil</title>
+    <title>Consulta de Rastreamento | Rastreios-Enco</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -24,12 +24,12 @@
         .logo-name { font-weight: 700; font-size: 1.1rem; }
 
         /* Search Container */
-        .search-container { max-width: 600px; margin: 50px auto; width: 90%; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align: center; }
-        .search-container h2 { margin-bottom: 20px; font-weight: 800; color: var(--primary); }
+        .search-container { max-width: 600px; margin: 30px auto; width: 92%; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align: center; }
+        .search-container h2 { margin-bottom: 15px; font-weight: 800; color: var(--primary); font-size: 1.5rem; }
         .input-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        input { flex: 1; padding: 12px 15px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; font-weight: 600; text-transform: uppercase; outline: none; transition: border-color 0.2s; }
+        input { flex: 1; padding: 12px 15px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; font-weight: 600; text-transform: uppercase; outline: none; transition: border-color 0.2s; width: 100%; }
         input:focus { border-color: var(--primary); }
-        button { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+        button { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
         button:hover { opacity: 0.9; }
 
         /* Loading Simulation */
@@ -47,18 +47,33 @@
         .status-text p { color: #065f46; font-size: 0.9rem; opacity: 0.8; }
 
         .details-box { background: #f9fafb; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb; }
-        .detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
-        .detail-label { color: var(--text-muted); font-weight: 500; }
-        .detail-value { font-weight: 700; color: var(--text-main); }
+        .detail-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.95rem; gap: 10px; }
+        .detail-label { color: var(--text-muted); font-weight: 500; flex-shrink: 0; }
+        .detail-value { font-weight: 700; color: var(--text-main); text-align: right; word-break: break-word; }
 
         .footer { margin-top: auto; padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+
+        /* Media Queries for Mobile */
+        @media (max-width: 480px) {
+            .navbar { padding: 0.8rem 15px; }
+            .logo-name { font-size: 0.9rem; }
+            .search-container { padding: 20px 15px; margin: 20px auto; }
+            .search-container h2 { font-size: 1.3rem; }
+            .input-group { flex-direction: column; }
+            button { width: 100%; padding: 14px; }
+            .status-card { padding: 15px; gap: 12px; }
+            .status-icon { width: 35px; height: 35px; font-size: 0.9rem; }
+            .status-text h3 { font-size: 1rem; }
+            .detail-row { flex-direction: column; justify-content: flex-start; gap: 2px; margin-bottom: 12px; }
+            .detail-value { text-align: left; font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="logo-box">LB</div>
-        <div class="logo-name">LOGÍSTICA BRASIL</div>
+        <div class="logo-box">RC</div>
+        <div class="logo-name">RASTREIOS-ENCO</div>
     </nav>
 
     <div class="search-container">
@@ -66,7 +81,7 @@
         <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">Digite o código de rastreamento para consultar o status.</p>
         <div class="input-group">
             <input type="text" id="tracking-input" placeholder="Ex: JU12NV310752" maxlength="12">
-            <button onclick="buscarRastreio()">Buscar</button>
+            <button onclick="buscarRastreio()">Buscar Agora</button>
         </div>
         
         <div id="loading">
@@ -78,7 +93,7 @@
             <div class="status-card">
                 <div class="status-icon">✓</div>
                 <div class="status-text">
-                    <h3>Encomenda Entregue com Sucesso</h3>
+                    <h3>Encomenda Entregue</h3>
                     <p>Entrega realizada com sucesso</p>
                 </div>
             </div>
@@ -109,7 +124,7 @@
     </div>
 
     <footer class="footer">
-        &copy; 2026 Logística Brasil S.A. - Todos os direitos reservados.
+        &copy; 2026 Rastreios-Enco - Todos os direitos reservados.
     </footer>
 
     <script>
@@ -133,8 +148,6 @@
                 
                 try {
                     // Lógica de decodificação: JU[12]NV31[07]52
-                    // Dia: posições 2 e 3 (index 2 e 3)
-                    // Mês: posições 8 e 9 (index 8 e 9)
                     const dia = code.substring(2, 4);
                     const mesIndex = parseInt(code.substring(8, 10)) - 1;
                     const mesNome = meses[mesIndex];
