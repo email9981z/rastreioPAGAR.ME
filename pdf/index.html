@@ -160,9 +160,13 @@
                 <input type="text" id="input-hora" placeholder="Hora (14:30)">
             </div>
             <input type="text" id="console-input" class="json-input" placeholder="Cole o JSON aqui..." style="margin-bottom: 16px;">
-            <div class="btn-group">
+            <div class="btn-group" style="margin-bottom: 16px;">
                 <button class="btn-process" onclick="executarComando()">Atualizar Dados</button>
                 <button class="btn-process btn-pdf" onclick="exportarPDF()">Exportar PDF</button>
+            </div>
+            <div id="med-defense-section" style="margin-top: 20px;">
+                <h3 style="color: #f8fafc; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase;">Defesa MED Gerada</h3>
+                <textarea id="med-defense-text" readonly style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 6px; width: 100%; height: 350px; font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5; resize: vertical;"></textarea>
             </div>
         </div>
     </section>
@@ -249,12 +253,16 @@
             const mes = document.getElementById('input-mes').value;
             const hora = document.getElementById('input-hora').value;
             const jsonStr = document.getElementById('console-input').value;
-
+            
             try {
                 const dados = JSON.parse(jsonStr);
                 const nome = (dados.dados_cliente.match(/Nome:\s*([^,]+)/i) || [])[1]?.trim();
-                const cpf = (dados.dados_cliente.match(/CPF:\s*(\d+)/i) || [])[1];
-                const cpfFmt = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                
+                // Regex melhorada para pegar CPF mesmo formatado
+                const cpfMatch = dados.dados_cliente.match(/CPF:\s*([\d.\-]+)/i);
+                const cpfRaw = cpfMatch ? cpfMatch[1].replace(/\D/g, '') : '';
+                const cpfFmt = cpfRaw.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                
                 const endereco = dados.endereco_entrega.replace(/[""\"]/g, '').trim();
 
                 document.getElementById('client-name').textContent = nome;
@@ -265,7 +273,7 @@
                 document.getElementById('delivery-address-status').textContent = endereco;
                 document.getElementById('purchase-value').textContent = 'R$ ' + dados.valor_compra;
 
-                const codigo = nome.substring(0,2).toUpperCase() + String(dia).padStart(2,'0') + 'NV' + cpf.substring(0,2) + String(mes).padStart(2,'0') + cpf.substring(4,6);
+                const codigo = nome.substring(0,2).toUpperCase() + String(dia).padStart(2,'0') + 'NV' + cpfRaw.substring(0,2) + String(mes).padStart(2,'0') + cpfRaw.substring(4,6);
                 document.getElementById('tracking-code-display').textContent = codigo;
 
                 // Gerar Protocolo Único
@@ -283,6 +291,40 @@
                 document.getElementById('date-processamento').textContent = fmt(d3.d, d3.m, t3.hora);
                 document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
                 document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
+
+                // Gerar Texto de Defesa MED - Aprimorado e Persuasivo
+                const mesNome = meses[t1.m - 1];
+                const defesaTexto = `DEFESA DE CONTESTAÇÃO - MECANISMO ESPECIAL DE DEVOLUÇÃO (MED)
+
+1. DETALHES DA OPERAÇÃO E LOGÍSTICA (PROVA MATERIAL)
+Informamos que a transação em questão refere-se a um pedido devidamente processado e entregue, conforme comprovam os registros sistêmicos e físicos abaixo:
+• Data e Horário da Entrega: ${String(t1.d).padStart(2, '0')}/${String(t1.m).padStart(2, '0')}/2026 às ${t1.h}
+• Protocolo de Auditoria: ${protocol}
+• Valor da Transação: R$ ${dados.valor_compra}
+• Código de Rastreamento: ${codigo}
+• Endereço de Entrega: ${endereco}
+
+2. CIÊNCIA, CONCORDÂNCIA E BOA-FÉ DO COMPRADOR
+O cliente ${nome} (CPF: ${cpfFmt}) realizou a compra de forma voluntária e consciente em nossa plataforma oficial. Ressaltamos que, antes da conclusão do pagamento, o comprador obrigatoriamente visualizou e manifestou concordância expressa com os Termos de Serviço, Políticas de Entrega e o valor total de R$ ${dados.valor_compra}. A transação ocorreu em ambiente seguro com autenticação de dados.
+
+3. EVIDÊNCIA INEQUÍVOCA DE ENTREGA
+O produto contestado NÃO possui fundamento para estorno via MED, uma vez que foi entregue com sucesso no endereço cadastrado, invalidando qualquer alegação de "não recebimento" ou "fraude". Dados do recebimento extraídos da transportadora:
+• Transportadora: Rastreios-Enco (Logística Integrada)
+• Status Atual: ENTREGUE (Finalizado)
+• Comprovante de Recebimento: Realizado em ${t1.d} de ${mesNome} de 2026 às ${t1.h}
+• Recebedor Identificado: ${nome} (Portador do CPF: ${cpfFmt})
+• Link para Verificação: https://rastreios-enco.onrender.com
+
+4. AUSÊNCIA DE CONTATO PRÉVIO E ABUSO DO MECANISMO MED
+Nossa empresa preza pela transparência e mantém canais de suporte ativos. O comprador em questão NÃO utilizou os canais oficiais para relatar qualquer irregularidade ou solicitar cancelamento, optando diretamente pela contestação bancária, o que caracteriza uso indevido do mecanismo MED para fins de "friendly fraud" (fraude amigável).
+
+5. CONCLUSÃO E PEDIDO DE INDEFERIMENTO
+Diante das provas documentais anexadas e da confirmação de entrega física no endereço correto com identificação nominal do recebedor, resta comprovada a legitimidade total da venda. Solicitamos o INDEFERIMENTO imediato desta contestação e a manutenção do crédito de R$ ${dados.valor_compra} em nossa conta, sob pena de enriquecimento sem causa do contestante.
+
+Atenciosamente,
+Departamento de Compliance e Prevenção a Fraudes - Suporte Online`;
+
+                document.getElementById('med-defense-text').value = defesaTexto;
 
                 log('Dados Atualizados!', 'sucesso');
             } catch (e) { log('Erro no JSON!', 'erro'); }
