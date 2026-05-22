@@ -166,7 +166,7 @@
             </div>
             <div id="med-defense-section" style="margin-top: 20px;">
                 <h3 style="color: #f8fafc; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase;">Defesa MED Gerada</h3>
-                <textarea id="med-defense-text" readonly style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 6px; width: 100%; height: 350px; font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5; resize: vertical;"></textarea>
+                <textarea id="med-defense-text" readonly style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 6px; width: 100%; height: 400px; font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5; resize: vertical;"></textarea>
             </div>
         </div>
     </section>
@@ -292,7 +292,7 @@
                 document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
                 document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
 
-                // Gerar Texto de Defesa MED - Aprimorado e Persuasivo
+                // Gerar Texto de Defesa MED - Argumento de Contestação Precoce
                 const mesNome = meses[t1.m - 1];
                 const defesaTexto = `DEFESA TÉCNICA DE CONTESTAÇÃO - MECANISMO ESPECIAL DE DEVOLUÇÃO (MED)
 
@@ -302,24 +302,24 @@ Informamos que a transação em questão refere-se a um pedido devidamente proce
 • Protocolo de Auditoria: ${protocol}
 • Valor da Transação: R$ ${dados.valor_compra}
 • Código de Rastreamento: ${codigo}
-• Endereço de Entrega: ${endereco}
+• Endereço de Destino: ${endereco}
 
-2. CIÊNCIA, CONCORDÂNCIA E BOA-FÉ DO COMPRADOR
-O cliente ${nome} (CPF: ${cpfFmt}) realizou a compra de forma voluntária e consciente em nossa plataforma oficial. Ressaltamos que, antes da conclusão do pagamento, o comprador obrigatoriamente visualizou e manifestou concordância expressa com os Termos de Serviço, Políticas de Entrega e o valor total de R$ ${dados.valor_compra}. A transação ocorreu em ambiente seguro com autenticação de dados.
+2. CONTESTAÇÃO PRECOCE E ABUSO DO DIREITO (MÁ-FÉ)
+Ressaltamos um ponto crucial para esta defesa: o comprador ${nome} (CPF: ${cpfFmt}) abriu a contestação bancária ANTES mesmo de findar o prazo de entrega estipulado no ato da compra. Esta ação demonstra uma clara tentativa de reaver o valor pago enquanto o produto ainda estava em trânsito, configurando abuso do mecanismo MED e má-fé processual. O cliente não aguardou o tempo logístico padrão e utilizou o sistema bancário como ferramenta de cancelamento arbitrário.
 
-3. EVIDÊNCIA INEQUÍVOCA DE ENTREGA
-O produto contestado NÃO possui fundamento para estorno via MED, uma vez que foi entregue com sucesso no endereço cadastrado, invalidando qualquer alegação de "não recebimento" ou "fraude". Dados do recebimento extraídos da transportadora:
+3. CIÊNCIA E CONCORDÂNCIA DO COMPRADOR
+O cliente realizou a compra de forma voluntária e consciente. Antes da conclusão do pagamento, houve concordância expressa com os Termos de Serviço e Políticas de Entrega. A transação ocorreu em ambiente seguro com autenticação de dados.
+
+4. EVIDÊNCIA INEQUÍVOCA DE ENTREGA
+Apesar da contestação precipitada, o produto FOI ENTREGUE com sucesso no endereço cadastrado, o que torna o pedido de estorno totalmente improcedente. Dados do recebimento:
 • Transportadora: Rastreios-Enco (Logística Integrada)
 • Status Atual: ENTREGUE (Finalizado)
-• Comprovante de Recebimento: Realizado em ${t1.d} de ${mesNome} de 2026 às ${t1.h}
+• Data e Hora do Recebimento: ${t1.d} de ${mesNome} de 2026 às ${t1.h}
 • Recebedor Identificado: ${nome} (Portador do CPF: ${cpfFmt})
 • Link para Verificação: https://rastreios-enco.onrender.com
 
-4. AUSÊNCIA DE CONTATO PRÉVIO E ABUSO DO MECANISMO MED
-Nossa empresa preza pela transparência e mantém canais de suporte ativos. O comprador em questão NÃO utilizou os canais oficiais para relatar qualquer irregularidade ou solicitar cancelamento, optando diretamente pela contestação bancária, o que caracteriza uso indevido do mecanismo MED para fins de "friendly fraud" (fraude amigável).
-
 5. CONCLUSÃO E PEDIDO DE INDEFERIMENTO
-Diante das provas documentais anexadas e da confirmação de entrega física no endereço correto com identificação nominal do recebedor, resta comprovada a legitimidade total da venda. Solicitamos o INDEFERIMENTO imediato desta contestação e a manutenção do crédito de R$ ${dados.valor_compra} em nossa conta, sob pena de enriquecimento sem causa do contestante.
+Diante da comprovação de que a contestação foi aberta de forma precoce e que o produto foi efetivamente entregue e recebido pelo titular, resta comprovada a "Friendly Fraud" (Fraude Amigável). Solicitamos o INDEFERIMENTO imediato desta contestação e a manutenção definitiva do crédito de R$ ${dados.valor_compra} em nossa conta, evitando o enriquecimento ilícito do comprador.
 
 Atenciosamente,
 Departamento de Compliance e Prevenção a Fraudes - Suporte Online`;
