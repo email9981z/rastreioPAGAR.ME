@@ -282,9 +282,9 @@
 
                 const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
                 const t1 = { d: parseInt(dia), m: parseInt(mes), h: hora };
-                const t2 = subtrairTempo(hora, 3, 43); const d2 = calcularData(dia, mes, t2.dias);
-                const t3 = subtrairTempo(hora, 8, 27); const d3 = calcularData(dia, mes, t3.dias);
-                const t4 = subtrairTempo(hora, 14, 13); const d4 = calcularData(dia, mes, t4.dias);
+const t2 = subtrairTempo(hora, 0, 29); const d2 = calcularData(dia, mes, t2.dias);
+                const t3 = subtrairTempo(hora, 0, 44); const d3 = calcularData(dia, mes, t3.dias);
+                const t4 = subtrairTempo(hora, 0, 57); const d4 = calcularData(dia, mes, t4.dias);
 
                 document.getElementById('date-entregue').textContent = fmt(t1.d, t1.m, t1.h);
                 document.getElementById('date-saiu-entrega').textContent = fmt(d2.d, d2.m, t2.hora);
