@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -86,9 +87,10 @@
         .console-output { background: #000; height: 150px; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: #10b981; overflow-y: auto; margin-bottom: 20px; }
         .console-inputs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
         .console-inputs-grid input, .json-input { background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 10px; border-radius: 6px; width: 100%; }
-        .btn-group { display: grid; grid-template-columns: 1.5fr 1fr; gap: 12px; }
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
         .btn-process { background: #3b82f6; color: white; border: none; padding: 14px; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
         .btn-pdf { background: #10b981; }
+        .btn-med { background: #f59e0b; }
 
         /* Mobile Styles */
         @media (max-width: 968px) {
@@ -101,6 +103,27 @@
         .hide-for-pdf { display: none !important; }
         .pdf-layout-fix { width: 1200px !important; margin: 0 !important; padding: 40px !important; }
         .pdf-layout-fix .main-grid { grid-template-columns: 1.6fr 1fr !important; display: grid !important; width: 1120px !important; }
+        
+        /* Estilo para a Defesa MED no PDF */
+        .med-pdf-section {
+            margin-top: 40px;
+            padding: 30px;
+            border-top: 2px solid #e5e7eb;
+            page-break-before: always;
+        }
+        .med-pdf-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #003d82;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .med-pdf-content {
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+            color: #111827;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -147,6 +170,14 @@
                 <div class="info-card"><h3>Detalhes da Logística</h3><div class="info-item"><span class="info-label">Método de Envio</span><div class="info-value">Standard Express</div></div><div class="info-item"><span class="info-label">Valor Declarado</span><div class="info-value" id="purchase-value">R$ 1,00</div></div><div class="info-item"><span class="info-label">Endereço de Entrega</span><div class="info-value" id="delivery-address">Rua das Flores, 123, São Paulo, SP, 01234-567</div></div></div>
             </div>
         </main>
+        
+        <!-- Seção de Defesa MED oculta por padrão, aparece apenas no PDF -->
+        <div id="med-pdf-section" class="hide-for-pdf">
+            <div class="med-pdf-section">
+                <div class="med-pdf-title">DEFESA TÉCNICA DE CONTESTAÇÃO (MED)</div>
+                <div id="med-pdf-content" class="med-pdf-content"></div>
+            </div>
+        </div>
     </div>
 
     <div class="footer-separator" id="sep"></div>
@@ -163,6 +194,7 @@
             <div class="btn-group" style="margin-bottom: 16px;">
                 <button class="btn-process" onclick="executarComando()">Atualizar Dados</button>
                 <button class="btn-process btn-pdf" onclick="exportarPDF()">Exportar PDF</button>
+                <button class="btn-process btn-med" onclick="exportarPDFComMed()">PDF + Defesa MED</button>
             </div>
             <div id="med-defense-section" style="margin-top: 20px;">
                 <h3 style="color: #f8fafc; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase;">Defesa MED Gerada</h3>
@@ -192,9 +224,11 @@
             const element = document.getElementById('portal-content');
             const consoleElem = document.getElementById('console');
             const sepElem = document.getElementById('sep');
+            const medSection = document.getElementById('med-pdf-section');
             
             consoleElem.classList.add('hide-for-pdf');
             sepElem.classList.add('hide-for-pdf');
+            medSection.classList.add('hide-for-pdf');
             element.classList.add('pdf-layout-fix');
 
             const nome = document.getElementById('client-name').textContent.trim();
@@ -228,6 +262,61 @@
             });
         }
 
+        function exportarPDFComMed() {
+            log('Iniciando captura total com Defesa MED...', 'info');
+            
+            const element = document.getElementById('portal-content');
+            const consoleElem = document.getElementById('console');
+            const sepElem = document.getElementById('sep');
+            const medSection = document.getElementById('med-pdf-section');
+            const medContent = document.getElementById('med-pdf-content');
+            const medText = document.getElementById('med-defense-text').value;
+
+            if (!medText) {
+                log('Erro: Gere os dados primeiro!', 'erro');
+                return;
+            }
+
+            medContent.textContent = medText;
+            
+            consoleElem.classList.add('hide-for-pdf');
+            sepElem.classList.add('hide-for-pdf');
+            medSection.classList.remove('hide-for-pdf');
+            element.classList.add('pdf-layout-fix');
+
+            const nome = document.getElementById('client-name').textContent.trim();
+            const cpf = document.getElementById('client-cpf').textContent.replace(/\D/g, '');
+            
+            const opt = {
+                margin: 0,
+                filename: `Rastreio + Defesa MED - ${nome} - ${cpf}.pdf`,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true,
+                    width: 1200,
+                    windowWidth: 1200,
+                    scrollY: 0,
+                    scrollX: 0
+                },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                log('PDF com Defesa MED Concluído!', 'sucesso');
+                consoleElem.classList.remove('hide-for-pdf');
+                sepElem.classList.remove('hide-for-pdf');
+                medSection.classList.add('hide-for-pdf');
+                element.classList.remove('pdf-layout-fix');
+            }).catch(err => {
+                log('Erro: ' + err.message, 'erro');
+                consoleElem.classList.remove('hide-for-pdf');
+                sepElem.classList.remove('hide-for-pdf');
+                medSection.classList.add('hide-for-pdf');
+                element.classList.remove('pdf-layout-fix');
+            });
+        }
+
         function subtrairTempo(hora, hSub, mSub) {
             const [h, m] = hora.split(':').map(Number);
             let total = h * 60 + m - (hSub * 60 + mSub);
@@ -241,7 +330,8 @@
             for (let i = 0; i < diasVoltar; i++) {
                 d--;
                 if (d < 1) {
-                    m--; if (m < 1) m = 12;
+                    m--;
+                    if (m < 1) m = 12;
                     d = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m-1];
                 }
             }
@@ -258,7 +348,6 @@
                 const dados = JSON.parse(jsonStr);
                 const nome = (dados.dados_cliente.match(/Nome:\s*([^,]+)/i) || [])[1]?.trim();
                 
-                // Regex melhorada para pegar CPF mesmo formatado
                 const cpfMatch = dados.dados_cliente.match(/CPF:\s*([\d.\-]+)/i);
                 const cpfRaw = cpfMatch ? cpfMatch[1].replace(/\D/g, '') : '';
                 const cpfFmt = cpfRaw.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
@@ -276,13 +365,12 @@
                 const codigo = nome.substring(0,2).toUpperCase() + String(dia).padStart(2,'0') + 'NV' + cpfRaw.substring(0,2) + String(mes).padStart(2,'0') + cpfRaw.substring(4,6);
                 document.getElementById('tracking-code-display').textContent = codigo;
 
-                // Gerar Protocolo Único
                 const protocol = `LB-2026${String(mes).padStart(2,'0')}${String(dia).padStart(2,'0')}-${Math.floor(10000 + Math.random() * 90000)}`;
                 document.getElementById('protocol-display').textContent = protocol;
 
                 const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
                 const t1 = { d: parseInt(dia), m: parseInt(mes), h: hora };
-const t2 = subtrairTempo(hora, 0, 29); const d2 = calcularData(dia, mes, t2.dias);
+                const t2 = subtrairTempo(hora, 0, 29); const d2 = calcularData(dia, mes, t2.dias);
                 const t3 = subtrairTempo(hora, 0, 44); const d3 = calcularData(dia, mes, t3.dias);
                 const t4 = subtrairTempo(hora, 0, 57); const d4 = calcularData(dia, mes, t4.dias);
 
@@ -292,7 +380,6 @@ const t2 = subtrairTempo(hora, 0, 29); const d2 = calcularData(dia, mes, t2.dias
                 document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
                 document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
 
-                // Gerar Texto de Defesa MED - Argumento de Contestação Precoce
                 const mesNome = meses[t1.m - 1];
                 const defesaTexto = `DEFESA TÉCNICA DE CONTESTAÇÃO - MECANISMO ESPECIAL DE DEVOLUÇÃO (MED)
 
