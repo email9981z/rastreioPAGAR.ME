@@ -380,9 +380,9 @@
         }
 
         function executarComando() {
-            const dia = document.getElementById('input-dia').value;
-            const mes = document.getElementById('input-mes').value;
-            const hora = document.getElementById('input-hora').value;
+            const inputDia = document.getElementById('input-dia').value;
+            const inputMes = document.getElementById('input-mes').value;
+            const inputHora = document.getElementById('input-hora').value;
             const jsonStr = document.getElementById('console-input').value;
             
             try {
@@ -403,30 +403,49 @@
                 document.getElementById('delivery-address-status').textContent = endereco;
                 document.getElementById('purchase-value').textContent = 'R$ ' + dados.valor_compra;
 
-                const codigo = nome.substring(0,2).toUpperCase() + String(dia).padStart(2,'0') + 'NV' + cpfRaw.substring(0,2) + String(mes).padStart(2,'0') + cpfRaw.substring(4,6);
-                document.getElementById('tracking-code-display').textContent = codigo;
+                // Variáveis para data/hora (ou pega do console ou mantém o que está na tela)
+                let dia, mes, hora, protocol, codigo;
 
-                const protocol = `LB-2026${String(mes).padStart(2,'0')}${String(dia).padStart(2,'0')}-${Math.floor(10000 + Math.random() * 90000)}`;
-                document.getElementById('protocol-display').textContent = protocol;
+                if (inputDia && inputMes && inputHora) {
+                    dia = inputDia;
+                    mes = inputMes;
+                    hora = inputHora;
+                    
+                    codigo = nome.substring(0,2).toUpperCase() + String(dia).padStart(2,'0') + 'NV' + cpfRaw.substring(0,2) + String(mes).padStart(2,'0') + cpfRaw.substring(4,6);
+                    protocol = `LB-2026${String(mes).padStart(2,'0')}${String(dia).padStart(2,'0')}-${Math.floor(10000 + Math.random() * 90000)}`;
+                    
+                    document.getElementById('tracking-code-display').textContent = codigo;
+                    document.getElementById('protocol-display').textContent = protocol;
 
-                const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
-                const t1 = { d: parseInt(dia), m: parseInt(mes), h: hora };
-                const t2 = subtrairTempo(hora, 0, 29); const d2 = calcularData(dia, mes, t2.dias);
-                const t3 = subtrairTempo(hora, 0, 44); const d3 = calcularData(dia, mes, t3.dias);
-                const t4 = subtrairTempo(hora, 0, 57); const d4 = calcularData(dia, mes, t4.dias);
+                    const fmt = (d, m, h) => `${d} de ${meses[m-1]} de 2026 - ${h}`;
+                    const t1 = { d: parseInt(dia), m: parseInt(mes), h: hora };
+                    const t2 = subtrairTempo(hora, 0, 29); const d2 = calcularData(dia, mes, t2.dias);
+                    const t3 = subtrairTempo(hora, 0, 44); const d3 = calcularData(dia, mes, t3.dias);
+                    const t4 = subtrairTempo(hora, 0, 57); const d4 = calcularData(dia, mes, t4.dias);
 
-                document.getElementById('date-entregue').textContent = fmt(t1.d, t1.m, t1.h);
-                document.getElementById('date-saiu-entrega').textContent = fmt(d2.d, d2.m, t2.hora);
-                document.getElementById('date-processamento').textContent = fmt(d3.d, d3.m, t3.hora);
-                document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
-                document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
+                    document.getElementById('date-entregue').textContent = fmt(t1.d, t1.m, t1.h);
+                    document.getElementById('date-saiu-entrega').textContent = fmt(d2.d, d2.m, t2.hora);
+                    document.getElementById('date-processamento').textContent = fmt(d3.d, d3.m, t3.hora);
+                    document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
+                    document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
+                } else {
+                    log('Aviso: Campos de data/hora vazios. Mantendo textos manuais da timeline.', 'info');
+                    // Tenta extrair valores atuais da tela para a Defesa MED
+                    const statusText = document.getElementById('delivery-date-status').textContent;
+                    dia = (statusText.match(/^(\d+)/) || [0, ""])[1];
+                    const mesNomeAtual = (statusText.match(/de\s+([^\s]+)\s+de/) || [0, ""])[1];
+                    mes = meses.indexOf(mesNomeAtual) + 1;
+                    hora = (statusText.match(/às\s+(\d{2}:\d{2})/) || [0, ""])[1];
+                    protocol = document.getElementById('protocol-display').textContent;
+                    codigo = document.getElementById('tracking-code-display').textContent;
+                }
 
-                const mesNome = meses[t1.m - 1];
+                const mesNomeDefesa = meses[mes - 1] || "Janeiro";
                 const defesaTexto = `DEFESA TÉCNICA DE CONTESTAÇÃO - MECANISMO ESPECIAL DE DEVOLUÇÃO (MED)
 
 1. DETALHES DA OPERAÇÃO E LOGÍSTICA (PROVA MATERIAL)
 Informamos que a transação em questão refere-se a um pedido devidamente processado e entregue, conforme comprovam os registros sistêmicos e físicos abaixo:
-• Data e Horário da Entrega: ${String(t1.d).padStart(2, '0')}/${String(t1.m).padStart(2, '0')}/2026 às ${t1.h}
+• Data e Horário da Entrega: ${String(dia).padStart(2, '0')}/${String(mes).padStart(2, '0')}/2026 às ${hora}
 • Protocolo de Auditoria: ${protocol}
 • Valor da Transação: R$ ${dados.valor_compra}
 • Código de Rastreamento: ${codigo}
@@ -442,7 +461,7 @@ O cliente realizou a compra de forma voluntária e consciente. Antes da conclus�
 Apesar da contestação precipitada, o produto FOI ENTREGUE com sucesso no endereço cadastrado, o que torna o pedido de estorno totalmente improcedente. Dados do recebimento:
 • Transportadora: Rastreios-Enco (Logística Integrada)
 • Status Atual: ENTREGUE (Finalizado)
-• Data e Hora do Recebimento: ${t1.d} de ${mesNome} de 2026 às ${t1.h}
+• Data e Hora do Recebimento: ${dia} de ${mesNomeDefesa} de 2026 às ${hora}
 • Recebedor Identificado: ${nome} (Portador do CPF: ${cpfFmt})
 • Link para Verificação: https://rastreios-enco.onrender.com
 
@@ -455,7 +474,10 @@ Departamento de Compliance e Prevenção a Fraudes - Suporte Online`;
                 document.getElementById('med-defense-text').value = defesaTexto;
 
                 log('Dados Atualizados!', 'sucesso');
-            } catch (e) { log('Erro no JSON!', 'erro'); }
+            } catch (e) { 
+                console.error(e);
+                log('Erro no JSON ou processamento!', 'erro'); 
+            }
         }
     </script>
 </body>
