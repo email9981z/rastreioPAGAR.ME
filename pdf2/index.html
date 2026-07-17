@@ -19,12 +19,20 @@
             --bg-card: #ffffff;
             --border: #f1f5f9;
             --radius: 16px;
+            
+            /* Original Terminal Colors */
+            --term-bg: #0f172a;
+            --term-card: #1e293b;
+            --term-border: #334155;
+            --term-success: #10b981;
+            --term-warning: #f59e0b;
+            --term-primary: #3b82f6;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
-        /* Navbar */
+        /* --- NEW PORTAL DESIGN --- */
         .navbar { 
             background: var(--bg-card); 
             padding: 1.25rem 5%; 
@@ -60,7 +68,6 @@
             text-transform: uppercase;
         }
 
-        /* Hero Status */
         .hero-status { 
             background: var(--bg-card); 
             padding: 3rem 5%; 
@@ -106,7 +113,6 @@
         .meta-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         .meta-value { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
 
-        /* Auth Stamp */
         .auth-stamp {
             position: absolute;
             right: 5%;
@@ -125,7 +131,6 @@
             z-index: 2;
         }
 
-        /* Main Content */
         .main-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; padding: 3rem 5%; max-width: 1400px; margin: 0 auto; }
         .section-title { 
             font-size: 1.1rem; 
@@ -139,7 +144,6 @@
         }
         .section-title::before { content: ''; width: 4px; height: 24px; background: var(--accent); border-radius: 2px; }
 
-        /* Timeline */
         .tracking-timeline { position: relative; padding-left: 8px; }
         .timeline-line { position: absolute; left: 19px; top: 0; bottom: 0; width: 2px; background: var(--border); }
         .event { position: relative; padding-left: 50px; margin-bottom: 40px; }
@@ -154,7 +158,6 @@
             border: 4px solid var(--border); 
             border-radius: 50%; 
             z-index: 2; 
-            transition: all 0.3s ease;
         }
         .event.completed .event-dot { background: var(--accent); border-color: var(--accent-soft); box-shadow: 0 0 0 4px var(--bg-card); }
         .event-content { 
@@ -168,7 +171,6 @@
         .event-title { font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
         .event-desc { font-size: 0.85rem; color: var(--text-muted); }
         
-        /* Sidebar Cards */
         .info-sidebar { display: flex; flex-direction: column; gap: 24px; }
         .info-card { 
             background: var(--bg-card); 
@@ -202,7 +204,7 @@
             text-align: center;
         }
         .tracking-code-display { 
-            font-family: 'JetBrains Mono', monospace; 
+            font-family: monospace; 
             font-size: 1.25rem; 
             font-weight: 800; 
             letter-spacing: 2px;
@@ -210,77 +212,37 @@
             display: block;
         }
 
-        /* Admin Console - Modernized */
-        .footer-separator { height: 40px; }
-        .admin-console-wrapper { background: #0f172a; padding: 60px 5%; border-top: 1px solid #1e293b; }
-        .admin-console-container { max-width: 1000px; margin: 0 auto; }
-        .console-header { margin-bottom: 24px; }
-        .console-header h2 { color: white; font-size: 1.25rem; font-weight: 700; margin-bottom: 4px; }
-        .console-header p { color: #64748b; font-size: 0.9rem; }
-
-        .console-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; }
-        .console-output { 
-            background: #020617; 
-            height: 400px; 
-            border-radius: 12px; 
-            padding: 20px; 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 0.8rem; 
-            color: #10b981; 
-            overflow-y: auto; 
-            border: 1px solid #1e293b;
-        }
-        .console-controls { display: flex; flex-direction: column; gap: 16px; }
-        .input-group-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .console-input, .json-input { 
-            background: #1e293b; 
-            border: 1px solid #334155; 
-            color: #f8fafc; 
-            padding: 12px 16px; 
-            border-radius: 8px; 
-            width: 100%; 
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        .console-input:focus, .json-input:focus { outline: none; border-color: var(--accent); background: #0f172a; }
-        
-        .btn-stack { display: flex; flex-direction: column; gap: 12px; }
-        .btn { 
-            padding: 14px; 
-            border-radius: 8px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            font-size: 0.8rem; 
-            border: none; 
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .btn-primary { background: var(--accent); color: white; }
-        .btn-primary:hover { background: #4f46e5; transform: translateY(-1px); }
-        .btn-success { background: var(--success); color: white; }
-        .btn-warning { background: #f59e0b; color: white; }
-
-        /* Edit Mode */
         [contenteditable="true"]:hover { background: rgba(99, 102, 241, 0.05); border-radius: 4px; cursor: text; }
         [contenteditable="true"]:focus { outline: none; background: rgba(99, 102, 241, 0.1); border-radius: 4px; }
 
+        /* --- RESTORED ORIGINAL TERMINAL DESIGN --- */
+        .footer-separator { height: 60px; background: #f3f4f6; border-top: 1px solid #e5e7eb; margin-top: 2rem; }
+        .admin-console-wrapper { background: var(--term-bg); padding: 40px 5%; border-top: 4px solid #334155; }
+        .admin-console-container { max-width: 900px; margin: 0 auto; background: var(--term-card); border-radius: 12px; padding: 24px; border: 1px solid var(--term-border); }
+        .console-output { background: #000; height: 150px; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: var(--term-success); overflow-y: auto; margin-bottom: 20px; }
+        .console-inputs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+        .console-inputs-grid input, .json-input { background: var(--term-bg); border: 1px solid var(--term-border); color: #f8fafc; padding: 10px; border-radius: 6px; width: 100%; font-family: 'Inter', sans-serif; }
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .btn-process { background: var(--term-primary); color: white; border: none; padding: 14px; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-family: 'Inter', sans-serif; }
+        .btn-pdf { background: var(--term-success); }
+        .btn-med { background: var(--term-warning); }
+        
+        #med-defense-section { margin-top: 20px; }
+        #med-defense-section h3 { color: #f8fafc; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase; }
+        #med-defense-text { background: var(--term-bg); border: 1px solid var(--term-border); color: #f8fafc; padding: 12px; border-radius: 6px; width: 100%; height: 400px; font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5; resize: vertical; }
+
         /* PDF Specifics */
         .hide-for-pdf { display: none !important; }
-        .pdf-layout-fix { width: 1000px !important; margin: 0 !important; padding: 40px !important; background: white !important; }
-        .pdf-layout-fix .main-grid { grid-template-columns: 1.5fr 1fr !important; display: grid !important; width: 920px !important; }
+        .pdf-layout-fix { width: 1200px !important; margin: 0 !important; padding: 40px !important; background: white !important; }
+        .pdf-layout-fix .main-grid { grid-template-columns: 1.5fr 1fr !important; display: grid !important; width: 1120px !important; }
         
-        .med-pdf-section { margin-top: 40px; padding: 40px; border: 2px solid var(--border); border-radius: var(--radius); page-break-before: always; }
+        .med-pdf-section { margin-top: 40px; padding: 40px; border: 2px solid #e5e7eb; border-radius: var(--radius); page-break-before: always; }
         .med-pdf-title { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 24px; text-align: center; letter-spacing: -0.5px; }
         .med-pdf-content { font-size: 0.95rem; white-space: pre-wrap; color: var(--text-main); line-height: 1.6; }
 
-        /* Mobile */
         @media (max-width: 968px) {
             .main-grid { grid-template-columns: 1fr; }
-            .console-grid { grid-template-columns: 1fr; }
+            .console-inputs-grid, .btn-group { grid-template-columns: 1fr; }
             .auth-stamp { position: relative; transform: none; right: 0; top: 0; margin-top: 20px; display: inline-block; }
             .status-wrapper { flex-direction: column; }
         }
@@ -420,39 +382,21 @@
 
     <section class="admin-console-wrapper" id="console">
         <div class="admin-console-container">
-            <div class="console-header">
-                <h2>Console de Administração</h2>
-                <p>Gerencie os dados do rastreamento e exporte documentos oficiais.</p>
+            <div class="console-output" id="console-output">> Terminal Pronto...</div>
+            <div class="console-inputs-grid">
+                <input type="text" id="input-dia" placeholder="Dia">
+                <input type="text" id="input-mes" placeholder="Mês">
+                <input type="text" id="input-hora" placeholder="Hora (14:30)">
             </div>
-            
-            <div class="console-grid">
-                <div class="console-output" id="console-output">> Terminal Inicializado... Aguardando comandos.</div>
-                
-                <div class="console-controls">
-                    <div class="input-group-row">
-                        <input type="text" id="input-dia" class="console-input" placeholder="Dia">
-                        <input type="text" id="input-mes" class="console-input" placeholder="Mês">
-                        <input type="text" id="input-hora" class="console-input" placeholder="Hora (14:30)">
-                    </div>
-                    <input type="text" id="console-input" class="json-input" placeholder="Cole o JSON de dados aqui...">
-                    
-                    <div class="btn-stack">
-                        <button class="btn btn-primary" onclick="executarComando()">
-                            <span>🔄</span> Atualizar Informações
-                        </button>
-                        <button class="btn btn-success" onclick="exportarPDF()">
-                            <span>📄</span> Exportar PDF de Rastreio
-                        </button>
-                        <button class="btn btn-warning" onclick="exportarPDFComMed()">
-                            <span>⚖️</span> PDF + Defesa MED
-                        </button>
-                    </div>
-
-                    <div style="margin-top: 10px;">
-                        <span class="meta-label" style="color: #64748b; margin-bottom: 8px; display: block;">Visualização da Defesa MED</span>
-                        <textarea id="med-defense-text" readonly style="background: #020617; border: 1px solid #1e293b; color: #94a3b8; padding: 12px; border-radius: 8px; width: 100%; height: 200px; font-size: 0.8rem; line-height: 1.5; resize: none;"></textarea>
-                    </div>
-                </div>
+            <input type="text" id="console-input" class="json-input" placeholder="Cole o JSON aqui..." style="margin-bottom: 16px;">
+            <div class="btn-group" style="margin-bottom: 16px;">
+                <button class="btn-process" onclick="executarComando()">Atualizar Dados</button>
+                <button class="btn-process btn-pdf" onclick="exportarPDF()">Exportar PDF</button>
+                <button class="btn-process btn-med" onclick="exportarPDFComMed()">PDF + Defesa MED</button>
+            </div>
+            <div id="med-defense-section">
+                <h3>Defesa MED Gerada</h3>
+                <textarea id="med-defense-text" readonly></textarea>
             </div>
         </div>
     </section>
@@ -468,13 +412,12 @@
 
         function log(msg, type = 'info') {
             const out = document.getElementById('console-output');
-            const color = type === 'erro' ? '#ef4444' : (type === 'sucesso' ? '#10b981' : '#10b981');
-            out.innerHTML += `<br><span style="color: ${color}">> ${msg}</span>`;
+            out.innerHTML += `<br>> ${msg}`;
             out.scrollTop = out.scrollHeight;
         }
 
         function exportarPDF() {
-            log('Iniciando geração do PDF...', 'info');
+            log('Iniciando captura total (Full Page)...', 'info');
             
             const element = document.getElementById('portal-content');
             const consoleElem = document.getElementById('console');
@@ -496,8 +439,8 @@
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 1000,
-                    windowWidth: 1000,
+                    width: 1200,
+                    windowWidth: 1200,
                     scrollY: 0,
                     scrollX: 0
                 },
@@ -505,12 +448,12 @@
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                log('PDF gerado com sucesso!', 'sucesso');
+                log('PDF Concluído!', 'sucesso');
                 consoleElem.classList.remove('hide-for-pdf');
                 sepElem.classList.remove('hide-for-pdf');
                 element.classList.remove('pdf-layout-fix');
             }).catch(err => {
-                log('Erro na geração: ' + err.message, 'erro');
+                log('Erro: ' + err.message, 'erro');
                 consoleElem.classList.remove('hide-for-pdf');
                 sepElem.classList.remove('hide-for-pdf');
                 element.classList.remove('pdf-layout-fix');
@@ -518,7 +461,7 @@
         }
 
         function exportarPDFComMed() {
-            log('Iniciando geração do PDF com Defesa MED...', 'info');
+            log('Iniciando captura total com Defesa MED...', 'info');
             
             const element = document.getElementById('portal-content');
             const consoleElem = document.getElementById('console');
@@ -528,7 +471,7 @@
             const medText = document.getElementById('med-defense-text').value;
 
             if (!medText) {
-                log('Erro: Por favor, atualize os dados primeiro!', 'erro');
+                log('Erro: Gere os dados primeiro!', 'erro');
                 return;
             }
 
@@ -549,8 +492,8 @@
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 1000,
-                    windowWidth: 1000,
+                    width: 1200,
+                    windowWidth: 1200,
                     scrollY: 0,
                     scrollX: 0
                 },
@@ -558,13 +501,13 @@
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                log('PDF + MED gerado com sucesso!', 'sucesso');
+                log('PDF com Defesa MED Concluído!', 'sucesso');
                 consoleElem.classList.remove('hide-for-pdf');
                 sepElem.classList.remove('hide-for-pdf');
                 medSection.classList.add('hide-for-pdf');
                 element.classList.remove('pdf-layout-fix');
             }).catch(err => {
-                log('Erro na geração: ' + err.message, 'erro');
+                log('Erro: ' + err.message, 'erro');
                 consoleElem.classList.remove('hide-for-pdf');
                 sepElem.classList.remove('hide-for-pdf');
                 medSection.classList.add('hide-for-pdf');
@@ -642,7 +585,7 @@
                     document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
                     document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
                 } else {
-                    log('Aviso: Usando dados manuais da tela para a Defesa MED.', 'info');
+                    log('Aviso: Campos de data/hora vazios. Mantendo textos manuais.', 'info');
                     const statusText = document.getElementById('delivery-date-status').textContent;
                     dia = (statusText.match(/^(\d+)/) || [0, ""])[1];
                     const mesNomeAtual = (statusText.match(/de\s+([^\s]+)\s+de/) || [0, ""])[1];
@@ -684,10 +627,10 @@ Atenciosamente,
 Departamento de Compliance e Prevenção a Fraudes - Suporte Online`;
 
                 document.getElementById('med-defense-text').value = defesaTexto;
-                log('Dados processados com sucesso!', 'sucesso');
+                log('Dados Atualizados!', 'sucesso');
             } catch (e) { 
                 console.error(e);
-                log('Erro crítico: JSON inválido ou erro de processamento!', 'erro'); 
+                log('Erro no JSON ou processamento!', 'erro'); 
             }
         }
     </script>
