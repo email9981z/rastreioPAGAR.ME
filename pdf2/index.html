@@ -4,136 +4,285 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Rastreamento | Logística Brasil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
-            --primary: #003d82;
-            --secondary: #ffc72c;
-            --success: #10b981;
+            --primary: #1e293b;
+            --accent: #6366f1;
+            --accent-soft: #eef2ff;
+            --success: #059669;
             --success-bg: #ecfdf5;
-            --success-text: #065f46;
-            --text-main: #111827;
-            --text-muted: #6b7280;
-            --bg-body: #ffffff;
-            --bg-section: #f9fafb;
-            --border: #e5e7eb;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #f1f5f9;
+            --radius: 16px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
         /* Navbar */
-        .navbar { background: var(--primary); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; color: white; }
+        .navbar { 
+            background: var(--bg-card); 
+            padding: 1.25rem 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
         .logo-container { display: flex; align-items: center; gap: 12px; }
-        .logo-box { background: var(--secondary); color: var(--primary); padding: 6px 10px; border-radius: 6px; font-weight: 900; }
-        .logo-name { font-weight: 700; font-size: 1.2rem; }
+        .logo-box { 
+            background: var(--accent); 
+            color: white; 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+        .logo-name { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px; color: var(--primary); }
+        .nav-tag { 
+            font-size: 0.65rem; 
+            font-weight: 700; 
+            background: var(--accent-soft); 
+            color: var(--accent); 
+            padding: 4px 10px; 
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
 
         /* Hero Status */
-        .hero-status { background: var(--success-bg); padding: 2.5rem 5%; border-bottom: 1px solid #d1fae5; position: relative; }
-        .status-wrapper { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 20px; }
-        .status-icon-large { background: var(--success); color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; flex-shrink: 0; }
-        .status-info h1 { font-size: 1.5rem; color: var(--success-text); font-weight: 800; }
-        .status-info p { font-size: 0.95rem; color: var(--success-text); opacity: 0.85; }
+        .hero-status { 
+            background: var(--bg-card); 
+            padding: 3rem 5%; 
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-status::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+            z-index: 0;
+        }
+        .status-wrapper { max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-start; gap: 24px; position: relative; z-index: 1; }
+        .status-icon-large { 
+            background: var(--success); 
+            color: white; 
+            width: 64px; 
+            height: 64px; 
+            border-radius: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.5rem; 
+            flex-shrink: 0;
+            box-shadow: 0 10px 20px rgba(5, 150, 105, 0.15);
+        }
+        .status-info h1 { font-size: 1.85rem; color: var(--text-main); font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+        .status-info p { font-size: 0.95rem; color: var(--text-muted); }
+        .status-meta { 
+            margin-top: 20px; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 16px; 
+            padding-top: 20px; 
+            border-top: 1px solid var(--border); 
+        }
+        .meta-item { display: flex; flex-direction: column; gap: 4px; }
+        .meta-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .meta-value { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
 
         /* Auth Stamp */
         .auth-stamp {
             position: absolute;
             right: 5%;
             top: 50%;
-            transform: translateY(-50%);
-            border: 2px solid var(--success);
+            transform: translateY(-50%) rotate(-8deg);
+            border: 2px dashed var(--success);
             color: var(--success);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.7rem;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transform: translateY(-50%) rotate(-5deg);
-            background: rgba(16, 185, 129, 0.05);
-            pointer-events: none;
+            letter-spacing: 2px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            z-index: 2;
         }
 
         /* Main Content */
-        .main-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 30px; padding: 3rem 5%; max-width: 1400px; margin: 0 auto; }
-        .section-header { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--primary); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
-        .section-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .main-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; padding: 3rem 5%; max-width: 1400px; margin: 0 auto; }
+        .section-title { 
+            font-size: 1.1rem; 
+            font-weight: 800; 
+            color: var(--primary); 
+            margin-bottom: 2rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            letter-spacing: -0.5px;
+        }
+        .section-title::before { content: ''; width: 4px; height: 24px; background: var(--accent); border-radius: 2px; }
 
         /* Timeline */
-        .tracking-timeline { position: relative; }
-        .timeline-line { position: absolute; left: 13px; top: 10px; bottom: 10px; width: 2px; background: #e2e8f0; }
-        .event { position: relative; padding-left: 45px; margin-bottom: 35px; }
-        .event-dot { position: absolute; left: 0; top: 0; width: 28px; height: 28px; background: white; border: 2px solid #cbd5e1; border-radius: 50%; z-index: 2; }
-        .event.completed .event-dot { background: var(--success); border-color: var(--success); }
-        .event-date { font-size: 0.8rem; font-weight: 700; color: var(--primary); }
-        .event-title { font-size: 1rem; font-weight: 700; color: var(--text-main); outline: none; }
-        .event-desc { font-size: 0.9rem; color: var(--text-muted); outline: none; }
+        .tracking-timeline { position: relative; padding-left: 8px; }
+        .timeline-line { position: absolute; left: 19px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+        .event { position: relative; padding-left: 50px; margin-bottom: 40px; }
+        .event:last-child { margin-bottom: 0; }
+        .event-dot { 
+            position: absolute; 
+            left: 10px; 
+            top: 4px; 
+            width: 20px; 
+            height: 20px; 
+            background: var(--bg-card); 
+            border: 4px solid var(--border); 
+            border-radius: 50%; 
+            z-index: 2; 
+            transition: all 0.3s ease;
+        }
+        .event.completed .event-dot { background: var(--accent); border-color: var(--accent-soft); box-shadow: 0 0 0 4px var(--bg-card); }
+        .event-content { 
+            background: var(--bg-card); 
+            padding: 20px; 
+            border-radius: var(--radius); 
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+        .event-date { font-size: 0.75rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; display: block; }
+        .event-title { font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+        .event-desc { font-size: 0.85rem; color: var(--text-muted); }
         
-        /* Edit Mode Styles */
-        [contenteditable="true"]:hover {
-            background: rgba(59, 130, 246, 0.05);
-            cursor: text;
-            border-radius: 4px;
+        /* Sidebar Cards */
+        .info-sidebar { display: flex; flex-direction: column; gap: 24px; }
+        .info-card { 
+            background: var(--bg-card); 
+            padding: 24px; 
+            border-radius: var(--radius); 
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
         }
-        [contenteditable="true"]:focus {
-            background: white;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-            border-radius: 4px;
+        .info-card h3 { 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            color: var(--text-muted); 
+            margin-bottom: 20px; 
+            font-weight: 700; 
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        /* Sidebar */
-        .info-sidebar { display: flex; flex-direction: column; gap: 20px; }
-        .info-card { background: var(--bg-section); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
-        .info-card h3 { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; font-weight: 700; }
-        .info-item { margin-bottom: 14px; }
-        .info-label { font-size: 0.7rem; color: var(--text-muted); display: block; font-weight: 600; }
-        .info-value { font-size: 0.95rem; font-weight: 600; color: var(--text-main); outline: none; }
-        .tracking-code-display { font-family: monospace; background: white; padding: 10px; border-radius: 8px; border: 1px dashed var(--primary); color: var(--primary); font-size: 1.1rem; text-align: center; font-weight: 700; outline: none; }
-
-        /* Admin Console */
-        .footer-separator { height: 60px; background: #f3f4f6; border-top: 1px solid var(--border); margin-top: 2rem; }
-        .admin-console-wrapper { background: #0f172a; padding: 40px 5%; border-top: 4px solid #334155; }
-        .admin-console-container { max-width: 900px; margin: 0 auto; background: #1e293b; border-radius: 12px; padding: 24px; border: 1px solid #334155; }
-        .console-output { background: #000; height: 150px; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: #10b981; overflow-y: auto; margin-bottom: 20px; }
-        .console-inputs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
-        .console-inputs-grid input, .json-input { background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 10px; border-radius: 6px; width: 100%; }
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-        .btn-process { background: #3b82f6; color: white; border: none; padding: 14px; border-radius: 6px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
-        .btn-pdf { background: #10b981; }
-        .btn-med { background: #f59e0b; }
-
-        /* Mobile Styles */
-        @media (max-width: 968px) {
-            .main-grid { grid-template-columns: 1fr; }
-            .console-inputs-grid, .btn-group { grid-template-columns: 1fr; }
-            .auth-stamp { position: static; transform: none; margin-top: 15px; display: inline-block; }
-        }
-
-        /* PDF Export Helper */
-        .hide-for-pdf { display: none !important; }
-        .pdf-layout-fix { width: 1200px !important; margin: 0 !important; padding: 40px !important; }
-        .pdf-layout-fix .main-grid { grid-template-columns: 1.6fr 1fr !important; display: grid !important; width: 1120px !important; }
+        .info-card h3::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .info-item { margin-bottom: 18px; }
+        .info-item:last-child { margin-bottom: 0; }
+        .info-label { font-size: 0.7rem; color: var(--text-muted); display: block; font-weight: 700; margin-bottom: 4px; text-transform: uppercase; }
+        .info-value { font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
         
-        /* Estilo para a Defesa MED no PDF */
-        .med-pdf-section {
-            margin-top: 40px;
-            padding: 30px;
-            border-top: 2px solid #e5e7eb;
-            page-break-before: always;
-        }
-        .med-pdf-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #003d82;
-            margin-bottom: 20px;
+        .tracking-code-wrapper {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: var(--radius);
             text-align: center;
         }
-        .med-pdf-content {
-            font-size: 0.95rem;
-            white-space: pre-wrap;
-            color: #111827;
-            line-height: 1.5;
+        .tracking-code-display { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 1.25rem; 
+            font-weight: 800; 
+            letter-spacing: 2px;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* Admin Console - Modernized */
+        .footer-separator { height: 40px; }
+        .admin-console-wrapper { background: #0f172a; padding: 60px 5%; border-top: 1px solid #1e293b; }
+        .admin-console-container { max-width: 1000px; margin: 0 auto; }
+        .console-header { margin-bottom: 24px; }
+        .console-header h2 { color: white; font-size: 1.25rem; font-weight: 700; margin-bottom: 4px; }
+        .console-header p { color: #64748b; font-size: 0.9rem; }
+
+        .console-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; }
+        .console-output { 
+            background: #020617; 
+            height: 400px; 
+            border-radius: 12px; 
+            padding: 20px; 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.8rem; 
+            color: #10b981; 
+            overflow-y: auto; 
+            border: 1px solid #1e293b;
+        }
+        .console-controls { display: flex; flex-direction: column; gap: 16px; }
+        .input-group-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .console-input, .json-input { 
+            background: #1e293b; 
+            border: 1px solid #334155; 
+            color: #f8fafc; 
+            padding: 12px 16px; 
+            border-radius: 8px; 
+            width: 100%; 
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .console-input:focus, .json-input:focus { outline: none; border-color: var(--accent); background: #0f172a; }
+        
+        .btn-stack { display: flex; flex-direction: column; gap: 12px; }
+        .btn { 
+            padding: 14px; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            font-size: 0.8rem; 
+            border: none; 
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: #4f46e5; transform: translateY(-1px); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+
+        /* Edit Mode */
+        [contenteditable="true"]:hover { background: rgba(99, 102, 241, 0.05); border-radius: 4px; cursor: text; }
+        [contenteditable="true"]:focus { outline: none; background: rgba(99, 102, 241, 0.1); border-radius: 4px; }
+
+        /* PDF Specifics */
+        .hide-for-pdf { display: none !important; }
+        .pdf-layout-fix { width: 1000px !important; margin: 0 !important; padding: 40px !important; background: white !important; }
+        .pdf-layout-fix .main-grid { grid-template-columns: 1.5fr 1fr !important; display: grid !important; width: 920px !important; }
+        
+        .med-pdf-section { margin-top: 40px; padding: 40px; border: 2px solid var(--border); border-radius: var(--radius); page-break-before: always; }
+        .med-pdf-title { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 24px; text-align: center; letter-spacing: -0.5px; }
+        .med-pdf-content { font-size: 0.95rem; white-space: pre-wrap; color: var(--text-main); line-height: 1.6; }
+
+        /* Mobile */
+        @media (max-width: 968px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .console-grid { grid-template-columns: 1fr; }
+            .auth-stamp { position: relative; transform: none; right: 0; top: 0; margin-top: 20px; display: inline-block; }
+            .status-wrapper { flex-direction: column; }
         }
     </style>
 </head>
@@ -145,73 +294,120 @@
                 <div class="logo-box">RC</div>
                 <div class="logo-name">RASTREIOS-ENCO</div>
             </div>
-            <div style="font-size: 0.75rem; font-weight: 700; opacity: 0.8;">PORTAL DE RASTREIO</div>
+            <div class="nav-tag">Portal Oficial de Rastreamento</div>
         </nav>
 
         <section class="hero-status">
             <div class="status-wrapper">
                 <div class="status-icon-large">✓</div>
                 <div class="status-info">
-                    <h1 contenteditable="true">Entrega Concluída ✅</h1>
-                    <p>Encomenda Entregue no dia <span id="delivery-date-status" contenteditable="true">26 de Abril de 2026 às 14:30</span></p>
-                    <p style="margin-top: 6px; font-weight: 700; font-size: 0.9rem;">Recebido por: <span id="received-by-name" contenteditable="true">Julia Silva</span> — CPF: <span id="received-by-cpf" contenteditable="true">315.152.358-74</span></p>
-                    <p style="margin-top: 2px; font-weight: 500; font-size: 0.85rem;"><span id="delivery-address-status" contenteditable="true">Rua das Flores, 123, São Paulo, SP, 01234-567</span></p>
-                    <p style="margin-top: 8px; font-size: 0.75rem; color: var(--success-text); opacity: 0.7;">Protocolo: <span id="protocol-display" contenteditable="true">LB-20260426-99421</span></p>
+                    <h1 contenteditable="true">Objeto entregue ao destinatário</h1>
+                    <p>Sua encomenda foi finalizada com sucesso no destino.</p>
+                    
+                    <div class="status-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Data da Entrega</span>
+                            <span class="meta-value" id="delivery-date-status" contenteditable="true">26 de Abril de 2026 às 14:30</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Recebido por</span>
+                            <span class="meta-value"><span id="received-by-name" contenteditable="true">Julia Silva</span> (<span id="received-by-cpf" contenteditable="true">315.152.358-74</span>)</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Protocolo</span>
+                            <span class="meta-value" id="protocol-display" contenteditable="true">LB-20260426-99421</span>
+                        </div>
+                    </div>
+                    <p style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted);">
+                        <strong style="color: var(--text-main)">Endereço:</strong> <span id="delivery-address-status" contenteditable="true">Rua das Flores, 123, São Paulo, SP, 01234-567</span>
+                    </p>
                 </div>
             </div>
-            <div class="auth-stamp">Documento Autenticado</div>
+            <div class="auth-stamp">Verificado & Autenticado</div>
         </section>
 
         <main class="main-grid">
             <div class="timeline-column">
-                <div class="section-header">Rastreamento Detalhado</div>
+                <h2 class="section-title">Histórico do Objeto</h2>
                 <div class="tracking-timeline">
                     <div class="timeline-line"></div>
+                    
                     <div class="event completed">
                         <div class="event-dot"></div>
-                        <div class="event-date" id="date-entregue" contenteditable="true">26 de Abril de 2026 - 14:30</div>
-                        <div class="event-title" contenteditable="true">Encomenda entregue ao destinatário ✅ </div>
-                        <div class="event-desc" contenteditable="true">A entrega foi concluída com sucesso.</div>
+                        <div class="event-content">
+                            <span class="event-date" id="date-entregue" contenteditable="true">26 de Abril de 2026 - 14:30</span>
+                            <div class="event-title" contenteditable="true">Objeto entregue ao destinatário ✅</div>
+                            <div class="event-desc" contenteditable="true">A entrega foi confirmada no endereço de destino.</div>
+                        </div>
                     </div>
+
                     <div class="event completed">
                         <div class="event-dot"></div>
-                        <div class="event-date" id="date-saiu-entrega" contenteditable="true">26 de Abril de 2026 - 10:47</div>
-                        <div class="event-title" contenteditable="true">Encomenda saiu para entrega</div>
-                        <div class="event-desc" contenteditable="true">O transportador iniciou a rota de entrega.</div>
+                        <div class="event-content">
+                            <span class="event-date" id="date-saiu-entrega" contenteditable="true">26 de Abril de 2026 - 10:47</span>
+                            <div class="event-title" contenteditable="true">Objeto saiu para entrega ao destinatário</div>
+                            <div class="event-desc" contenteditable="true">O transportador já está em rota para o seu endereço.</div>
+                        </div>
                     </div>
+
                     <div class="event completed">
                         <div class="event-dot"></div>
-                        <div class="event-date" id="date-processamento" contenteditable="true">26 de Abril de 2026 - 06:03</div>
-                        <div class="event-title" contenteditable="true">Em Processamento logístico</div>
-                        <div class="event-desc" contenteditable="true">Sua encomenda está sendo preparada para o Envio.</div>
+                        <div class="event-content">
+                            <span class="event-date" id="date-processamento" contenteditable="true">26 de Abril de 2026 - 06:03</span>
+                            <div class="event-title" contenteditable="true">Em processamento logístico</div>
+                            <div class="event-desc" contenteditable="true">Sua encomenda foi triada e preparada para o envio final.</div>
+                        </div>
                     </div>
+
                     <div class="event completed">
                         <div class="event-dot"></div>
-                        <div class="event-date" id="date-pedido-recebido" contenteditable="true">26 de Abril de 2026 - 00:17</div>
-                        <div class="event-title" contenteditable="true">Pedido recebido e Aprovado</div>
-                        <div class="event-desc" contenteditable="true">Pedido aprovado pelo sistema.</div>
+                        <div class="event-content">
+                            <span class="event-date" id="date-pedido-recebido" contenteditable="true">26 de Abril de 2026 - 00:17</span>
+                            <div class="event-title" contenteditable="true">Pedido recebido e aprovado</div>
+                            <div class="event-desc" contenteditable="true">O pagamento foi confirmado e o pedido integrado ao sistema.</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="info-sidebar">
-                <div class="section-header">Informações do Pedido</div>
-                <div class="info-card"><h3>Código de Rastreio</h3><div class="tracking-code-display" id="tracking-code-display" contenteditable="true">JU26NV310452</div></div>
-                <div class="info-card">
-                    <h3>Dados do Destinatário</h3>
-                    <div class="info-item"><span class="info-label">Nome do Cliente</span><div class="info-value" id="client-name" contenteditable="true">Julia Silva</div></div>
-                    <div class="info-item"><span class="info-label">Documento (CPF)</span><div class="info-value" id="client-cpf" contenteditable="true">315.152.358-74</div></div>
+                <h2 class="section-title">Detalhes do Pedido</h2>
+                
+                <div class="tracking-code-wrapper">
+                    <span class="meta-label" style="color: rgba(255,255,255,0.6)">Código de Rastreamento</span>
+                    <span class="tracking-code-display" id="tracking-code-display" contenteditable="true">JU26NV310452</span>
                 </div>
+
                 <div class="info-card">
-                    <h3>Detalhes da Logística</h3>
-                    <div class="info-item"><span class="info-label">Método de Envio</span><div class="info-value" contenteditable="true">Standard Express</div></div>
-                    <div class="info-item"><span class="info-label">Valor Declarado</span><div class="info-value" id="purchase-value" contenteditable="true">R$ 1,00</div></div>
-                    <div class="info-item"><span class="info-label">Endereço de Entrega</span><div class="info-value" id="delivery-address" contenteditable="true">Rua das Flores, 123, São Paulo, SP, 01234-567</div></div>
+                    <h3>Dados do Cliente</h3>
+                    <div class="info-item">
+                        <span class="info-label">Nome Completo</span>
+                        <div class="info-value" id="client-name" contenteditable="true">Julia Silva</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Documento Identificador</span>
+                        <div class="info-value" id="client-cpf" contenteditable="true">315.152.358-74</div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Logística & Valores</h3>
+                    <div class="info-item">
+                        <span class="info-label">Modalidade de Envio</span>
+                        <div class="info-value" contenteditable="true">Standard Express Premium</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Valor Total Declarado</span>
+                        <div class="info-value" id="purchase-value" contenteditable="true">R$ 1,00</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Local de Entrega</span>
+                        <div class="info-value" id="delivery-address" contenteditable="true">Rua das Flores, 123, São Paulo, SP, 01234-567</div>
+                    </div>
                 </div>
             </div>
         </main>
         
-        <!-- Seção de Defesa MED oculta por padrão, aparece apenas no PDF -->
         <div id="med-pdf-section" class="hide-for-pdf">
             <div class="med-pdf-section">
                 <div class="med-pdf-title">DEFESA TÉCNICA DE CONTESTAÇÃO (MED)</div>
@@ -224,21 +420,39 @@
 
     <section class="admin-console-wrapper" id="console">
         <div class="admin-console-container">
-            <div class="console-output" id="console-output">> Terminal Pronto...</div>
-            <div class="console-inputs-grid">
-                <input type="text" id="input-dia" placeholder="Dia">
-                <input type="text" id="input-mes" placeholder="Mês">
-                <input type="text" id="input-hora" placeholder="Hora (14:30)">
+            <div class="console-header">
+                <h2>Console de Administração</h2>
+                <p>Gerencie os dados do rastreamento e exporte documentos oficiais.</p>
             </div>
-            <input type="text" id="console-input" class="json-input" placeholder="Cole o JSON aqui..." style="margin-bottom: 16px;">
-            <div class="btn-group" style="margin-bottom: 16px;">
-                <button class="btn-process" onclick="executarComando()">Atualizar Dados</button>
-                <button class="btn-process btn-pdf" onclick="exportarPDF()">Exportar PDF</button>
-                <button class="btn-process btn-med" onclick="exportarPDFComMed()">PDF + Defesa MED</button>
-            </div>
-            <div id="med-defense-section" style="margin-top: 20px;">
-                <h3 style="color: #f8fafc; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase;">Defesa MED Gerada</h3>
-                <textarea id="med-defense-text" readonly style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 6px; width: 100%; height: 400px; font-family: 'Inter', sans-serif; font-size: 0.85rem; line-height: 1.5; resize: vertical;"></textarea>
+            
+            <div class="console-grid">
+                <div class="console-output" id="console-output">> Terminal Inicializado... Aguardando comandos.</div>
+                
+                <div class="console-controls">
+                    <div class="input-group-row">
+                        <input type="text" id="input-dia" class="console-input" placeholder="Dia">
+                        <input type="text" id="input-mes" class="console-input" placeholder="Mês">
+                        <input type="text" id="input-hora" class="console-input" placeholder="Hora (14:30)">
+                    </div>
+                    <input type="text" id="console-input" class="json-input" placeholder="Cole o JSON de dados aqui...">
+                    
+                    <div class="btn-stack">
+                        <button class="btn btn-primary" onclick="executarComando()">
+                            <span>🔄</span> Atualizar Informações
+                        </button>
+                        <button class="btn btn-success" onclick="exportarPDF()">
+                            <span>📄</span> Exportar PDF de Rastreio
+                        </button>
+                        <button class="btn btn-warning" onclick="exportarPDFComMed()">
+                            <span>⚖️</span> PDF + Defesa MED
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        <span class="meta-label" style="color: #64748b; margin-bottom: 8px; display: block;">Visualização da Defesa MED</span>
+                        <textarea id="med-defense-text" readonly style="background: #020617; border: 1px solid #1e293b; color: #94a3b8; padding: 12px; border-radius: 8px; width: 100%; height: 200px; font-size: 0.8rem; line-height: 1.5; resize: none;"></textarea>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -254,12 +468,13 @@
 
         function log(msg, type = 'info') {
             const out = document.getElementById('console-output');
-            out.innerHTML += `<br>> ${msg}`;
+            const color = type === 'erro' ? '#ef4444' : (type === 'sucesso' ? '#10b981' : '#10b981');
+            out.innerHTML += `<br><span style="color: ${color}">> ${msg}</span>`;
             out.scrollTop = out.scrollHeight;
         }
 
         function exportarPDF() {
-            log('Iniciando captura total (Full Page)...', 'info');
+            log('Iniciando geração do PDF...', 'info');
             
             const element = document.getElementById('portal-content');
             const consoleElem = document.getElementById('console');
@@ -281,8 +496,8 @@
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 1200,
-                    windowWidth: 1200,
+                    width: 1000,
+                    windowWidth: 1000,
                     scrollY: 0,
                     scrollX: 0
                 },
@@ -290,12 +505,12 @@
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                log('PDF Concluído!', 'sucesso');
+                log('PDF gerado com sucesso!', 'sucesso');
                 consoleElem.classList.remove('hide-for-pdf');
                 sepElem.classList.remove('hide-for-pdf');
                 element.classList.remove('pdf-layout-fix');
             }).catch(err => {
-                log('Erro: ' + err.message, 'erro');
+                log('Erro na geração: ' + err.message, 'erro');
                 consoleElem.classList.remove('hide-for-pdf');
                 sepElem.classList.remove('hide-for-pdf');
                 element.classList.remove('pdf-layout-fix');
@@ -303,7 +518,7 @@
         }
 
         function exportarPDFComMed() {
-            log('Iniciando captura total com Defesa MED...', 'info');
+            log('Iniciando geração do PDF com Defesa MED...', 'info');
             
             const element = document.getElementById('portal-content');
             const consoleElem = document.getElementById('console');
@@ -313,7 +528,7 @@
             const medText = document.getElementById('med-defense-text').value;
 
             if (!medText) {
-                log('Erro: Gere os dados primeiro!', 'erro');
+                log('Erro: Por favor, atualize os dados primeiro!', 'erro');
                 return;
             }
 
@@ -334,8 +549,8 @@
                 html2canvas: { 
                     scale: 2, 
                     useCORS: true,
-                    width: 1200,
-                    windowWidth: 1200,
+                    width: 1000,
+                    windowWidth: 1000,
                     scrollY: 0,
                     scrollX: 0
                 },
@@ -343,13 +558,13 @@
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                log('PDF com Defesa MED Concluído!', 'sucesso');
+                log('PDF + MED gerado com sucesso!', 'sucesso');
                 consoleElem.classList.remove('hide-for-pdf');
                 sepElem.classList.remove('hide-for-pdf');
                 medSection.classList.add('hide-for-pdf');
                 element.classList.remove('pdf-layout-fix');
             }).catch(err => {
-                log('Erro: ' + err.message, 'erro');
+                log('Erro na geração: ' + err.message, 'erro');
                 consoleElem.classList.remove('hide-for-pdf');
                 sepElem.classList.remove('hide-for-pdf');
                 medSection.classList.add('hide-for-pdf');
@@ -402,7 +617,6 @@
                 document.getElementById('delivery-address-status').textContent = endereco;
                 document.getElementById('purchase-value').textContent = 'R$ ' + dados.valor_compra;
 
-                // Variáveis para data/hora (ou pega do console ou mantém o que está na tela)
                 let dia, mes, hora, protocol, codigo;
 
                 if (inputDia && inputMes && inputHora) {
@@ -428,8 +642,7 @@
                     document.getElementById('date-pedido-recebido').textContent = fmt(d4.d, d4.m, t4.hora);
                     document.getElementById('delivery-date-status').textContent = `${t1.d} de ${meses[t1.m-1]} de 2026 às ${t1.h}`;
                 } else {
-                    log('Aviso: Campos de data/hora vazios. Mantendo textos manuais da timeline.', 'info');
-                    // Tenta extrair valores atuais da tela para a Defesa MED
+                    log('Aviso: Usando dados manuais da tela para a Defesa MED.', 'info');
                     const statusText = document.getElementById('delivery-date-status').textContent;
                     dia = (statusText.match(/^(\d+)/) || [0, ""])[1];
                     const mesNomeAtual = (statusText.match(/de\s+([^\s]+)\s+de/) || [0, ""])[1];
@@ -471,11 +684,10 @@ Atenciosamente,
 Departamento de Compliance e Prevenção a Fraudes - Suporte Online`;
 
                 document.getElementById('med-defense-text').value = defesaTexto;
-
-                log('Dados Atualizados!', 'sucesso');
+                log('Dados processados com sucesso!', 'sucesso');
             } catch (e) { 
                 console.error(e);
-                log('Erro no JSON ou processamento!', 'erro'); 
+                log('Erro crítico: JSON inválido ou erro de processamento!', 'erro'); 
             }
         }
     </script>
